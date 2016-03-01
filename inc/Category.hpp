@@ -6,8 +6,8 @@ namespace Category {
 		None = 0,
 		Scene = 1 << 0,
 		Tile = 1 << 1,
-		LeftPaddle = 1 << 2,
-		RightPaddle = 1 << 3,
+		Terraformer = 1 << 2,
+		Solider = 1 << 3,
 	};
 }
 

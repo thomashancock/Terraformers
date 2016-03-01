@@ -39,8 +39,14 @@ void World::buildScene() {
 	}
 
 	// Draw the Hex grid map
-	std::unique_ptr<Map> map(new Map(30,30));
+	std::unique_ptr<Map> map(new Map(20,20));
 	m_map = map.get();
 	m_sceneLayers[Background]->attachChild(std::move(map));
 
+	// Draw Terraformer
+	std::unique_ptr<Terraformer> terraformer(new Terraformer(Terraformer::Basic));
+	m_terraformer = terraformer.get();
+	sf::Vector2i terraformerPos = m_map->coorsToPosition(3,3);
+	m_terraformer->setPosition(terraformerPos.x,terraformerPos.y);
+	m_sceneLayers[Front]->attachChild(std::move(terraformer));
 }

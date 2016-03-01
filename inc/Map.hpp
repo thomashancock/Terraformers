@@ -18,8 +18,7 @@ public:
 		int cols
 	);
 
-	void coorsToPosition(
-		sf::Vector2<int>* position,
+	sf::Vector2i coorsToPosition(
 		int xCoor,
 		int yCoor
 	);

@@ -11,9 +11,7 @@ Map::Map(
 	for (int i = 0; i < m_rows; i++) {
 		std::vector<Tile*> mapRow;
 		for (int j = 0; j < m_cols; j++) {
-			sf::Vector2<int> position;
-			coorsToPosition(&position,i,j);
-
+			sf::Vector2i position = coorsToPosition(i,j);
 			// Create unique pointer to the tile
 			std::unique_ptr<Tile> tile(new Tile(Tile::Basic,position.x,position.y));
 			// Copy the unique pointer to a regular pointer
@@ -29,26 +27,26 @@ Map::Map(
 	setupMap();
 }
 
-void Map::coorsToPosition(
-	sf::Vector2<int>* position,
+sf::Vector2i Map::coorsToPosition(
 	int xCoor,
 	int yCoor
 ) {
+	sf::Vector2i position;
+
 	// Calculate Hexagon position based on array position
-	int xPos = 60*xCoor;
-	int yPos = 31*yCoor;
+	position.x = 60*xCoor;
+	position.y = 31*yCoor;
 
 	// Offset every other row to tessellate hexagons
 	if (0 == yCoor%2) {
-		xPos += 30;
+		position.x += 30;
 	}
 
 	// Offset Hexagons from edge of screen
-	xPos += 40;
-	yPos += 40;
+	position.x += 40;
+	position.y += 40;
 
-	position->x = xPos;
-	position->y = yPos; 
+	return position;
 }
 
 // Private:

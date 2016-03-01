@@ -8,7 +8,7 @@ ODIR = obj
 SDIR = src
 INC = -Iinc
 
-_OBJS = main.o Game.o ResourceHolder.o SceneNode.o Entity.o Tile.o Map.o Ball.o Paddle.o World.o Command.o CommandQueue.o Player.o
+_OBJS = main.o Game.o ResourceHolder.o SceneNode.o Entity.o Tile.o Map.o Terraformer.o World.o Command.o CommandQueue.o Player.o
 
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 # patsubst take _OBJS and appends the ODIR directory to the front of each object file
