@@ -39,28 +39,8 @@ void World::buildScene() {
 	}
 
 	// Draw the Hex grid map
-	std::unique_ptr<Map> map(new Map(10,10));
+	std::unique_ptr<Map> map(new Map(30,30));
 	m_map = map.get();
 	m_sceneLayers[Background]->attachChild(std::move(map));
 
-	// // Add Ball:
-	// std::unique_ptr<Ball> ball(new Ball(Ball::Basic));
-	// m_ball = ball.get();
-	// m_ball->setPosition(m_window.getSize().x/2.f, m_window.getSize().y/2.f);
-	// m_ball->setVelocity(60.f,100.f);
-	// m_sceneLayers[Front]->attachChild(std::move(ball));
-
-	// // Add Player Paddle:
-	// std::unique_ptr<Paddle> paddlePlayer(new Paddle(Paddle::Player1));
-	// m_playerPaddle = paddlePlayer.get();
-	// m_playerPaddle->setPosition(m_window.getSize().x - 30, m_window.getSize().y/2.f);
-	// m_playerPaddle->setVelocity(0.f,0.f);
-	// m_sceneLayers[Front]->attachChild(std::move(paddlePlayer));
-
-	// // Add AI Paddle:
-	// std::unique_ptr<Paddle> paddleAI(new Paddle(Paddle::AI));
-	// m_AIPaddle = paddleAI.get();
-	// m_AIPaddle->setPosition(30, m_window.getSize().y/2.f);
-	// m_AIPaddle->setVelocity(0.f,0.f);
-	// m_sceneLayers[Front]->attachChild(std::move(paddleAI));
 }

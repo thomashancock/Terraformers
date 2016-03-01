@@ -11,8 +11,11 @@ Map::Map(
 	for (int i = 0; i < m_rows; i++) {
 		std::vector<Tile*> mapRow;
 		for (int j = 0; j < m_cols; j++) {
+			sf::Vector2<int> position;
+			coorsToPosition(&position,i,j);
+
 			// Create unique pointer to the tile
-			std::unique_ptr<Tile> tile(new Tile(Tile::Basic,0,0));
+			std::unique_ptr<Tile> tile(new Tile(Tile::Basic,position.x,position.y));
 			// Copy the unique pointer to a regular pointer
 			Tile* tilePtr = tile.get();
 			// Attach unique pointer as sceneNode child
@@ -23,16 +26,29 @@ Map::Map(
 		// Store row vector in vector of vectors
 		m_tileMap.push_back(mapRow);
 	}
+	setupMap();
+}
 
-	for (int i = 0; i < m_rows; i++) {
-		for (int j = 0; j < m_cols; j++) {
-			if (0 == j%2) {
-				m_tileMap.at(i).at(j)->setType(Tile::Mountain);
-			}
-		}
+void Map::coorsToPosition(
+	sf::Vector2<int>* position,
+	int xCoor,
+	int yCoor
+) {
+	// Calculate Hexagon position based on array position
+	int xPos = 60*xCoor;
+	int yPos = 31*yCoor;
+
+	// Offset every other row to tessellate hexagons
+	if (0 == yCoor%2) {
+		xPos += 30;
 	}
 
-	setTilePositions();
+	// Offset Hexagons from edge of screen
+	xPos += 40;
+	yPos += 40;
+
+	position->x = xPos;
+	position->y = yPos; 
 }
 
 // Private:
@@ -40,22 +56,22 @@ unsigned int Map::getCategory() const {
 	return Category::Tile;
 }
 
-void Map::setTilePositions() {
+void Map::setupMap() {
 	for (int i = 0; i < m_rows; i++) {
-		for (int j = 0; j < m_cols; j++) {
-			// Calculate Hexagon position based on array position
-			int xCoor = 60*i;
-			int yCoor = 52*j;
-			if (0 == j%2) {
-				// Offset every other row to teselate hexagons
-				xCoor += 30;
-			}
-
-			// Offset Hexagons from edge of screen
-			xCoor += 40;
-			yCoor += 40;
-
-			m_tileMap.at(i).at(j)->setPosition(xCoor,yCoor);
-		}
+		m_tileMap.at(i).at(0)->setType(Tile::Border);
+		m_tileMap.at(i).at(m_cols-1)->setType(Tile::Border);
 	}
+	for (int j = 1; j < m_cols-1; j++) {
+		m_tileMap.at(0).at(j)->setType(Tile::Border);
+		m_tileMap.at(m_rows-1).at(j)->setType(Tile::Border);
+	}
+
+	// Randomly define Forest and Mountain
+	int randRow = (rand()%(m_rows -4))+2;
+	int randCol = (rand()%(m_cols -4))+2;
+	m_tileMap.at(randRow).at(randCol)->setType(Tile::Forest);
+
+	randRow = (rand()%(m_rows -4))+2;
+	randCol = (rand()%(m_cols -4))+2;
+	m_tileMap.at(randRow).at(randCol)->setType(Tile::Mountain);
 }

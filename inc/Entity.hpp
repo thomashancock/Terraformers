@@ -8,32 +8,23 @@ class Entity :
 public SceneNode 
 {
 	public:
-		void setVelocity(
-			sf::Vector2f velocity
+		void setCoors(
+			sf::Vector2i coors
 		);
 		
-		void setVelocity(
-			float vx, 
-			float vy
-		);
-
-		void accelerate(
-			sf::Vector2f velocity
-		);
-
-		void accelerate(
-			float vx,
-			float vy
+		void setCoors(
+			int xCoor, 
+			int yCoor
 		);
 		
-		sf::Vector2f getVelocity() const;
+		sf::Vector2i getCoors() const;
 
 		virtual void updateCurrent(
 			sf::Time dt
 		);
 
 	private:
-		sf::Vector2f m_velocity;
+		sf::Vector2i m_mapCoors;
 };
 
 

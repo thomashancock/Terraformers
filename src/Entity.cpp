@@ -1,39 +1,25 @@
 #include "Entity.hpp"
 
-void Entity::setVelocity(
-	sf::Vector2f velocity
+void Entity::setCoors(
+	sf::Vector2i coors
 	) {
-	m_velocity = velocity;
+	m_mapCoors = coors;
 }
 
-void Entity::setVelocity(
-	float vx, 
-	float vy
+void Entity::setCoors(
+	int xCoor, 
+	int yCoor
 	) {
-	m_velocity.x = vx;
-	m_velocity.y = vy;
+	m_mapCoors.x = xCoor;
+	m_mapCoors.y = yCoor;
 }
 
-void Entity::accelerate(
-	sf::Vector2f velocity
-	) {
-	m_velocity += velocity;
-}
-
-void Entity::accelerate(
-	float vx,
-	float vy
-	) {
-	m_velocity.x += vx;
-	m_velocity.y += vy;
-}
-
-sf::Vector2f Entity::getVelocity() const {
-	return m_velocity;
+sf::Vector2i Entity::getCoors() const {
+	return m_mapCoors;
 }
 
 void Entity::updateCurrent(
 	sf::Time dt
 	) {
-	move(m_velocity * dt.asSeconds());
+	// Left blank in case useful later
 }

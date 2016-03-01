@@ -10,7 +10,7 @@ Tile::Tile(
 	{
 	m_sprite.setPointCount(6);
 	m_sprite.setRadius(34);
-	m_sprite.setScale(1,1);
+	m_sprite.setScale(1,0.59);
 
 	resetColour();
 	
@@ -40,11 +40,14 @@ unsigned int Tile::getCategory() const {
 }
 
 void Tile::resetColour() {
-	if (Type::Forest == m_type) {
+	if (Type::Border == m_type) {
+		m_sprite.setFillColor(sf::Color::Black);
+	} else if (Type::Forest == m_type) {
 		m_sprite.setFillColor(sf::Color::Green);
 	} else if (Type::Mountain == m_type) {
 		m_sprite.setFillColor(sf::Color::Red);
 	} else {
-		m_sprite.setFillColor(sf::Color::Black);
+		sf::Color gray(125,125,125);
+		m_sprite.setFillColor(gray);
 	}
 }

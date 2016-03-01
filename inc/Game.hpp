@@ -19,6 +19,10 @@ class Game {
 		);
 		void render();
 
+		void updateViewPosition(
+			sf::Time elapsedTime
+		);
+
 	private:
 		sf::RenderWindow m_window;
 		World m_world;

@@ -45,6 +45,12 @@ void Game::processInputs() {
 		} else if (sf::Event::LostFocus == event.type) {
 			m_isPaused = true;
 		}
+
+		// Catch resize events
+		if (sf::Event::Resized == event.type) {
+			sf::FloatRect visibleArea(0,0,event.size.width,event.size.height);
+			m_window.setView(sf::View(visibleArea));
+		}
 	}
 
 	// All other inputs handled by the player class
@@ -56,6 +62,9 @@ void Game::update(
 	sf::Time elapsedTime
 	) {
 	m_world.update(elapsedTime);
+
+	// View Scrolling
+	updateViewPosition(elapsedTime);
 }
 
 void Game::render() {
@@ -63,4 +72,38 @@ void Game::render() {
 	m_world.draw();
 	
 	m_window.display();
+}
+
+void Game::updateViewPosition(
+	sf::Time elapsedTime
+	) {
+	sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+	sf::Vector2u windowSize = m_window.getSize();
+
+	// Ensure mouse is inside window
+	if ((mousePos.x > 0)&&
+			(mousePos.x < (int) windowSize.x)&&
+			(mousePos.y > 0)&&
+			(mousePos.y < (int) windowSize.y)) {
+		sf::Vector2<int> scrollSpeed(0,0);
+
+		// Set y scroll speed based on mouse position
+		if (mousePos.y < (windowSize.y/10.0)) {
+			scrollSpeed.y = -100;
+		} else if (mousePos.y > (windowSize.y - (windowSize.y/10.0))) {
+			scrollSpeed.y = 100;
+		}
+
+		// Set x scroll speed based on mouse position
+		if (mousePos.x < (windowSize.x/10.0)) {
+			scrollSpeed.x = -100;
+		} else if (mousePos.x > (windowSize.x - (windowSize.x/10.0))) {
+			scrollSpeed.x = 100;
+		}
+
+		// Update view using scroll speeds determined
+		sf::View view = m_window.getView();
+		view.move(scrollSpeed.x*elapsedTime.asSeconds(),scrollSpeed.y*elapsedTime.asSeconds());
+		m_window.setView(view);
+	}
 }

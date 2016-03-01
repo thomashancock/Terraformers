@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 class Map :
 public SceneNode
@@ -17,10 +18,16 @@ public:
 		int cols
 	);
 
+	void coorsToPosition(
+		sf::Vector2<int>* position,
+		int xCoor,
+		int yCoor
+	);
+
 private:
 	virtual unsigned int getCategory() const;
 
-	void setTilePositions();
+	void setupMap();
 
 private:
 	// Member variables here

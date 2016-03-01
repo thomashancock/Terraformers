@@ -10,6 +10,7 @@ public SceneNode
 public:
 	enum Type {
 		Basic,
+		Border,
 		Forest,
 		Mountain
 	};

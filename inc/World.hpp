@@ -10,7 +10,6 @@
 #include "SceneNode.hpp"
 #include "Tile.hpp"
 #include "Map.hpp"
-// #include "Paddle.hpp"
 #include "CommandQueue.hpp"
 #include "Command.hpp"
 
@@ -48,9 +47,6 @@ private:
 
 	Tile* m_testTile;
 	Map* m_map;
-	// Ball* m_ball;
-	// Paddle* m_playerPaddle;
-	// Paddle* m_AIPaddle;
 };
 
 
