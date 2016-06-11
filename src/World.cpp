@@ -46,7 +46,7 @@ void World::buildScene() {
 	// Draw Terraformer
 	std::unique_ptr<Terraformer> terraformer(new Terraformer(Terraformer::Basic));
 	m_terraformer = terraformer.get();
-	sf::Vector2i terraformerPos = m_map->coorsToPosition(3,3);
+	sf::Vector2f terraformerPos = m_map->coorsToPosition(5,3);
 	m_terraformer->setPosition(terraformerPos.x,terraformerPos.y);
 	m_sceneLayers[Front]->attachChild(std::move(terraformer));
 }

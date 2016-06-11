@@ -21,7 +21,7 @@ public:
 		int xCoor,
 		int yCoor
 	);
-	
+
 	virtual void drawCurrent(
 		sf::RenderTarget& target,
 		sf::RenderStates states
@@ -38,7 +38,8 @@ private:
 
 private:
 	Type m_type;
-	sf::CircleShape m_sprite;
+	sf::ConvexShape m_sprite;
+	// sf::CircleShape m_sprite;
 };
 
 #endif /* TILE_H */

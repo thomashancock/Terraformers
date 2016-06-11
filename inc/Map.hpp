@@ -18,12 +18,17 @@ public:
 		int cols
 	);
 
-	sf::Vector2i coorsToPosition(
+	sf::Vector2f coorsToPosition(
 		int xCoor,
 		int yCoor
 	);
 
 private:
+	sf::Vector2f setTilePosition(
+		int xCoor,
+		int yCoor
+	);
+
 	virtual unsigned int getCategory() const;
 
 	void setupMap();

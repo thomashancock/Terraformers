@@ -11,7 +11,7 @@ Map::Map(
 	for (int i = 0; i < m_rows; i++) {
 		std::vector<Tile*> mapRow;
 		for (int j = 0; j < m_cols; j++) {
-			sf::Vector2i position = coorsToPosition(i,j);
+			sf::Vector2f position = setTilePosition(i,j);
 			// Create unique pointer to the tile
 			std::unique_ptr<Tile> tile(new Tile(Tile::Basic,position.x,position.y));
 			// Copy the unique pointer to a regular pointer
@@ -27,11 +27,19 @@ Map::Map(
 	setupMap();
 }
 
-sf::Vector2i Map::coorsToPosition(
+sf::Vector2f Map::coorsToPosition(
 	int xCoor,
 	int yCoor
-) {
-	sf::Vector2i position;
+	) {
+	return m_tileMap.at(xCoor).at(yCoor)->getPosition();
+}
+
+// Private:
+sf::Vector2f Map::setTilePosition(
+	int xCoor,
+	int yCoor
+	) {
+	sf::Vector2f position;
 
 	// Calculate Hexagon position based on array position
 	position.x = 60*xCoor;
@@ -49,7 +57,6 @@ sf::Vector2i Map::coorsToPosition(
 	return position;
 }
 
-// Private:
 unsigned int Map::getCategory() const {
 	return Category::Tile;
 }
@@ -65,11 +72,11 @@ void Map::setupMap() {
 	}
 
 	// Randomly define Forest and Mountain
-	int randRow = (rand()%(m_rows -4))+2;
-	int randCol = (rand()%(m_cols -4))+2;
+	int randRow = (rand()%(m_rows-4))+2;
+	int randCol = (rand()%(m_cols-4))+2;
 	m_tileMap.at(randRow).at(randCol)->setType(Tile::Forest);
 
-	randRow = (rand()%(m_rows -4))+2;
-	randCol = (rand()%(m_cols -4))+2;
+	randRow = (rand()%(m_rows-4))+2;
+	randCol = (rand()%(m_cols-4))+2;
 	m_tileMap.at(randRow).at(randCol)->setType(Tile::Mountain);
 }

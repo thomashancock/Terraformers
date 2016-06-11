@@ -16,7 +16,7 @@ public:
 	explicit Terraformer(
 		Type type
 	);
-	
+
 	virtual void drawCurrent(
 		sf::RenderTarget& target,
 		sf::RenderStates states

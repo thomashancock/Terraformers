@@ -5,18 +5,26 @@ Tile::Tile(
 	Type type,
 	int xCoor,
 	int yCoor
-	) : 
+	) :
 	m_type(type)
 	{
+	// Create Hexagon Sprite
 	m_sprite.setPointCount(6);
-	m_sprite.setRadius(34);
-	m_sprite.setScale(1,0.59);
+	const int hexagonWidth = 29;
+	m_sprite.setPoint(0, sf::Vector2f(0, -20));
+	m_sprite.setPoint(1, sf::Vector2f(hexagonWidth, -10));
+	m_sprite.setPoint(2, sf::Vector2f(hexagonWidth, 10));
+	m_sprite.setPoint(3, sf::Vector2f(0, 20));
+	m_sprite.setPoint(4, sf::Vector2f(-1*hexagonWidth, 10));
+	m_sprite.setPoint(5, sf::Vector2f(-1*hexagonWidth, -10));
 
+	// Set Colour based on the passed tile type
 	resetColour();
-	
-	sf::FloatRect bounds = m_sprite.getLocalBounds();
-	m_sprite.setOrigin(bounds.width/2.f, bounds.height/2.f);
 
+	// Set Tile Origin
+	m_sprite.setOrigin(0, 0);
+
+	// Set Tile position to the passed coordinates
 	this->setPosition(xCoor,yCoor);
 }
 

@@ -25,7 +25,7 @@ public:
 	void update(
 		sf::Time dt
 	);
-	
+
 	void draw();
 
 	CommandQueue& getCommandQueue();
