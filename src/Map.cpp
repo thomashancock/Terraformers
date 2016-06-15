@@ -47,6 +47,21 @@ Tile* Map::getTile(
 	return 	m_tileMap.at(xCoor).at(yCoor);
 }
 
+Tile* Map::getTileAtPos(
+	int xPos,
+	int yPos
+) {
+	int xCoor = 0;
+	int yCoor = 0;
+
+	//xPos -> xCoor
+	//yPos -> yCoor
+
+	ASSERT(xCoor < m_rows);
+	ASSERT(yCoor < m_cols);
+	return 	m_tileMap.at(xCoor).at(yCoor);
+}
+
 // Private:
 sf::Vector2f Map::setTilePosition(
 	int xCoor,
@@ -79,12 +94,12 @@ unsigned int Map::getCategory() const {
 void Map::setupMap() {
 	STD_LOG("Populating Map");
 	for (int i = 0; i < m_rows; i++) {
-		m_tileMap.at(i).at(0)->setType(Tile::Border);
-		m_tileMap.at(i).at(m_cols-1)->setType(Tile::Border);
+		getTile(i,0)->setType(Tile::Border);
+		getTile(i,m_cols-1)->setType(Tile::Border);
 	}
 	for (int j = 1; j < m_cols-1; j++) {
-		m_tileMap.at(0).at(j)->setType(Tile::Border);
-		m_tileMap.at(m_rows-1).at(j)->setType(Tile::Border);
+		getTile(0,j)->setType(Tile::Border);
+		getTile(m_rows-1,j)->setType(Tile::Border);
 	}
 
 	// Randomly define Forest and Mountain
@@ -92,11 +107,11 @@ void Map::setupMap() {
 	int randCol = (rand()%(m_cols-4))+2;
 	ASSERT(randRow < m_rows);
 	ASSERT(randCol < m_cols);
-	m_tileMap.at(randRow).at(randCol)->setType(Tile::Forest);
+	getTile(randRow,randCol)->setType(Tile::Forest);
 
 	randRow = (rand()%(m_rows-4))+2;
 	randCol = (rand()%(m_cols-4))+2;
 	ASSERT(randRow < m_rows);
 	ASSERT(randCol < m_cols);
-	m_tileMap.at(randRow).at(randCol)->setType(Tile::Mountain);
+	getTile(randRow,randCol)->setType(Tile::Mountain);
 }
