@@ -3,8 +3,8 @@
 
 #include <SFML/System.hpp>
 
+#include "Debug.hpp"
 #include <functional>
-#include <cassert>
 
 #include "Category.hpp"
 
@@ -22,7 +22,7 @@ std::function<void(SceneNode&, sf::Time)> derivedAction(Function fn)
 	return [=] (SceneNode& node, sf::Time dt)
 	{
 		// Check that the cast is safe
-		assert(dynamic_cast<GameObject*>(&node) != nullptr);
+		ASSERT(dynamic_cast<GameObject*>(&node) != nullptr);
 
 		// Downcast node and invoke the function on it
 		fn(static_cast<GameObject&>(node), dt);

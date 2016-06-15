@@ -7,7 +7,7 @@ Resource& ResourceHolder<Resource, Identifier>::get(
 	Identifier id
 ) {
 	auto found = m_resourceMap.find(id);
-	assert(found != m_resourceMap.end());
+	ASSERT(found != m_resourceMap.end());
 
 	return *found->second;
 }
@@ -17,7 +17,7 @@ const Resource& ResourceHolder<Resource, Identifier>::get(
 	Identifier id
 ) const {
 	auto found = m_resourceMap.find(id);
-	assert(found != m_resourceMap.end());
+	ASSERT(found != m_resourceMap.end());
 
 	return *found->second;
 }
@@ -35,7 +35,7 @@ void ResourceHolder<Resource, Identifier>::load(
 	}
 
 	auto inserted = m_resourceMap.insert(std::make_pair(id, std::move(resource)));
-	assert(inserted.second);
+	ASSERT(inserted.second);
 }
 
 /* Private Member Functions */

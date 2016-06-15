@@ -40,7 +40,6 @@ private:
 private:
 	Type m_type;
 	sf::ConvexShape m_sprite;
-	// sf::CircleShape m_sprite;
 };
 
 #endif /* TILE_H */

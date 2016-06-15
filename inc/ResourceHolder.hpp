@@ -3,11 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Debug.hpp"
 #include <map>
 #include <memory>
-#include <cassert>
 
-template <typename Resource, typename Identifier> 
+template <typename Resource, typename Identifier>
 class ResourceHolder{
 	public:
 		Resource& get(

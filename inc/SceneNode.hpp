@@ -7,8 +7,8 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
-#include <cassert>
 
+#include "Debug.hpp"
 #include "Command.hpp"
 #include "Category.hpp"
 
@@ -20,17 +20,17 @@ class SceneNode :
 	public:
 		typedef std::unique_ptr<SceneNode> Ptr;
 
-	public: 
+	public:
 		SceneNode();
-		
+
 		void attachChild(
 			Ptr child
 		);
-		
+
 		Ptr detachChild(
 			const SceneNode& node
 		);
-		
+
 		void update(
 			sf::Time dt
 		);
@@ -54,7 +54,7 @@ class SceneNode :
 		) const;
 
 		virtual void drawChildren(
-			sf::RenderTarget& target, 
+			sf::RenderTarget& target,
 			sf::RenderStates states
 		) const;
 

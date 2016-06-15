@@ -15,13 +15,13 @@ void SceneNode::attachChild(Ptr child) {
 SceneNode::Ptr SceneNode::detachChild(
 	const SceneNode& node
 	) {
-	auto found = std::find_if(m_children.begin(), m_children.end(), 
+	auto found = std::find_if(m_children.begin(), m_children.end(),
 		[&] (Ptr& p)->bool {
 			return p.get() == &node;
 		}
 	);
 
-	assert(found != m_children.end());
+	ASSERT(found != m_children.end());
 
 	Ptr result = std::move(*found);
 	result->m_parent = nullptr;
@@ -56,7 +56,7 @@ unsigned int SceneNode::getCategory() const {
 // Private:
 
 void SceneNode::draw(
-	sf::RenderTarget& target, 
+	sf::RenderTarget& target,
 	sf::RenderStates states
 	) const {
 	// Apply transform of current node
@@ -68,14 +68,14 @@ void SceneNode::draw(
 }
 
 void SceneNode::drawCurrent(
-	sf::RenderTarget&, 
+	sf::RenderTarget&,
 	sf::RenderStates
 	) const {
 	// Do nothing by default
 }
 
 void SceneNode::drawChildren(
-	sf::RenderTarget& target, 
+	sf::RenderTarget& target,
 	sf::RenderStates states
 	) const {
 	for (auto itr = m_children.begin(); itr != m_children.end(); ++itr) {
