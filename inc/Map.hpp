@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <cstdlib>
+#include <cmath>
 
 class Map :
 public SceneNode

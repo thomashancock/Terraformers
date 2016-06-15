@@ -35,7 +35,7 @@ sf::Vector2f Map::coorsToPosition(
 	) {
 	ASSERT(xCoor < m_rows);
 	ASSERT(yCoor < m_cols);
-	return m_tileMap.at(xCoor).at(yCoor)->getPosition();
+	return getTile(xCoor,yCoor)->getPosition();
 }
 
 Tile* Map::getTile(
@@ -51,15 +51,25 @@ Tile* Map::getTileAtPos(
 	int xPos,
 	int yPos
 ) {
-	int xCoor = 0;
-	int yCoor = 0;
+	// Determine the coordinates by applying the opposite procedure to calculating the positions
+	double xTmp = xPos - 40.0;
+	double yTmp = yPos - 40.0;
 
-	//xPos -> xCoor
-	//yPos -> yCoor
+	yTmp /= 31.0;
+
+	double fMod2 = fmod(yTmp,2.0);
+	if ((-0.5 < fMod2)&&(fMod2 < 0.5)) {
+		xTmp -= 30;
+	}
+
+	xTmp /= 60;
+
+	int xCoor = (int) std::round(xTmp);
+	int yCoor = (int) std::round(yTmp);
 
 	ASSERT(xCoor < m_rows);
 	ASSERT(yCoor < m_cols);
-	return 	m_tileMap.at(xCoor).at(yCoor);
+	return getTile(xCoor,yCoor);
 }
 
 // Private:

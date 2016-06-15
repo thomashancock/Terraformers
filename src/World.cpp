@@ -7,6 +7,7 @@ World::World(sf::RenderWindow& window)
 , m_sceneLayers()
 {
 	buildScene();
+	m_activeTile = NULL;
 }
 
 void World::update(
@@ -21,9 +22,6 @@ void World::update(
 
 	// Update the Scene Graph
 	m_sceneGraph.update(elapsedTime);
-
-	m_activeTile = m_map->getTile(2,2);
-	m_activeTile->select();
 }
 
 void World::draw() {
@@ -73,6 +71,12 @@ void World::processMousePosition(
 
 		// Convert mouse position to world coordinates
 		m_worldMousePos = m_window.mapPixelToCoords(mousePos);
+
+		if (NULL != m_activeTile) {
+			m_activeTile->deselect();
+		}
+		m_activeTile = m_map->getTileAtPos(m_worldMousePos.x,m_worldMousePos.y);
+		m_activeTile->select();
 	}
 }
 
