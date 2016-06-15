@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-// #include "Debug.hpp"
+#include "Debug.hpp"
 #include <SFML/Graphics.hpp>
 #include "./SceneNode.hpp"
 #include "./Tile.hpp"

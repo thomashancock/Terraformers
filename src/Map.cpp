@@ -32,6 +32,8 @@ sf::Vector2f Map::coorsToPosition(
 	int xCoor,
 	int yCoor
 	) {
+		ASSERT(xCoor < m_rows);
+		ASSERT(yCoor < m_cols);
 	return m_tileMap.at(xCoor).at(yCoor)->getPosition();
 }
 
