@@ -1,7 +1,7 @@
-#include "Terraformer.hpp"
+#include "Unit.hpp"
 
 // Public:
-Terraformer::Terraformer(
+Unit::Unit(
 	Type type
 	) :
 	m_type(type)
@@ -13,7 +13,7 @@ Terraformer::Terraformer(
 	m_sprite.setOrigin(bounds.width/2.f, bounds.height);
 }
 
-void Terraformer::drawCurrent(
+void Unit::drawCurrent(
 	sf::RenderTarget& target,
 	sf::RenderStates states
 ) const {
@@ -21,6 +21,6 @@ void Terraformer::drawCurrent(
 }
 
 // Private:
-unsigned int Terraformer::getCategory() const {
+unsigned int Unit::getCategory() const {
 	return Category::Terraformer;
 }

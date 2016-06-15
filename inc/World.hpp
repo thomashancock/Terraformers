@@ -10,7 +10,7 @@
 #include "SceneNode.hpp"
 #include "Tile.hpp"
 #include "Map.hpp"
-#include "Terraformer.hpp"
+#include "Unit.hpp"
 #include "CommandQueue.hpp"
 #include "Command.hpp"
 
@@ -48,7 +48,7 @@ private:
 
 	Tile* m_testTile;
 	Map* m_map;
-	Terraformer* m_terraformer;
+	Unit* m_testUnit;
 };
 
 

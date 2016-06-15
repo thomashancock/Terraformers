@@ -59,3 +59,15 @@ void Tile::resetColour() {
 		m_sprite.setFillColor(gray);
 	}
 }
+
+bool Tile::isMouseOnTile() {
+	// sf::Vector2i mousePosition = sf::Mouse::getPosition();
+	// sf::FloatRect bounds = m_sprite.getLocalBounds();
+	//
+	// if (bounds.contains(mousePosition)) {
+	// 	return true;
+	// } else {
+	// 	return false;
+	// }
+	return false;
+}

@@ -35,6 +35,7 @@ private:
 	virtual unsigned int getCategory() const;
 
 	void resetColour();
+	bool isMouseOnTile();
 
 private:
 	Type m_type;

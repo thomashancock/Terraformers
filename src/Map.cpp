@@ -25,6 +25,7 @@ Map::Map(
 		m_tileMap.push_back(mapRow);
 	}
 	setupMap();
+	// STD_LOG("Map Generated");
 }
 
 sf::Vector2f Map::coorsToPosition(

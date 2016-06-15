@@ -43,10 +43,10 @@ void World::buildScene() {
 	m_map = map.get();
 	m_sceneLayers[Background]->attachChild(std::move(map));
 
-	// Draw Terraformer
-	std::unique_ptr<Terraformer> terraformer(new Terraformer(Terraformer::Basic));
-	m_terraformer = terraformer.get();
-	sf::Vector2f terraformerPos = m_map->coorsToPosition(5,3);
-	m_terraformer->setPosition(terraformerPos.x,terraformerPos.y);
-	m_sceneLayers[Front]->attachChild(std::move(terraformer));
+	// Draw Unit
+	std::unique_ptr<Unit> testUnit(new Unit(Unit::Basic));
+	m_testUnit = testUnit.get();
+	sf::Vector2f testUnitPos = m_map->coorsToPosition(5,3);
+	m_testUnit->setPosition(testUnitPos.x,testUnitPos.y);
+	m_sceneLayers[Front]->attachChild(std::move(testUnit));
 }

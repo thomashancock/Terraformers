@@ -2,10 +2,11 @@
 
 #include <iostream>
 
+#include "Debug.hpp"
 #include "Game.hpp"
 
 int main() {
-	std::cout << "TESTING" << std::endl;
+	STD_LOG("Running Debug Build");
 
 	try {
 		Game game;

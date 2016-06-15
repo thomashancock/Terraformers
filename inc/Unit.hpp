@@ -1,10 +1,10 @@
-#ifndef TERRAFORMER_H
-#define TERRAFORMER_H
+#ifndef UNIT_H
+#define UNIT_H
 
 #include <SFML/Graphics.hpp>
 #include "Entity.hpp"
 
-class Terraformer :
+class Unit :
 public Entity
 {
 public:
@@ -13,7 +13,7 @@ public:
 	};
 
 public:
-	explicit Terraformer(
+	explicit Unit(
 		Type type
 	);
 
@@ -30,4 +30,4 @@ private:
 	sf::RectangleShape m_sprite;
 };
 
-#endif /* TERRAFORMER_H */
+#endif /* UNIT_H */
