@@ -6,7 +6,7 @@ void Player::handleEvent(
 	CommandQueue& commands
 ) {
 	// EXAMPLE CODE:
-	// if ((event.type == sf::Event::KeyPressed) && 
+	// if ((event.type == sf::Event::KeyPressed) &&
 	// 	(event.key.code == sf::Keyboard::P)) {
 	// 	Command output;
 	// 	output.category = Category::RightPaddle;

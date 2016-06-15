@@ -10,15 +10,20 @@ World::World(sf::RenderWindow& window)
 }
 
 void World::update(
-	sf::Time dt
+	sf::Time elapsedTime
 	) {
+	processMousePosition(elapsedTime);
+
 	// Send Commands to the Scene Graph
 	while (!m_commandQueue.isEmpty()) {
-		m_sceneGraph.onCommand(m_commandQueue.pop(), dt);
+		m_sceneGraph.onCommand(m_commandQueue.pop(), elapsedTime);
 	}
 
 	// Update the Scene Graph
-	m_sceneGraph.update(dt);
+	m_sceneGraph.update(elapsedTime);
+
+	m_activeTile = m_map->getTile(2,2);
+	m_activeTile->select();
 }
 
 void World::draw() {
@@ -49,4 +54,52 @@ void World::buildScene() {
 	sf::Vector2f testUnitPos = m_map->coorsToPosition(5,3);
 	m_testUnit->setPosition(testUnitPos.x,testUnitPos.y);
 	m_sceneLayers[Front]->attachChild(std::move(testUnit));
+}
+
+void World::processMousePosition(
+	sf::Time elapsedTime
+	) {
+	sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
+
+	// Ensure mouse is inside window
+	sf::Vector2u windowSize = m_window.getSize();
+	if ((mousePos.x > 0)&&
+			(mousePos.x < (int) windowSize.x)&&
+			(mousePos.y > 0)&&
+			(mousePos.y < (int) windowSize.y)) {
+
+		// View Scrolling
+		updateViewPosition(mousePos,elapsedTime);
+
+		// Convert mouse position to world coordinates
+		m_worldMousePos = m_window.mapPixelToCoords(mousePos);
+	}
+}
+
+void World::updateViewPosition(
+	sf::Vector2i mousePos,
+	sf::Time elapsedTime
+	) {
+	sf::Vector2u windowSize = m_window.getSize();
+
+	sf::Vector2i scrollSpeed(0,0);
+
+	// Set y scroll speed based on mouse position
+	if (mousePos.y < (windowSize.y/10.0)) {
+		scrollSpeed.y = -100;
+	} else if (mousePos.y > (windowSize.y - (windowSize.y/10.0))) {
+		scrollSpeed.y = 100;
+	}
+
+	// Set x scroll speed based on mouse position
+	if (mousePos.x < (windowSize.x/10.0)) {
+		scrollSpeed.x = -100;
+	} else if (mousePos.x > (windowSize.x - (windowSize.x/10.0))) {
+		scrollSpeed.x = 100;
+	}
+
+	// Update view using scroll speeds determined
+	sf::View view = m_window.getView();
+	view.move(scrollSpeed.x*elapsedTime.asSeconds(),scrollSpeed.y*elapsedTime.asSeconds());
+	m_window.setView(view);
 }

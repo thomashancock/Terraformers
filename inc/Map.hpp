@@ -24,6 +24,11 @@ public:
 		int yCoor
 	);
 
+	Tile* getTile(
+		int xCoor,
+		int yCoor
+	);
+
 private:
 	sf::Vector2f setTilePosition(
 		int xCoor,

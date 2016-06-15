@@ -19,13 +19,15 @@ Tile::Tile(
 	m_sprite.setPoint(5, sf::Vector2f(-1*hexagonWidth, -10));
 
 	// Set Colour based on the passed tile type
-	resetColour();
+	resetColor();
 
 	// Set Tile Origin
 	m_sprite.setOrigin(0, 0);
 
 	// Set Tile position to the passed coordinates
 	this->setPosition(xCoor,yCoor);
+
+	isSelected = false;
 }
 
 void Tile::drawCurrent(
@@ -39,7 +41,17 @@ void Tile::setType(
 	Type type
 	) {
 	m_type = type;
-	resetColour();
+	resetColor();
+}
+
+void Tile::select() {
+	isSelected = true;
+	resetColor();
+}
+
+void Tile::deselect() {
+	isSelected = false;
+	resetColor();
 }
 
 // Private:
@@ -47,7 +59,7 @@ unsigned int Tile::getCategory() const {
 	return Category::Tile;
 }
 
-void Tile::resetColour() {
+void Tile::resetColor() {
 	if (Type::Border == m_type) {
 		m_sprite.setFillColor(sf::Color::Black);
 	} else if (Type::Forest == m_type) {
@@ -57,6 +69,14 @@ void Tile::resetColour() {
 	} else {
 		sf::Color gray(125,125,125);
 		m_sprite.setFillColor(gray);
+	}
+
+	if (true == isSelected) {
+		m_sprite.setOutlineThickness(2);
+		m_sprite.setOutlineColor(sf::Color::Yellow);
+	} else {
+		m_sprite.setOutlineThickness(0);
+		m_sprite.setOutlineColor(sf::Color::Transparent);
 	}
 }
 

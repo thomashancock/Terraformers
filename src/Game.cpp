@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 /* Public Member Functions */
-Game::Game() 
+Game::Game()
 : m_window(sf::VideoMode(1280, 960), "Terraformers")
 , m_world(m_window)
 {
@@ -14,7 +14,7 @@ void Game::run() {
 
 	while(m_window.isOpen()) {
 		sf::Time elapsedTime = clock.restart();
-		
+
 		processInputs();
 		if (!m_isPaused) update(elapsedTime);
 		render();
@@ -62,48 +62,11 @@ void Game::update(
 	sf::Time elapsedTime
 	) {
 	m_world.update(elapsedTime);
-
-	// View Scrolling
-	updateViewPosition(elapsedTime);
 }
 
 void Game::render() {
 	m_window.clear(sf::Color::White);
 	m_world.draw();
-	
+
 	m_window.display();
-}
-
-void Game::updateViewPosition(
-	sf::Time elapsedTime
-	) {
-	sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
-	sf::Vector2u windowSize = m_window.getSize();
-
-	// Ensure mouse is inside window
-	if ((mousePos.x > 0)&&
-			(mousePos.x < (int) windowSize.x)&&
-			(mousePos.y > 0)&&
-			(mousePos.y < (int) windowSize.y)) {
-		sf::Vector2<int> scrollSpeed(0,0);
-
-		// Set y scroll speed based on mouse position
-		if (mousePos.y < (windowSize.y/10.0)) {
-			scrollSpeed.y = -100;
-		} else if (mousePos.y > (windowSize.y - (windowSize.y/10.0))) {
-			scrollSpeed.y = 100;
-		}
-
-		// Set x scroll speed based on mouse position
-		if (mousePos.x < (windowSize.x/10.0)) {
-			scrollSpeed.x = -100;
-		} else if (mousePos.x > (windowSize.x - (windowSize.x/10.0))) {
-			scrollSpeed.x = 100;
-		}
-
-		// Update view using scroll speeds determined
-		sf::View view = m_window.getView();
-		view.move(scrollSpeed.x*elapsedTime.asSeconds(),scrollSpeed.y*elapsedTime.asSeconds());
-		m_window.setView(view);
-	}
 }

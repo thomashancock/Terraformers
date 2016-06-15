@@ -23,7 +23,7 @@ public:
 	);
 
 	void update(
-		sf::Time dt
+		sf::Time elapsedTime
 	);
 
 	void draw();
@@ -32,6 +32,13 @@ public:
 
 private:
 	void buildScene();
+	void processMousePosition(
+		sf::Time elapsedTime
+	);
+	void updateViewPosition(
+		sf::Vector2i mousePos,
+		sf::Time elapsedTime
+	);
 
 private:
 	enum Layer {
@@ -45,11 +52,11 @@ private:
 	SceneNode m_sceneGraph;
 	std::array<SceneNode*, LayerCount> m_sceneLayers;
 	CommandQueue m_commandQueue;
+	sf::Vector2f m_worldMousePos;
 
-	Tile* m_testTile;
+	Tile* m_activeTile;
 	Map* m_map;
 	Unit* m_testUnit;
 };
-
 
 #endif /* WORLD_H */

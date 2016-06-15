@@ -38,6 +38,15 @@ sf::Vector2f Map::coorsToPosition(
 	return m_tileMap.at(xCoor).at(yCoor)->getPosition();
 }
 
+Tile* Map::getTile(
+	int xCoor,
+	int yCoor
+) {
+	ASSERT(xCoor < m_rows);
+	ASSERT(yCoor < m_cols);
+	return 	m_tileMap.at(xCoor).at(yCoor);
+}
+
 // Private:
 sf::Vector2f Map::setTilePosition(
 	int xCoor,

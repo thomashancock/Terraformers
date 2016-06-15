@@ -31,15 +31,19 @@ public:
 		Type type
 	);
 
+	void select();
+	void deselect();
+
 private:
 	virtual unsigned int getCategory() const;
 
-	void resetColour();
+	void resetColor();
 	bool isMouseOnTile();
 
 private:
 	Type m_type;
 	sf::ConvexShape m_sprite;
+	bool isSelected;
 };
 
 #endif /* TILE_H */
