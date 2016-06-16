@@ -85,6 +85,8 @@ sf::Vector2f Map::setTilePosition(
 	int xCoor,
 	int yCoor
 	) {
+	ASSERT(xCoor > -1);
+	ASSERT(yCoor > -1);
 	ASSERT(xCoor < m_rows);
 	ASSERT(yCoor < m_cols);
 	sf::Vector2f position;
@@ -123,12 +125,16 @@ void Map::setupMap() {
 	// Randomly define Forest and Mountain
 	int randRow = (rand()%(m_rows-4))+2;
 	int randCol = (rand()%(m_cols-4))+2;
+	ASSERT(randRow > -1);
+	ASSERT(randCol > -1);
 	ASSERT(randRow < m_rows);
 	ASSERT(randCol < m_cols);
 	getTile(randRow,randCol)->setType(Tile::Forest);
 
 	randRow = (rand()%(m_rows-4))+2;
 	randCol = (rand()%(m_cols-4))+2;
+	ASSERT(randRow > -1);
+	ASSERT(randCol > -1);
 	ASSERT(randRow < m_rows);
 	ASSERT(randCol < m_cols);
 	getTile(randRow,randCol)->setType(Tile::Mountain);
