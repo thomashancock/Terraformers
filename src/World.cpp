@@ -95,19 +95,7 @@ void World::processMouseClicks(
 
 		if (Input::Type::LeftMouse == command.getType()) {
 			STD_LOG("Player Input: Left Mouse Button Pressed");
-			// m_map
-
-			// if (NULL != m_hoveredTile) {
-			// 	if (NULL != m_selectedTile) {
-			// 		m_selectedTile->deselect();
-			// 	}
-			// 	m_selectedTile = m_hoveredTile;
-			// 	ASSERT(NULL != m_selectedTile);
-			// 	m_selectedTile->select();
-			// 	if (NULL != m_selectedTile->getUnit()) {
-			// 		m_selectedUnit = m_selectedTile->getUnit();
-			// 	}
-			// }
+			m_map->selectTile(m_worldMousePos);
 		}
 
 		if (Input::Type::RightMouse == command.getType()) {

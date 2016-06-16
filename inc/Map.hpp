@@ -52,6 +52,7 @@ public:
 	void selectTile(
 		sf::Vector2f position
 	);
+	void deselectTile();
 
 private:
 	sf::Vector2f setTilePosition(

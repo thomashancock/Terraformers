@@ -140,6 +140,17 @@ void Map::selectTile(
 	}
 }
 
+void Map::deselectTile() {
+	if (NULL != m_selectedUnit) {
+		m_selectedUnit = NULL;
+	}
+
+	if (NULL != m_selectedTile) {
+		m_selectedTile->deselect();
+		m_selectedTile = NULL;
+	}
+}
+
 // Private:
 sf::Vector2f Map::setTilePosition(
 	int xCoor,

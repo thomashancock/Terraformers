@@ -90,7 +90,6 @@ void Tile::detatchUnit() {
 }
 
 Unit* Tile::getUnit() {
-	ASSERT(NULL != m_placedUnit);
 	return m_placedUnit;
 }
 
