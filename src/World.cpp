@@ -90,7 +90,7 @@ void World::processMouseClicks(
 		Command command = m_commandQueue.pop();
 
 		if (Input::Type::LeftMouse == command.getType()) {
-			STD_LOG("Left Mouse Button Pressed");
+			STD_LOG("Player Input: Left Mouse Button Pressed");
 			if (NULL != m_hoveredTile) {
 				if (NULL != m_selectedTile) {
 					m_selectedTile->deselect();
@@ -102,11 +102,11 @@ void World::processMouseClicks(
 		}
 
 		if (Input::Type::RightMouse == command.getType()) {
-			STD_LOG("Right Mouse Button Pressed");
+			STD_LOG("Player Input: Right Mouse Button Pressed");
 		}
 
 		if (Input::Type::Spacebar == command.getType()) {
-			STD_LOG("Spacebar Pressed");
+			STD_LOG("Player Input: Spacebar Pressed");
 		}
 	}
 }
