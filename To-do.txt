@@ -1,7 +1,3 @@
 To-do:
 
-+ Handle Mouse Clicks
-+ Encapsulate Mouse clicks and button presses into seperate class within World class (PlayerInput?)
-+ Add Keyboard input handling to new encapsulated class
-
 + Have Unit pointer storage in Tiles?

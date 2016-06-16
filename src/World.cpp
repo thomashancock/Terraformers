@@ -7,18 +7,16 @@ World::World(sf::RenderWindow& window)
 , m_sceneLayers()
 {
 	buildScene();
-	m_activeTile = NULL;
+	m_hoveredTile = NULL;
+	m_selectedTile = NULL;
+
 }
 
 void World::update(
 	sf::Time elapsedTime
 	) {
 	processMousePosition(elapsedTime);
-
-	// Send Commands to the Scene Graph
-	while (!m_commandQueue.isEmpty()) {
-		m_sceneGraph.onCommand(m_commandQueue.pop(), elapsedTime);
-	}
+	processMouseClicks(elapsedTime);
 
 	// Update the Scene Graph
 	m_sceneGraph.update(elapsedTime);
@@ -73,14 +71,42 @@ void World::processMousePosition(
 		m_worldMousePos = m_window.mapPixelToCoords(mousePos);
 
 		Tile* hoveredTile = m_map->getTileAtPosition(m_worldMousePos);
-		if (m_activeTile != hoveredTile) {
-			if (NULL != m_activeTile) {
-				m_activeTile->unhighlight();
+		if (m_hoveredTile != hoveredTile) {
+			if (NULL != m_hoveredTile) {
+				m_hoveredTile->unhighlight();
 			}
-			m_activeTile = hoveredTile;
-			if (NULL != m_activeTile) {
-				m_activeTile->highlight();
+			m_hoveredTile = hoveredTile;
+			if (NULL != m_hoveredTile) {
+				m_hoveredTile->highlight();
 			}
+		}
+	}
+}
+
+void World::processMouseClicks(
+	sf::Time elapsedTime
+) {
+	while (!m_commandQueue.isEmpty()) {
+		Command command = m_commandQueue.pop();
+
+		if (Input::Type::LeftMouse == command.getType()) {
+			STD_LOG("Left Mouse Button Pressed");
+			if (NULL != m_hoveredTile) {
+				if (NULL != m_selectedTile) {
+					m_selectedTile->deselect();
+				}
+				m_selectedTile = m_hoveredTile;
+				ASSERT(NULL != m_selectedTile);
+				m_selectedTile->select();
+			}
+		}
+
+		if (Input::Type::RightMouse == command.getType()) {
+			STD_LOG("Right Mouse Button Pressed");
+		}
+
+		if (Input::Type::Spacebar == command.getType()) {
+			STD_LOG("Spacebar Pressed");
 		}
 	}
 }

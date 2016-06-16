@@ -4,29 +4,20 @@
 #include <SFML/System.hpp>
 
 #include "Debug.hpp"
-#include <functional>
+#include "Input.hpp"
 
-#include "Category.hpp"
+class Command {
+public:
+	Command(
+		Input::Type type
+	);
 
-class SceneNode;
-
-struct Command {
-	Command();
-	std::function<void(SceneNode&, sf::Time)> action;
-	unsigned int category;
-};
-
-template <typename GameObject, typename Function>
-std::function<void(SceneNode&, sf::Time)> derivedAction(Function fn)
-{
-	return [=] (SceneNode& node, sf::Time dt)
-	{
-		// Check that the cast is safe
-		ASSERT(dynamic_cast<GameObject*>(&node) != nullptr);
-
-		// Downcast node and invoke the function on it
-		fn(static_cast<GameObject&>(node), dt);
+	Input::Type getType() {
+		return m_type;
 	};
-}
+
+private:
+	Input::Type m_type;
+};
 
 #endif /* COMMAND_HPP */

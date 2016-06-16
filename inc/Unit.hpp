@@ -23,9 +23,6 @@ public:
 	) const;
 
 private:
-	virtual unsigned int getCategory() const;
-
-private:
 	Type m_type;
 	sf::RectangleShape m_sprite;
 };

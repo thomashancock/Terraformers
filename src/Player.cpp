@@ -5,15 +5,24 @@ void Player::handleEvent(
 	const sf::Event& event,
 	CommandQueue& commands
 ) {
-	// EXAMPLE CODE:
-	// if ((event.type == sf::Event::KeyPressed) &&
-	// 	(event.key.code == sf::Keyboard::P)) {
-	// 	Command output;
-	// 	output.category = Category::RightPaddle;
-	// 	output.action = [] (SceneNode& s, sf::Time) {
-	// 	std::cout << s.getPosition().x << "," << s.getPosition().y << std::endl;
-	// 	};
-	// 	commands.push(output);
+	// if (sf::Event::MouseButtonPressed == event.type) {
+	// 		if (sf::Mouse::Left == event.mouseButton.button) {
+	// 			Command keyPress(Input::Type::LeftMouse);
+	// 			commands.push(keyPress);
+	// 		}
+	//
+	// 		if (sf::Mouse::Right == event.mouseButton.button) {
+	// 			Command keyPress(Input::Type::RightMouse);
+	// 			commands.push(keyPress);
+	// 		}
+	// }
+	//
+	// if (sf::Event::KeyPressed == event.type) {
+	// 	if (sf::Keyboard::Space == event.key.code) {
+	// 		STD_LOG("Pushing Spacebar command to Command Queue");
+	// 		Command keyPress(Input::Type::Spacebar);
+	// 		commands.push(keyPress);
+	// 	}
 	// }
 }
 

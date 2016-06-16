@@ -75,11 +75,6 @@ sf::Vector2f Tile::getTilePosition() {
 	return this->getPosition();
 }
 
-// Private:
-unsigned int Tile::getCategory() const {
-	return Category::Tile;
-}
-
 void Tile::resetColor() {
 	if (Type::Border == m_type) {
 		m_sprite.setFillColor(sf::Color::Black);

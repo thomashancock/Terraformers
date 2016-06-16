@@ -39,8 +39,6 @@ private:
 		int yCoor
 	);
 
-	virtual unsigned int getCategory() const;
-
 	void setupMap();
 
 private:

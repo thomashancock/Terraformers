@@ -21,6 +21,3 @@ void Unit::drawCurrent(
 }
 
 // Private:
-unsigned int Unit::getCategory() const {
-	return Category::Terraformer;
-}

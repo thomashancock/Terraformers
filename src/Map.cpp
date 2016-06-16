@@ -107,10 +107,6 @@ sf::Vector2f Map::setTilePosition(
 	return position;
 }
 
-unsigned int Map::getCategory() const {
-	return Category::Tile;
-}
-
 void Map::setupMap() {
 	STD_LOG("Populating Map");
 	for (int i = 0; i < m_rows; i++) {

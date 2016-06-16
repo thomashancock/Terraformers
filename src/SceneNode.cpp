@@ -36,23 +36,6 @@ void SceneNode::update(
 	updateChildren(dt);
 }
 
-void SceneNode::onCommand(
-	const Command& command,
-	sf::Time dt
-	) {
-	if (command.category & getCategory()) {
-		command.action(*this, dt);
-	}
-
-	for (auto itr = m_children.begin(); itr != m_children.end(); ++itr) {
-		(*itr)->onCommand(command, dt);
-	}
-}
-
-unsigned int SceneNode::getCategory() const {
-	return Category::Scene;
-}
-
 // Private:
 
 void SceneNode::draw(

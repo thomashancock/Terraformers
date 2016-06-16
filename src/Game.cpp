@@ -51,11 +51,31 @@ void Game::processInputs() {
 			sf::FloatRect visibleArea(0,0,event.size.width,event.size.height);
 			m_window.setView(sf::View(visibleArea));
 		}
+
+		// *** Consider moving these to Player class
+		if (sf::Event::MouseButtonPressed == event.type) {
+			if (sf::Mouse::Left == event.mouseButton.button) {
+				Command keyPress(Input::Type::LeftMouse);
+				commands.push(keyPress);
+			}
+
+			if (sf::Mouse::Right == event.mouseButton.button) {
+				Command keyPress(Input::Type::RightMouse);
+				commands.push(keyPress);
+			}
+		}
+
+		if (sf::Event::KeyPressed == event.type) {
+			if (sf::Keyboard::Space == event.key.code) {
+				Command keyPress(Input::Type::Spacebar);
+				commands.push(keyPress);
+			}
+		}
 	}
 
 	// All other inputs handled by the player class
-	m_player.handleEvent(event,commands);
-	m_player.handleRealtimeInput(commands);
+	// m_player.handleEvent(event,commands);
+	// m_player.handleRealtimeInput(commands);
 }
 
 void Game::update(

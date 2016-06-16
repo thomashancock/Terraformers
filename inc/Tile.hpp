@@ -39,8 +39,6 @@ public:
 	sf::Vector2f getTilePosition();
 
 private:
-	virtual unsigned int getCategory() const;
-
 	void resetColor();
 
 private:

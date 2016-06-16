@@ -1,7 +1,8 @@
 #include "Command.hpp"
 
-Command::Command()
-: action()
-, category(Category::None)
+Command::Command(
+	Input::Type type
+) :
+m_type(type)
 {
 }

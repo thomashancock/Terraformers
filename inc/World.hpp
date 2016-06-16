@@ -13,6 +13,7 @@
 #include "Unit.hpp"
 #include "CommandQueue.hpp"
 #include "Command.hpp"
+#include "Input.hpp"
 
 class World :
 private sf::NonCopyable
@@ -39,6 +40,9 @@ private:
 		sf::Vector2i mousePos,
 		sf::Time elapsedTime
 	);
+	void processMouseClicks(
+		sf::Time elapsedTime
+	);
 
 private:
 	enum Layer {
@@ -54,7 +58,8 @@ private:
 	CommandQueue m_commandQueue;
 	sf::Vector2f m_worldMousePos;
 
-	Tile* m_activeTile;
+	Tile* m_hoveredTile;
+	Tile* m_selectedTile;
 	Map* m_map;
 	Unit* m_testUnit;
 };

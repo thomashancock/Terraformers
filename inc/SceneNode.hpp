@@ -10,7 +10,7 @@
 
 #include "Debug.hpp"
 #include "Command.hpp"
-#include "Category.hpp"
+// #include "Category.hpp"
 
 class SceneNode :
 	public sf::Transformable,
@@ -34,13 +34,6 @@ class SceneNode :
 		void update(
 			sf::Time dt
 		);
-
-		void onCommand(
-			const Command& command,
-			sf::Time dt
-		);
-
-		virtual unsigned int getCategory() const;
 
 	private:
 		virtual void draw(

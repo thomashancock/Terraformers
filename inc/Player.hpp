@@ -6,7 +6,7 @@
 
 #include "CommandQueue.hpp"
 #include "Command.hpp"
-#include "Category.hpp"
+#include "Input.hpp"
 
 class Player {
 public:
