@@ -11,6 +11,8 @@ Unit::Unit(
 
 	sf::FloatRect bounds = m_sprite.getLocalBounds();
 	m_sprite.setOrigin(bounds.width/2.f, bounds.height);
+
+	m_remainingMoves = 2;
 }
 
 void Unit::drawCurrent(

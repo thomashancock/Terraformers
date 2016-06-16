@@ -77,7 +77,6 @@ private:
 	std::vector< std::vector< Tile* > > m_tileMap;
 
 	// Selected object pointers
-	Tile* m_hoveredTile;
 	Tile* m_selectedTile;
 	Unit* m_selectedUnit;
 };

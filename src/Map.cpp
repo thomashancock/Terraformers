@@ -28,7 +28,6 @@ Map::Map(
 	setupMap();
 	STD_LOG("Finished Creating Map");
 
-	m_hoveredTile = NULL;
 	m_selectedTile = NULL;
 	m_selectedUnit = NULL;
 }
@@ -155,14 +154,30 @@ void Map::deselectTile() {
 void Map::updateHighlighting(
 	sf::Vector2f worldMousePosition
 ) {
-	Tile* hoveredTile = getTile(worldMousePosition);
-	if (m_hoveredTile != hoveredTile) {
-		if (NULL != m_hoveredTile) {
-			m_hoveredTile->unhighlight();
+	for (int i = 0; i < m_rows; i++) {
+		for (int j = 0; j < m_cols; j++) {
+			getTile(i,j)->unhighlight();
 		}
-		m_hoveredTile = hoveredTile;
-		if (NULL != m_hoveredTile) {
-			m_hoveredTile->highlight();
+	}
+
+	sf::Vector2i mouseCoors = positionToCoordinates(worldMousePosition);
+	if ((-1 < mouseCoors.x)&&(mouseCoors.x < m_rows)&&(-1 < mouseCoors.y)&&(mouseCoors.y < m_cols)) {
+		Tile* hoveredTile = getTile(mouseCoors);
+		int radius = 0;
+		if (hoveredTile == m_selectedTile) {
+			if (NULL != m_selectedUnit) {
+				radius = m_selectedUnit->getRemainingMoves();
+			}
+		} else {
+			radius = 0;
+		}
+
+		for (int i = mouseCoors.x - radius; i < mouseCoors.x + radius + 1; i++) {
+			for (int j = mouseCoors.y - radius; j < mouseCoors.y + radius + 1; j++) {
+				if ((-1 < i)&&(i < m_rows)&&(-1 < j)&&(j < m_cols)) {
+					getTile(i,j)->highlight();
+				}
+			}
 		}
 	}
 }

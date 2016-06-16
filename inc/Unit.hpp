@@ -22,9 +22,15 @@ public:
 		sf::RenderStates states
 	) const;
 
+	int getRemainingMoves() {
+		return m_remainingMoves;
+	}
+
 private:
 	Type m_type;
 	sf::RectangleShape m_sprite;
+
+	int m_remainingMoves;
 };
 
 #endif /* UNIT_H */
