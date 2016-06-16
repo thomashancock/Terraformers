@@ -27,45 +27,36 @@ Map::Map(
 	}
 	setupMap();
 	STD_LOG("Finished Creating Map");
+
+	m_selectedTile = NULL;
+	m_selectedUnit = NULL;
 }
 
 Tile* Map::getTile(
 	int xCoor,
 	int yCoor
-) {
+	) {
+	ASSERT(-1 < xCoor);
+	ASSERT(-1 < yCoor);
 	ASSERT(xCoor < m_rows);
 	ASSERT(yCoor < m_cols);
 	return 	m_tileMap.at(xCoor).at(yCoor);
 }
 
-Tile* Map::getTileAtPosition(
+Tile* Map::getTile(
+	sf::Vector2i coors
+	) {
+	return getTile(coors.x,coors.y);
+}
+
+Tile* Map::getTile(
 	sf::Vector2f position
-) {
-	// Determine the coordinates by applying the opposite procedure to calculating the positions
-	double xTmp = position.x - 40.0;
-	double yTmp = position.y - 40.0;
-
-	yTmp /= 31.0;
-
-	double fMod2 = fmod(yTmp,2.0);
-	if ((-0.5 < fMod2)&&(fMod2 < 0.5)) {
-		xTmp -= 30;
-	}
-
-	xTmp /= 60;
-
-	int xCoor = (int) std::round(xTmp);
-	int yCoor = (int) std::round(yTmp);
+	) {
+	sf::Vector2i coors = positionToCoordinates(position);
 
 	// Ensure Tile coordinates are valid
-	if ((-1 < xCoor)&&(xCoor < m_rows)&&(-1 < yCoor)&&(yCoor < m_cols)) {
-		// Correct for bug where tile right of correct tile is selected
-		sf::Vector2f tilePos = getTile(xCoor,yCoor)->getPosition();
-		if ((position.x < tilePos.x - 31)&&(0 < xCoor)) {
-			xCoor -= 1;
-		}
-
-		return getTile(xCoor,yCoor);
+	if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < m_cols)) {
+		return getTile(coors);
 	} else {
 		return NULL;
 	}
@@ -75,7 +66,7 @@ bool Map::placeUnit(
 	Unit* unit,
 	int xCoor,
 	int yCoor
-) {
+	) {
 	ASSERT(xCoor > -1);
 	ASSERT(yCoor > -1);
 	ASSERT(xCoor < m_rows);
@@ -89,6 +80,30 @@ bool Map::placeUnit(
 		return true;
 	} else {
 		return false;
+	}
+}
+
+bool Map::placeUnit(
+	Unit* unit,
+	sf::Vector2i coors
+	) {
+	return placeUnit(unit,coors.x,coors.y);
+}
+
+void Map::selectTile(
+	int xCoor,
+	int yCoor
+	) {
+	if (NULL != m_selectedTile) {
+		m_selectedTile->deselect();
+	}
+	m_selectedTile = getTile(xCoor,yCoor);
+	ASSERT(NULL != m_selectedTile);
+	m_selectedTile->select();
+
+	// Select associated unit if exists
+	if (NULL != m_selectedTile->getUnit()) {
+		m_selectedUnit = m_selectedTile->getUnit();
 	}
 }
 
@@ -117,6 +132,35 @@ sf::Vector2f Map::setTilePosition(
 	position.y += 40;
 
 	return position;
+}
+
+sf::Vector2i Map::positionToCoordinates(
+	sf::Vector2f position
+	) {
+	// Determine the coordinates by applying the opposite procedure to calculating the positions
+	double xTmp = position.x - 40.0;
+	double yTmp = position.y - 40.0;
+
+	yTmp /= 31.0;
+
+	double fMod2 = fmod(yTmp,2.0);
+	if ((-0.5 < fMod2)&&(fMod2 < 0.5)) {
+		xTmp -= 30;
+	}
+
+	xTmp /= 60;
+
+	sf::Vector2i coors;
+	coors.x = (int) std::round(xTmp);
+	coors.y = (int) std::round(yTmp);
+
+	// Correct for bug where tile right of correct tile is selected
+	sf::Vector2f tilePos = getTile(coors)->getPosition();
+	if ((position.x < tilePos.x - 31)&&(0 < coors.x)) {
+		coors.x -= 1;
+	}
+
+	return coors;
 }
 
 void Map::setupMap() {

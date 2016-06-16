@@ -89,6 +89,11 @@ void Tile::detatchUnit() {
 	m_placedUnit = NULL;
 }
 
+Unit* Tile::getUnit() {
+	ASSERT(NULL != m_placedUnit);
+	return m_placedUnit;
+}
+
 void Tile::resetColor() {
 	if (Type::Border == m_type) {
 		m_sprite.setFillColor(sf::Color::Black);

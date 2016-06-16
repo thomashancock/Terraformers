@@ -25,12 +25,24 @@ public:
 		int xCoor,
 		int yCoor
 	);
-	Tile* getTileAtPosition(
+	Tile* getTile(
+		sf::Vector2i coors
+	);
+	Tile* getTile(
 		sf::Vector2f position
 	);
 
 	bool placeUnit(
 		Unit* unit,
+		int xCoor,
+		int yCoor
+	);
+	bool placeUnit(
+		Unit* unit,
+		sf::Vector2i coors
+	);
+
+	void selectTile(
 		int xCoor,
 		int yCoor
 	);
@@ -40,14 +52,22 @@ private:
 		int xCoor,
 		int yCoor
 	);
+	
+	sf::Vector2i positionToCoordinates(
+		sf::Vector2f position
+	);
 
 	void setupMap();
 
 private:
-	// Member variables here
+	// Map variables
 	int m_rows;
 	int m_cols;
 	std::vector< std::vector< Tile* > > m_tileMap;
+
+	// Selected object pointers
+	Tile* m_selectedTile;
+	Unit* m_selectedUnit;
 };
 
 #endif /* MAP_H */

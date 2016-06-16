@@ -62,8 +62,8 @@ private:
 
 	Tile* m_hoveredTile;
 	Tile* m_selectedTile;
+	Unit* m_selectedUnit;
 	Map* m_map;
-	// Unit* m_testUnit;
 };
 
 #endif /* WORLD_H */

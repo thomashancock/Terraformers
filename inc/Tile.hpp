@@ -41,6 +41,7 @@ public:
 		Unit* unit
 	);
 	void detatchUnit();
+	Unit* getUnit();
 
 private:
 	void resetColor();
