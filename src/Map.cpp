@@ -4,7 +4,7 @@
 Map::Map(
 	int rows,
 	int cols
-	) {
+) {
 	m_rows = rows;
 	m_cols = cols;
 
@@ -35,7 +35,7 @@ Map::Map(
 Tile* Map::getTile(
 	int xCoor,
 	int yCoor
-	) {
+) {
 	ASSERT(-1 < xCoor);
 	ASSERT(-1 < yCoor);
 	ASSERT(xCoor < m_rows);
@@ -45,13 +45,17 @@ Tile* Map::getTile(
 
 Tile* Map::getTile(
 	sf::Vector2i coors
-	) {
+) {
+	ASSERT(-1 < coors.x);
+	ASSERT(-1 < coors.y);
+	ASSERT(coors.x < m_rows);
+	ASSERT(coors.y < m_cols);
 	return getTile(coors.x,coors.y);
 }
 
 Tile* Map::getTile(
 	sf::Vector2f position
-	) {
+) {
 	sf::Vector2i coors = positionToCoordinates(position);
 
 	// Ensure Tile coordinates are valid
@@ -66,7 +70,7 @@ bool Map::placeUnit(
 	Unit* unit,
 	int xCoor,
 	int yCoor
-	) {
+) {
 	ASSERT(xCoor > -1);
 	ASSERT(yCoor > -1);
 	ASSERT(xCoor < m_rows);
@@ -86,14 +90,24 @@ bool Map::placeUnit(
 bool Map::placeUnit(
 	Unit* unit,
 	sf::Vector2i coors
-	) {
+) {
+	ASSERT(coors.x > -1);
+	ASSERT(coors.y > -1);
+	ASSERT(coors.x < m_rows);
+	ASSERT(coors.y < m_cols);
+	ASSERT(NULL != unit);
+
 	return placeUnit(unit,coors.x,coors.y);
 }
 
-void Map::selectTile(
+void Map::selectTile (
 	int xCoor,
 	int yCoor
-	) {
+) {
+	ASSERT(xCoor > -1);
+	ASSERT(yCoor > -1);
+	ASSERT(xCoor < m_rows);
+	ASSERT(yCoor < m_cols);
 	if (NULL != m_selectedTile) {
 		m_selectedTile->deselect();
 	}
@@ -104,6 +118,25 @@ void Map::selectTile(
 	// Select associated unit if exists
 	if (NULL != m_selectedTile->getUnit()) {
 		m_selectedUnit = m_selectedTile->getUnit();
+	}
+}
+
+void Map::selectTile (
+	sf::Vector2i coors
+) {
+	ASSERT(coors.x > -1);
+	ASSERT(coors.y > -1);
+	ASSERT(coors.x < m_rows);
+	ASSERT(coors.y < m_cols);
+	selectTile(coors.x,coors.y);
+}
+
+void Map::selectTile(
+	sf::Vector2f position
+) {
+	sf::Vector2i coors = positionToCoordinates(position);
+	if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < m_cols)) {
+		selectTile(coors);
 	}
 }
 
@@ -155,9 +188,11 @@ sf::Vector2i Map::positionToCoordinates(
 	coors.y = (int) std::round(yTmp);
 
 	// Correct for bug where tile right of correct tile is selected
-	sf::Vector2f tilePos = getTile(coors)->getPosition();
-	if ((position.x < tilePos.x - 31)&&(0 < coors.x)) {
-		coors.x -= 1;
+	if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < m_cols)) {
+		sf::Vector2f tilePos = getTile(coors)->getPosition();
+		if ((position.x < tilePos.x - 31)&&(0 < coors.x)) {
+			coors.x -= 1;
+		}
 	}
 
 	return coors;

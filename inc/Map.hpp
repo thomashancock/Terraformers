@@ -46,13 +46,19 @@ public:
 		int xCoor,
 		int yCoor
 	);
+	void selectTile(
+		sf::Vector2i coors
+	);
+	void selectTile(
+		sf::Vector2f position
+	);
 
 private:
 	sf::Vector2f setTilePosition(
 		int xCoor,
 		int yCoor
 	);
-	
+
 	sf::Vector2i positionToCoordinates(
 		sf::Vector2f position
 	);
