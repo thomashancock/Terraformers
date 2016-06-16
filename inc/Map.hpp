@@ -54,6 +54,10 @@ public:
 	);
 	void deselectTile();
 
+	void updateHighlighting(
+		sf::Vector2f worldMousePosition
+	);
+
 private:
 	sf::Vector2f setTilePosition(
 		int xCoor,
@@ -73,6 +77,7 @@ private:
 	std::vector< std::vector< Tile* > > m_tileMap;
 
 	// Selected object pointers
+	Tile* m_hoveredTile;
 	Tile* m_selectedTile;
 	Unit* m_selectedUnit;
 };

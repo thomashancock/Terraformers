@@ -60,9 +60,6 @@ private:
 	CommandQueue m_commandQueue;
 	sf::Vector2f m_worldMousePos;
 
-	Tile* m_hoveredTile;
-	Tile* m_selectedTile;
-	Unit* m_selectedUnit;
 	Map* m_map;
 };
 

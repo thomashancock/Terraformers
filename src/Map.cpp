@@ -28,6 +28,7 @@ Map::Map(
 	setupMap();
 	STD_LOG("Finished Creating Map");
 
+	m_hoveredTile = NULL;
 	m_selectedTile = NULL;
 	m_selectedUnit = NULL;
 }
@@ -148,6 +149,21 @@ void Map::deselectTile() {
 	if (NULL != m_selectedTile) {
 		m_selectedTile->deselect();
 		m_selectedTile = NULL;
+	}
+}
+
+void Map::updateHighlighting(
+	sf::Vector2f worldMousePosition
+) {
+	Tile* hoveredTile = getTile(worldMousePosition);
+	if (m_hoveredTile != hoveredTile) {
+		if (NULL != m_hoveredTile) {
+			m_hoveredTile->unhighlight();
+		}
+		m_hoveredTile = hoveredTile;
+		if (NULL != m_hoveredTile) {
+			m_hoveredTile->highlight();
+		}
 	}
 }
 

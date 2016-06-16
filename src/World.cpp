@@ -7,9 +7,6 @@ World::World(sf::RenderWindow& window)
 , m_sceneLayers()
 {
 	buildScene();
-	m_hoveredTile = NULL;
-	m_selectedTile = NULL;
-
 }
 
 void World::update(
@@ -17,12 +14,6 @@ void World::update(
 	) {
 	processMousePosition(elapsedTime);
 	processMouseClicks(elapsedTime);
-
-	if (m_hoveredTile == m_selectedTile) {
-		if (NULL != m_selectedUnit) {
-			// m_selectedTile;
-		}
-	}
 
 	// Update the Scene Graph
 	m_sceneGraph.update(elapsedTime);
@@ -73,17 +64,7 @@ void World::processMousePosition(
 
 		// Convert mouse position to world coordinates
 		m_worldMousePos = m_window.mapPixelToCoords(mousePos);
-
-		Tile* hoveredTile = m_map->getTile(m_worldMousePos);
-		if (m_hoveredTile != hoveredTile) {
-			if (NULL != m_hoveredTile) {
-				m_hoveredTile->unhighlight();
-			}
-			m_hoveredTile = hoveredTile;
-			if (NULL != m_hoveredTile) {
-				m_hoveredTile->highlight();
-			}
-		}
+		m_map->updateHighlighting(m_worldMousePos);
 	}
 }
 
