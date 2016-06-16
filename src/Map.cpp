@@ -67,9 +67,18 @@ Tile* Map::getTileAtPos(
 	int xCoor = (int) std::round(xTmp);
 	int yCoor = (int) std::round(yTmp);
 
-	ASSERT(xCoor < m_rows);
-	ASSERT(yCoor < m_cols);
-	return getTile(xCoor,yCoor);
+	// Ensure Tile coordinates are valid
+	if ((-1 < xCoor)&&(xCoor < m_rows)&&(-1 < yCoor)&&(yCoor < m_cols)) {
+		// Correct for bug where tile right of correct tile is selected
+		sf::Vector2f tilePos = getTile(xCoor,yCoor)->getTilePosition();
+		if ((xPos < tilePos.x - 31)&&(0 < xCoor)) {
+			xCoor -= 1;
+		}
+
+		return getTile(xCoor,yCoor);
+	} else {
+		return NULL;
+	}
 }
 
 // Private:

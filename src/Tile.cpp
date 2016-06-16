@@ -3,8 +3,8 @@
 // Public:
 Tile::Tile(
 	Type type,
-	int xCoor,
-	int yCoor
+	int xPos,
+	int yPos
 	) :
 	m_type(type)
 	{
@@ -25,7 +25,7 @@ Tile::Tile(
 	m_sprite.setOrigin(0, 0);
 
 	// Set Tile position to the passed coordinates
-	this->setPosition(xCoor,yCoor);
+	this->setPosition(xPos,yPos);
 
 	isSelected = false;
 }
@@ -45,13 +45,19 @@ void Tile::setType(
 }
 
 void Tile::select() {
-	isSelected = true;
+	if (Type::Border != m_type) {
+		isSelected = true;
+	}
 	resetColor();
 }
 
 void Tile::deselect() {
 	isSelected = false;
 	resetColor();
+}
+
+sf::Vector2f Tile::getTilePosition() {
+	return this->getPosition();
 }
 
 // Private:
@@ -78,16 +84,4 @@ void Tile::resetColor() {
 		m_sprite.setOutlineThickness(0);
 		m_sprite.setOutlineColor(sf::Color::Transparent);
 	}
-}
-
-bool Tile::isMouseOnTile() {
-	// sf::Vector2i mousePosition = sf::Mouse::getPosition();
-	// sf::FloatRect bounds = m_sprite.getLocalBounds();
-	//
-	// if (bounds.contains(mousePosition)) {
-	// 	return true;
-	// } else {
-	// 	return false;
-	// }
-	return false;
 }

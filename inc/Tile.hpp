@@ -18,8 +18,8 @@ public:
 public:
 	explicit Tile(
 		Type type,
-		int xCoor,
-		int yCoor
+		int xPos,
+		int yPos
 	);
 
 	virtual void drawCurrent(
@@ -34,11 +34,12 @@ public:
 	void select();
 	void deselect();
 
+	sf::Vector2f getTilePosition();
+
 private:
 	virtual unsigned int getCategory() const;
 
 	void resetColor();
-	bool isMouseOnTile();
 
 private:
 	Type m_type;
