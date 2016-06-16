@@ -29,6 +29,8 @@ Tile::Tile(
 
 	m_isHighlighted = false;
 	m_isSelected = false;
+
+	m_placedUnit = NULL;
 }
 
 void Tile::drawCurrent(
@@ -71,8 +73,20 @@ void Tile::deselect() {
 	resetColor();
 }
 
-sf::Vector2f Tile::getTilePosition() {
-	return this->getPosition();
+bool Tile::attachUnit(
+	Unit* unit
+) {
+	if (NULL == m_placedUnit) {
+		m_placedUnit = unit;
+		return true;
+	} else {
+		STD_LOG(__FILE__ << ": attachUnit: Failed to attach unit. m_placedUnit is not NULL");
+		return false;
+	}
+}
+
+void Tile::detatchUnit() {
+	m_placedUnit = NULL;
 }
 
 void Tile::resetColor() {

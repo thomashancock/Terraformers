@@ -44,6 +44,8 @@ private:
 		sf::Time elapsedTime
 	);
 
+	// void newUnit();
+
 private:
 	enum Layer {
 		Background,
@@ -61,7 +63,7 @@ private:
 	Tile* m_hoveredTile;
 	Tile* m_selectedTile;
 	Map* m_map;
-	Unit* m_testUnit;
+	// Unit* m_testUnit;
 };
 
 #endif /* WORLD_H */

@@ -29,15 +29,6 @@ Map::Map(
 	STD_LOG("Finished Creating Map");
 }
 
-sf::Vector2f Map::coorsToPosition(
-	int xCoor,
-	int yCoor
-	) {
-	ASSERT(xCoor < m_rows);
-	ASSERT(yCoor < m_cols);
-	return getTile(xCoor,yCoor)->getPosition();
-}
-
 Tile* Map::getTile(
 	int xCoor,
 	int yCoor
@@ -69,7 +60,7 @@ Tile* Map::getTileAtPosition(
 	// Ensure Tile coordinates are valid
 	if ((-1 < xCoor)&&(xCoor < m_rows)&&(-1 < yCoor)&&(yCoor < m_cols)) {
 		// Correct for bug where tile right of correct tile is selected
-		sf::Vector2f tilePos = getTile(xCoor,yCoor)->getTilePosition();
+		sf::Vector2f tilePos = getTile(xCoor,yCoor)->getPosition();
 		if ((position.x < tilePos.x - 31)&&(0 < xCoor)) {
 			xCoor -= 1;
 		}
@@ -77,6 +68,27 @@ Tile* Map::getTileAtPosition(
 		return getTile(xCoor,yCoor);
 	} else {
 		return NULL;
+	}
+}
+
+bool Map::placeUnit(
+	Unit* unit,
+	int xCoor,
+	int yCoor
+) {
+	ASSERT(xCoor > -1);
+	ASSERT(yCoor > -1);
+	ASSERT(xCoor < m_rows);
+	ASSERT(yCoor < m_cols);
+	ASSERT(NULL != unit);
+
+	bool unitPlaced = getTile(xCoor,yCoor)->attachUnit(unit);
+	if (true == unitPlaced) {
+		sf::Vector2f unitPos = getTile(xCoor,yCoor)->getPosition();
+		unit->setPosition(unitPos);
+		return true;
+	} else {
+		return false;
 	}
 }
 

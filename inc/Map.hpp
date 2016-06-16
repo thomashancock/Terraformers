@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "./SceneNode.hpp"
 #include "./Tile.hpp"
+#include "./Unit.hpp"
 
 #include <iostream>
 #include <vector>
@@ -20,17 +21,18 @@ public:
 		int cols
 	);
 
-	sf::Vector2f coorsToPosition(
-		int xCoor,
-		int yCoor
-	);
-
 	Tile* getTile(
 		int xCoor,
 		int yCoor
 	);
 	Tile* getTileAtPosition(
 		sf::Vector2f position
+	);
+
+	bool placeUnit(
+		Unit* unit,
+		int xCoor,
+		int yCoor
 	);
 
 private:

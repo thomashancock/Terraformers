@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "./SceneNode.hpp"
+#include "./Unit.hpp"
 
 class Tile :
 public SceneNode
@@ -36,7 +37,10 @@ public:
 	void select();
 	void deselect();
 
-	sf::Vector2f getTilePosition();
+	bool attachUnit(
+		Unit* unit
+	);
+	void detatchUnit();
 
 private:
 	void resetColor();
@@ -46,6 +50,8 @@ private:
 	sf::ConvexShape m_sprite;
 	bool m_isHighlighted;
 	bool m_isSelected;
+
+	Unit* m_placedUnit;
 };
 
 #endif /* TILE_H */

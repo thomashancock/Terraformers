@@ -46,9 +46,7 @@ void World::buildScene() {
 
 	// Draw Unit
 	std::unique_ptr<Unit> testUnit(new Unit(Unit::Basic));
-	m_testUnit = testUnit.get();
-	sf::Vector2f testUnitPos = m_map->coorsToPosition(5,3);
-	m_testUnit->setPosition(testUnitPos.x,testUnitPos.y);
+	m_map->placeUnit(testUnit.get(),5,3);
 	m_sceneLayers[Front]->attachChild(std::move(testUnit));
 }
 
