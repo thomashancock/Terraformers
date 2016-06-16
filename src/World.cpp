@@ -72,14 +72,14 @@ void World::processMousePosition(
 		// Convert mouse position to world coordinates
 		m_worldMousePos = m_window.mapPixelToCoords(mousePos);
 
-		Tile* hoveredTile = m_map->getTileAtPos(m_worldMousePos.x,m_worldMousePos.y);
+		Tile* hoveredTile = m_map->getTileAtPosition(m_worldMousePos);
 		if (m_activeTile != hoveredTile) {
 			if (NULL != m_activeTile) {
-				m_activeTile->deselect();
+				m_activeTile->unhighlight();
 			}
 			m_activeTile = hoveredTile;
 			if (NULL != m_activeTile) {
-				m_activeTile->select();
+				m_activeTile->highlight();
 			}
 		}
 	}

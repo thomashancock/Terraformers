@@ -27,7 +27,8 @@ Tile::Tile(
 	// Set Tile position to the passed coordinates
 	this->setPosition(xPos,yPos);
 
-	isSelected = false;
+	m_isHighlighted = false;
+	m_isSelected = false;
 }
 
 void Tile::drawCurrent(
@@ -44,15 +45,29 @@ void Tile::setType(
 	resetColor();
 }
 
+void Tile::highlight() {
+	if (Type::Border != m_type) {
+		if (false == m_isSelected) {
+			m_isHighlighted = true;
+		}
+	}
+	resetColor();
+}
+
+void Tile::unhighlight() {
+	m_isHighlighted = false;
+	resetColor();
+}
+
 void Tile::select() {
 	if (Type::Border != m_type) {
-		isSelected = true;
+		m_isSelected = true;
 	}
 	resetColor();
 }
 
 void Tile::deselect() {
-	isSelected = false;
+	m_isSelected = false;
 	resetColor();
 }
 
@@ -77,11 +92,14 @@ void Tile::resetColor() {
 		m_sprite.setFillColor(gray);
 	}
 
-	if (true == isSelected) {
+	if (true == m_isSelected) {
+		m_sprite.setOutlineThickness(2);
+		m_sprite.setOutlineColor(sf::Color::Blue);
+	} else if (true == m_isHighlighted) {
 		m_sprite.setOutlineThickness(2);
 		m_sprite.setOutlineColor(sf::Color::Yellow);
 	} else {
 		m_sprite.setOutlineThickness(0);
-		m_sprite.setOutlineColor(sf::Color::Transparent);
+		m_sprite.setOutlineColor(sf::Color::Blue);
 	}
 }

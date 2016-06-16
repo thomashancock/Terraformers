@@ -29,9 +29,8 @@ public:
 		int xCoor,
 		int yCoor
 	);
-	Tile* getTileAtPos(
-		int xPos,
-		int yPos
+	Tile* getTileAtPosition(
+		sf::Vector2f position
 	);
 
 private:

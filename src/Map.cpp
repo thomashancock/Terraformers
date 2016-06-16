@@ -47,13 +47,12 @@ Tile* Map::getTile(
 	return 	m_tileMap.at(xCoor).at(yCoor);
 }
 
-Tile* Map::getTileAtPos(
-	int xPos,
-	int yPos
+Tile* Map::getTileAtPosition(
+	sf::Vector2f position
 ) {
 	// Determine the coordinates by applying the opposite procedure to calculating the positions
-	double xTmp = xPos - 40.0;
-	double yTmp = yPos - 40.0;
+	double xTmp = position.x - 40.0;
+	double yTmp = position.y - 40.0;
 
 	yTmp /= 31.0;
 
@@ -71,7 +70,7 @@ Tile* Map::getTileAtPos(
 	if ((-1 < xCoor)&&(xCoor < m_rows)&&(-1 < yCoor)&&(yCoor < m_cols)) {
 		// Correct for bug where tile right of correct tile is selected
 		sf::Vector2f tilePos = getTile(xCoor,yCoor)->getTilePosition();
-		if ((xPos < tilePos.x - 31)&&(0 < xCoor)) {
+		if ((position.x < tilePos.x - 31)&&(0 < xCoor)) {
 			xCoor -= 1;
 		}
 

@@ -31,6 +31,8 @@ public:
 		Type type
 	);
 
+	void highlight();
+	void unhighlight();
 	void select();
 	void deselect();
 
@@ -44,7 +46,8 @@ private:
 private:
 	Type m_type;
 	sf::ConvexShape m_sprite;
-	bool isSelected;
+	bool m_isHighlighted;
+	bool m_isSelected;
 };
 
 #endif /* TILE_H */
