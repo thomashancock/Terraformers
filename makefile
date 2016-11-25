@@ -1,8 +1,13 @@
 CC = g++
 CFLAGS = -Wall -std=c++11
 
-SFMLINCLUDE = -I/home/thomas/SFML-2.2/include
-SFMLLIB = -L/home/thomas/SFML-2.2/lib -lsfml-graphics -lsfml-window -lsfml-system
+# Linux Library Linking
+# SFMLINCLUDE = -I/Users/hancock/Downloads/SFML/SFML-2.4.1-osx-clang/include
+# SFMLLIB = -L/Users/hancock/Downloads/SFML/SFML-2.4.1-osx-clang/lib -lsfml-graphics -lsfml-window -lsfml-system
+
+# OSX Library Linking
+SFMLINCLUDE = -F /Library/Frameworks
+SFMLLIB = -framework sfml-window -framework sfml-graphics -framework sfml-system
 
 ODIR = obj
 SDIR = src
