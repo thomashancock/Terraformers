@@ -1,7 +1,10 @@
 #include "ResourceHolder.hpp"
 
-/* Public Member Functions */
-
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// Public:
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 template <typename Resource, typename Identifier>
 Resource& ResourceHolder<Resource, Identifier>::get(
 	Identifier id
@@ -11,7 +14,9 @@ Resource& ResourceHolder<Resource, Identifier>::get(
 
 	return *found->second;
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 template <typename Resource, typename Identifier>
 const Resource& ResourceHolder<Resource, Identifier>::get(
 	Identifier id
@@ -21,7 +26,9 @@ const Resource& ResourceHolder<Resource, Identifier>::get(
 
 	return *found->second;
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 template <typename Resource, typename Identifier>
 template <typename Parameter>
 void ResourceHolder<Resource, Identifier>::load(
@@ -38,4 +45,8 @@ void ResourceHolder<Resource, Identifier>::load(
 	ASSERT(inserted.second);
 }
 
-/* Private Member Functions */
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// Private:
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------

@@ -1,6 +1,10 @@
 #include "Map.hpp"
 
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Public:
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 Map::Map(
 	int rows,
 	int cols
@@ -31,7 +35,9 @@ Map::Map(
 	m_selectedTile = NULL;
 	m_selectedUnit = NULL;
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 Tile* Map::getTile(
 	int xCoor,
 	int yCoor
@@ -42,7 +48,9 @@ Tile* Map::getTile(
 	ASSERT(yCoor < m_cols);
 	return 	m_tileMap.at(xCoor).at(yCoor);
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 Tile* Map::getTile(
 	sf::Vector2i coors
 ) {
@@ -52,7 +60,9 @@ Tile* Map::getTile(
 	ASSERT(coors.y < m_cols);
 	return getTile(coors.x,coors.y);
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 Tile* Map::getTile(
 	sf::Vector2f position
 ) {
@@ -65,7 +75,9 @@ Tile* Map::getTile(
 		return NULL;
 	}
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 bool Map::placeUnit(
 	Unit* unit,
 	int xCoor,
@@ -86,7 +98,9 @@ bool Map::placeUnit(
 		return false;
 	}
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 bool Map::placeUnit(
 	Unit* unit,
 	sf::Vector2i coors
@@ -99,7 +113,9 @@ bool Map::placeUnit(
 
 	return placeUnit(unit,coors.x,coors.y);
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Map::selectTile (
 	int xCoor,
 	int yCoor
@@ -111,6 +127,9 @@ void Map::selectTile (
 	if (NULL != m_selectedTile) {
 		m_selectedTile->deselect();
 	}
+	if (NULL != m_selectedUnit) {
+		m_selectedUnit = NULL;
+	}
 	m_selectedTile = getTile(xCoor,yCoor);
 	ASSERT(NULL != m_selectedTile);
 	m_selectedTile->select();
@@ -120,7 +139,9 @@ void Map::selectTile (
 		m_selectedUnit = m_selectedTile->getUnit();
 	}
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Map::selectTile (
 	sf::Vector2i coors
 ) {
@@ -130,7 +151,9 @@ void Map::selectTile (
 	ASSERT(coors.y < m_cols);
 	selectTile(coors.x,coors.y);
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Map::selectTile(
 	sf::Vector2f position
 ) {
@@ -139,7 +162,9 @@ void Map::selectTile(
 		selectTile(coors);
 	}
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Map::deselectTile() {
 	if (NULL != m_selectedUnit) {
 		m_selectedUnit = NULL;
@@ -150,16 +175,20 @@ void Map::deselectTile() {
 		m_selectedTile = NULL;
 	}
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Map::updateHighlighting(
 	sf::Vector2f worldMousePosition
 ) {
+	// Unhighlight all tiles
 	for (int i = 0; i < m_rows; i++) {
 		for (int j = 0; j < m_cols; j++) {
 			getTile(i,j)->unhighlight();
 		}
 	}
 
+	// Highlight tiles according to mouse positions
 	sf::Vector2i mouseCoors = positionToCoordinates(worldMousePosition);
 	if ((-1 < mouseCoors.x)&&(mouseCoors.x < m_rows)&&(-1 < mouseCoors.y)&&(mouseCoors.y < m_cols)) {
 		Tile* hoveredTile = getTile(mouseCoors);
@@ -182,7 +211,11 @@ void Map::updateHighlighting(
 	}
 }
 
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 // Private:
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 sf::Vector2f Map::setTilePosition(
 	int xCoor,
 	int yCoor
@@ -208,7 +241,9 @@ sf::Vector2f Map::setTilePosition(
 
 	return position;
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 sf::Vector2i Map::positionToCoordinates(
 	sf::Vector2f position
 	) {
@@ -239,7 +274,9 @@ sf::Vector2i Map::positionToCoordinates(
 
 	return coors;
 }
-
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
 void Map::setupMap() {
 	STD_LOG("Populating Map");
 	for (int i = 0; i < m_rows; i++) {

@@ -42,6 +42,7 @@ public:
 	);
 	void detatchUnit();
 	Unit* getUnit();
+	bool hasPlacedUnit();
 
 private:
 	void resetColor();
