@@ -201,7 +201,15 @@ void Map::updateHighlighting(
 			radius = 0;
 		}
 
-		for (int i = mouseCoors.x - radius; i < mouseCoors.x + radius + 1; i++) {
+
+		// for (int i = mouseCoors.x - radius; i < mouseCoors.x + radius + 1; i++) {
+		// 	getTile(i,mouseCoors.y)->highlight();
+		// }
+		//
+		// for (int j = mouseCoors.y - radius; j < mouseCoors.y + radius + 1; j++) {
+		// 	getTile(mouseCoors.x,j)->highlight();
+		// }
+		for (int i = mouseCoors.x - radius + 1; i < mouseCoors.x + radius; i++) {
 			for (int j = mouseCoors.y - radius; j < mouseCoors.y + radius + 1; j++) {
 				if ((-1 < i)&&(i < m_rows)&&(-1 < j)&&(j < m_cols)) {
 					getTile(i,j)->highlight();

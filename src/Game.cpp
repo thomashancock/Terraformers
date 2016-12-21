@@ -46,6 +46,7 @@ void Game::processInputs() {
 		if ((sf::Event::KeyPressed == event.type)&&
 			(sf::Keyboard::C == event.key.code)&&
 			(true == event.key.control)) {
+			STD_LOG("Game closed with Ctrl+C");
 			m_window.close();
 		}
 
