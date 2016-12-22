@@ -119,19 +119,20 @@ void World::updateViewPosition(
 	sf::Vector2u windowSize = m_window.getSize();
 
 	sf::Vector2i scrollSpeed(0,0);
+	const int speed = 200;
 
 	// Set y scroll speed based on mouse position
 	if (mousePos.y < (windowSize.y/10.0)) {
-		scrollSpeed.y = -100;
+		scrollSpeed.y = -1*speed;
 	} else if (mousePos.y > (windowSize.y - (windowSize.y/10.0))) {
-		scrollSpeed.y = 100;
+		scrollSpeed.y = speed;
 	}
 
 	// Set x scroll speed based on mouse position
 	if (mousePos.x < (windowSize.x/10.0)) {
-		scrollSpeed.x = -100;
+		scrollSpeed.x = -1*speed;
 	} else if (mousePos.x > (windowSize.x - (windowSize.x/10.0))) {
-		scrollSpeed.x = 100;
+		scrollSpeed.x = speed;
 	}
 
 	// Update view using scroll speeds determined
