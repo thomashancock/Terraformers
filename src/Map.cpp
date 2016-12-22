@@ -90,11 +90,11 @@ void Map::updateHighlighting(
 	sf::Vector2f worldMousePosition
 ) {
 	// Unhighlight all tiles
-	for (int i = 0; i < m_grid->getRows(); i++) {
-		for (int j = 0; j < m_grid->getCols(i); j++) {
+	// for (int i = 0; i < m_grid->getRows(); i++) {
+	// 	for (int j = 0; j < m_grid->getCols(i); j++) {
 			// m_grid->getTile(i,j)->unhighlight();
-		}
-	}
+		// }
+	// }
 
 	// Highlight tiles according to mouse positions
 	Tile* hoveredTile = m_grid->getTile(worldMousePosition);
@@ -126,10 +126,10 @@ void Map::updateHighlighting(
 // -----------------------------------------------------------------------------
 void Map::setupMap() {
 	STD_LOG("Populating Map");
-	for (int i = 0; i < m_grid->getRows(); i++) {
+	// for (int i = 0; i < m_grid->getRows(); i++) {
 		// m_grid->getTile(i,0)->setType(Tile::Border);
 		// m_grid->getTile(i,m_grid->getCols(i)-1)->setType(Tile::Border);
-	}
+	// }
 	// for (int j = 1; j < m_cols-1; j++) {
 	// 	getTile(0,j)->setType(Tile::Border);
 	// 	getTile(m_rows-1,j)->setType(Tile::Border);

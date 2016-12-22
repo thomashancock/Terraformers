@@ -18,7 +18,6 @@ m_mapSize(mapSize)
 		std::vector<Tile*> mapRow;
 
 		int numCols = getGridColLength(i);
-		STD_LOG(i << ", " << numCols);
 		ASSERT(numCols > 0);
 		for (int j = 0; j < numCols; j++) {
 			sf::Vector2f position = setTilePosition(i,j);
@@ -35,20 +34,6 @@ m_mapSize(mapSize)
 		m_tileMap.push_back(mapRow);
 	}
 	STD_LOG("Finished Creating Map");
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-int HexGrid::getRows() {
-	return m_rows;
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-int HexGrid::getCols(
-	int row
-) {
-	return getGridColLength(row);
 }
 // -----------------------------------------------------------------------------
 //
@@ -75,10 +60,6 @@ Tile* HexGrid::getTile(
 Tile* HexGrid::getTile(
 	sf::Vector2i coors
 ) {
-	// ASSERT(-1 < coors.x);
-	// ASSERT(-1 < coors.y);
-	// ASSERT(coors.x < m_rows);
-	// ASSERT(coors.y < getGridColLength(coors.x));
 	return getTile(coors.x,coors.y);
 }
 // -----------------------------------------------------------------------------
@@ -159,7 +140,6 @@ sf::Vector2i HexGrid::positionToVectorIndicies(
 		coors.y -= (coors.x - m_mapSize + 1);
 	}
 
-	STD_LOG(coors.x << ", " << coors.y);
 	return coors;
 }
 // -----------------------------------------------------------------------------

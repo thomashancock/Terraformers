@@ -17,11 +17,6 @@ public:
 		int mapSize
 	);
 
-	int getRows();
-	int getCols(
-		int row
-	);
-
 	Tile* getTile(
 		int xCoor,
 		int yCoor
