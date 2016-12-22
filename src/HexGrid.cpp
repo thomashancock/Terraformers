@@ -57,11 +57,17 @@ Tile* HexGrid::getTile(
 	int xCoor,
 	int yCoor
 ) {
+	// Shift from Map Coordinate system to Vector Storage Indicies
+	int yTmp = yCoor;
+	if (xCoor >= m_mapSize) {
+		yTmp -= (xCoor - m_mapSize + 1);
+	}
+
 	ASSERT(-1 < xCoor);
-	ASSERT(-1 < yCoor);
+	ASSERT(-1 < yTmp);
 	ASSERT(xCoor < m_rows);
-	ASSERT(yCoor < getGridColLength(xCoor));
-	return 	m_tileMap.at(xCoor).at(yCoor);
+	ASSERT(yTmp < getGridColLength(xCoor));
+	return m_tileMap.at(xCoor).at(yTmp);
 }
 // -----------------------------------------------------------------------------
 //
@@ -69,10 +75,10 @@ Tile* HexGrid::getTile(
 Tile* HexGrid::getTile(
 	sf::Vector2i coors
 ) {
-	ASSERT(-1 < coors.x);
-	ASSERT(-1 < coors.y);
-	ASSERT(coors.x < m_rows);
-	ASSERT(coors.y < getGridColLength(coors.x));
+	// ASSERT(-1 < coors.x);
+	// ASSERT(-1 < coors.y);
+	// ASSERT(coors.x < m_rows);
+	// ASSERT(coors.y < getGridColLength(coors.x));
 	return getTile(coors.x,coors.y);
 }
 // -----------------------------------------------------------------------------
@@ -85,7 +91,7 @@ Tile* HexGrid::getTile(
 
 	// Ensure Tile coordinates are valid
 	if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < getGridColLength(coors.x))) {
-		return getTile(coors);
+		return m_tileMap.at(coors.x).at(coors.y);
 	} else {
 		return NULL;
 	}
