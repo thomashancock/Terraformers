@@ -7,35 +7,40 @@
 // -----------------------------------------------------------------------------
 Map::Map(
 	int mapSize
-) :
-m_mapSize(mapSize)
-{
-	m_rows = (2*m_mapSize) - 1;
+) {
+	std::unique_ptr<HexGrid> hexGrid(new HexGrid(mapSize));
+	// Copy the unique pointer to a regular pointer
+	m_grid = hexGrid.get();
+	// Attach unique pointer as sceneNode child
+	this->attachChild(std::move(hexGrid));
 
-	STD_LOG("Creating Map");
-	m_rows = (2*m_mapSize) - 1;
-	for (int i = 0; i < m_rows; i++) {
-		std::vector<Tile*> mapRow;
+	// m_rows = (2*m_mapSize) - 1;
+	//
+	// STD_LOG("Creating Map");
+	// m_rows = (2*m_mapSize) - 1;
+	// for (int i = 0; i < m_rows; i++) {
+	// 	std::vector<Tile*> mapRow;
+	//
+	// 	int numCols = getMapColLength(i);
+	// 	STD_LOG(i << ", " << numCols);
+	// 	ASSERT(numCols > 0);
+	// 	for (int j = 0; j < numCols; j++) {
+	// 		sf::Vector2f position = setTilePosition(i,j);
+	// 		// Create unique pointer to the tile
+	// 		std::unique_ptr<Tile> tile(new Tile(Tile::Basic,position.x,position.y));
+	// 		// Copy the unique pointer to a regular pointer
+	// 		Tile* tilePtr = tile.get();
+	// 		// Attach unique pointer as sceneNode child
+	// 		this->attachChild(std::move(tile));
+	// 		// Store regular pointer in tile array vector
+	// 		mapRow.push_back(tilePtr);
+	// 	}
+	// 	// Store row vector in vector of vectors
+	// 	m_tileMap.push_back(mapRow);
+	// }
+	// STD_LOG("Finished Creating Map");
 
-		int numCols = getMapColLength(i);
-		STD_LOG(i << ", " << numCols);
-		ASSERT(numCols > 0);
-		for (int j = 0; j < numCols; j++) {
-			sf::Vector2f position = setTilePosition(i,j);
-			// Create unique pointer to the tile
-			std::unique_ptr<Tile> tile(new Tile(Tile::Basic,position.x,position.y));
-			// Copy the unique pointer to a regular pointer
-			Tile* tilePtr = tile.get();
-			// Attach unique pointer as sceneNode child
-			this->attachChild(std::move(tile));
-			// Store regular pointer in tile array vector
-			mapRow.push_back(tilePtr);
-		}
-		// Store row vector in vector of vectors
-		m_tileMap.push_back(mapRow);
-	}
-	STD_LOG("Finished Creating Map");
-	setupMap();
+	// setupMap();
 
 	m_selectedTile = NULL;
 	m_selectedUnit = NULL;
@@ -47,11 +52,11 @@ Tile* Map::getTile(
 	int xCoor,
 	int yCoor
 ) {
-	ASSERT(-1 < xCoor);
-	ASSERT(-1 < yCoor);
-	ASSERT(xCoor < m_rows);
-	ASSERT(yCoor < getMapColLength(xCoor));
-	return 	m_tileMap.at(xCoor).at(yCoor);
+	// ASSERT(-1 < xCoor);
+	// ASSERT(-1 < yCoor);
+	// ASSERT(xCoor < m_rows);
+	// ASSERT(yCoor < getMapColLength(xCoor));
+	return m_grid->getTile(xCoor,yCoor);
 }
 // -----------------------------------------------------------------------------
 //
@@ -59,11 +64,11 @@ Tile* Map::getTile(
 Tile* Map::getTile(
 	sf::Vector2i coors
 ) {
-	ASSERT(-1 < coors.x);
-	ASSERT(-1 < coors.y);
-	ASSERT(coors.x < m_rows);
-	ASSERT(coors.y < getMapColLength(coors.x));
-	return getTile(coors.x,coors.y);
+	// ASSERT(-1 < coors.x);
+	// ASSERT(-1 < coors.y);
+	// ASSERT(coors.x < m_rows);
+	// ASSERT(coors.y < getMapColLength(coors.x));
+	return m_grid->getTile(coors.x,coors.y);
 }
 // -----------------------------------------------------------------------------
 //
@@ -71,14 +76,15 @@ Tile* Map::getTile(
 Tile* Map::getTile(
 	sf::Vector2f position
 ) {
-	sf::Vector2i coors = positionToCoordinates(position);
-
-	// Ensure Tile coordinates are valid
-	if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < getMapColLength(coors.x))) {
-		return getTile(coors);
-	} else {
-		return NULL;
-	}
+	// sf::Vector2i coors = positionToCoordinates(position);
+	//
+	// // Ensure Tile coordinates are valid
+	// if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < getMapColLength(coors.x))) {
+	// 	return getTile(coors);
+	// } else {
+	// 	return NULL;
+	// }
+	return m_grid->getTile(position);
 }
 // -----------------------------------------------------------------------------
 //
@@ -88,15 +94,15 @@ bool Map::placeUnit(
 	int xCoor,
 	int yCoor
 ) {
-	ASSERT(xCoor > -1);
-	ASSERT(yCoor > -1);
-	ASSERT(xCoor < m_rows);
-	ASSERT(yCoor < getMapColLength(xCoor));
+	// ASSERT(xCoor > -1);
+	// ASSERT(yCoor > -1);
+	// ASSERT(xCoor < m_rows);
+	// ASSERT(yCoor < getMapColLength(xCoor));
 	ASSERT(NULL != unit);
 
-	bool unitPlaced = getTile(xCoor,yCoor)->attachUnit(unit);
+	bool unitPlaced = m_grid->getTile(xCoor,yCoor)->attachUnit(unit);
 	if (true == unitPlaced) {
-		sf::Vector2f unitPos = getTile(xCoor,yCoor)->getPosition();
+		sf::Vector2f unitPos = m_grid->getTile(xCoor,yCoor)->getPosition();
 		unit->setPosition(unitPos);
 		return true;
 	} else {
@@ -110,10 +116,10 @@ bool Map::placeUnit(
 	Unit* unit,
 	sf::Vector2i coors
 ) {
-	ASSERT(coors.x > -1);
-	ASSERT(coors.y > -1);
-	ASSERT(coors.x < m_rows);
-	ASSERT(coors.y < getMapColLength(coors.x));
+	// ASSERT(coors.x > -1);
+	// ASSERT(coors.y > -1);
+	// ASSERT(coors.x < m_rows);
+	// ASSERT(coors.y < getMapColLength(coors.x));
 	ASSERT(NULL != unit);
 
 	return placeUnit(unit,coors.x,coors.y);
@@ -122,23 +128,22 @@ bool Map::placeUnit(
 //
 // -----------------------------------------------------------------------------
 void Map::selectTile (
-	int xCoor,
-	int yCoor
+	sf::Vector2f position
 ) {
-	ASSERT(xCoor > -1);
-	ASSERT(yCoor > -1);
-	ASSERT(xCoor < m_rows);
-	ASSERT(yCoor < getMapColLength(xCoor));
+	// ASSERT(xCoor > -1);
+	// ASSERT(yCoor > -1);
+	// ASSERT(xCoor < m_rows);
+	// ASSERT(yCoor < getMapColLength(xCoor));
 	if (NULL != m_selectedTile) {
 		m_selectedTile->deselect();
 	}
 	if (NULL != m_selectedUnit) {
 		m_selectedUnit = NULL;
 	}
-	m_selectedTile = getTile(xCoor,yCoor);
+	m_selectedTile = m_grid->getTile(position);
 	ASSERT(NULL != m_selectedTile);
 	m_selectedTile->select();
-	STD_LOG("Tile Selected: " << xCoor << ", " << yCoor);
+	// STD_LOG("Tile Selected: " << xCoor << ", " << yCoor);
 
 	// Select associated unit if exists
 	if (NULL != m_selectedTile->getUnit()) {
@@ -148,26 +153,27 @@ void Map::selectTile (
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Map::selectTile (
-	sf::Vector2i coors
-) {
-	ASSERT(coors.x > -1);
-	ASSERT(coors.y > -1);
-	ASSERT(coors.x < m_rows);
-	ASSERT(coors.y < getMapColLength(coors.x));
-	selectTile(coors.x,coors.y);
-}
+// void Map::selectTile (
+// 	sf::Vector2i coors
+// ) {
+// 	// ASSERT(coors.x > -1);
+// 	// ASSERT(coors.y > -1);
+// 	// ASSERT(coors.x < m_rows);
+// 	// ASSERT(coors.y < getMapColLength(coors.x));
+// 	selectTile(coors.x,coors.y);
+// }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Map::selectTile(
-	sf::Vector2f position
-) {
-	sf::Vector2i coors = positionToCoordinates(position);
-	if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < getMapColLength(coors.x))) {
-		selectTile(coors);
-	}
-}
+// void Map::selectTile(
+// 	sf::Vector2f position
+// ) {
+// 	// sf::Vector2i coors = positionToCoordinates(position);
+// 	// if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < getMapColLength(coors.x))) {
+// 	// 	selectTile(coors);
+// 	// }
+// 	selectTile(position);
+// }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -188,36 +194,33 @@ void Map::updateHighlighting(
 	sf::Vector2f worldMousePosition
 ) {
 	// Unhighlight all tiles
-	for (int i = 0; i < m_rows; i++) {
-		for (int j = 0; j < getMapColLength(i); j++) {
-			getTile(i,j)->unhighlight();
+	for (int i = 0; i < m_grid->getRows(); i++) {
+		for (int j = 0; j < m_grid->getCols(i); j++) {
+			m_grid->getTile(i,j)->unhighlight();
 		}
 	}
 
 	// Highlight tiles according to mouse positions
-	sf::Vector2i mouseCoors = positionToCoordinates(worldMousePosition);
-	if ((-1 < mouseCoors.x)&&(mouseCoors.x < m_rows)&&(-1 < mouseCoors.y)&&(mouseCoors.y < getMapColLength(mouseCoors.x))) {
-		Tile* hoveredTile = getTile(mouseCoors);
-		int radius = 0;
-		if (hoveredTile == m_selectedTile) {
-			if (NULL != m_selectedUnit) {
-				radius = m_selectedUnit->getRemainingMoves();
-			}
-		} else {
-			radius = 0;
+	Tile* hoveredTile = m_grid->getTile(worldMousePosition);
+	int radius = 0;
+	if (hoveredTile == m_selectedTile) {
+		if (NULL != m_selectedUnit) {
+			radius = m_selectedUnit->getRemainingMoves();
 		}
-
-		for (int i = mouseCoors.x - radius; i < mouseCoors.x + radius + 1; i++) {
-			for (int j = mouseCoors.y - radius; j < mouseCoors.y + radius + 1; j++) {
-				if ((-1 < i)&&(i < m_rows)&&(-1 < j)&&(j < getMapColLength(i))) {
-					sf::Vector2i tileCoors(i,j);
-					if (getDistanceHexGrid(tileCoors,mouseCoors) <= radius) {
-						getTile(i,j)->highlight();
-					}
-				}
-			}
-		}
+	} else {
+		radius = 0;
 	}
+
+	// for (int i = mouseCoors.x - radius; i < mouseCoors.x + radius + 1; i++) {
+	// 	for (int j = mouseCoors.y - radius; j < mouseCoors.y + radius + 1; j++) {
+	// 		if ((-1 < i)&&(i < m_rows)&&(-1 < j)&&(j < getMapColLength(i))) {
+	// 			sf::Vector2i tileCoors(i,j);
+	// 			if (getDistanceHexGrid(tileCoors,mouseCoors) <= radius) {
+	// 				m_grid->getTile(i,j)->highlight();
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
 
 // -----------------------------------------------------------------------------
@@ -225,71 +228,71 @@ void Map::updateHighlighting(
 // Private:
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-sf::Vector2f Map::setTilePosition(
-	int xCoor,
-	int yCoor
-	) {
-	ASSERT(xCoor > -1);
-	ASSERT(yCoor > -1);
-
-	// Calculate tile position using equations:
-	// x_p = C_x * (x_c + y_c)
-	// y_p = C_y * (x_c - y_c)
-	// C_x and C_y are determined using the size of the tile:
-	// /--\
-	// \__/
-	// 72 is the width along the centre of the tile
-	// 16 is the x component of the slant ( / )
-	// 30 is the y component of the slant ( / )
-
-	sf::Vector2f position;
-	const int spacing = 1; // Adds white space between the tiles
-
-	// Need to shift tiles beyond x >= mapSize accross to complete hexagon shape
-	int yTmp = yCoor;
-	if (xCoor >= m_mapSize) {
-		yTmp += (xCoor - m_mapSize + 1);
-	}
-
-	position.x = (72-16+spacing)*(xCoor - yTmp);
-	position.y = (30+spacing)*(xCoor + yTmp);
-
-	return position;
-}
+// sf::Vector2f Map::setTilePosition(
+// 	int xCoor,
+// 	int yCoor
+// 	) {
+// 	ASSERT(xCoor > -1);
+// 	ASSERT(yCoor > -1);
+//
+// 	// Calculate tile position using equations:
+// 	// x_p = C_x * (x_c + y_c)
+// 	// y_p = C_y * (x_c - y_c)
+// 	// C_x and C_y are determined using the size of the tile:
+// 	// /--\
+// 	// \__/
+// 	// 72 is the width along the centre of the tile
+// 	// 16 is the x component of the slant ( / )
+// 	// 30 is the y component of the slant ( / )
+//
+// 	sf::Vector2f position;
+// 	const int spacing = 1; // Adds white space between the tiles
+//
+// 	// Need to shift tiles beyond x >= mapSize accross to complete hexagon shape
+// 	int yTmp = yCoor;
+// 	if (xCoor >= m_mapSize) {
+// 		yTmp += (xCoor - m_mapSize + 1);
+// 	}
+//
+// 	position.x = (72-16+spacing)*(xCoor - yTmp);
+// 	position.y = (30+spacing)*(xCoor + yTmp);
+//
+// 	return position;
+// }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-sf::Vector2i Map::positionToCoordinates(
-	sf::Vector2f position
-	) {
-	// Determine tile position by solving pair of equations:
-	// x_p = C_x * (x_c + y_c)
-	// y_p = C_y * (x_c - y_c)
-
-	const int spacing = 1;
-	double xTmp = position.x / (double) (72-16+spacing);
-	double yTmp = position.y / (double) (30+spacing);
-
-	sf::Vector2i coors;
-
-	coors.x = std::round((xTmp + yTmp)/2.0);
-	coors.y = std::round((yTmp - xTmp)/2.0);
-
-	if (coors.x >= m_mapSize) {
-		coors.y -= (coors.x - m_mapSize + 1);
-	}
-
-	STD_LOG(coors.x << ", " << coors.y);
-	return coors;
-}
+// sf::Vector2i Map::positionToCoordinates(
+// 	sf::Vector2f position
+// 	) {
+// 	// Determine tile position by solving pair of equations:
+// 	// x_p = C_x * (x_c + y_c)
+// 	// y_p = C_y * (x_c - y_c)
+//
+// 	const int spacing = 1;
+// 	double xTmp = position.x / (double) (72-16+spacing);
+// 	double yTmp = position.y / (double) (30+spacing);
+//
+// 	sf::Vector2i coors;
+//
+// 	coors.x = std::round((xTmp + yTmp)/2.0);
+// 	coors.y = std::round((yTmp - xTmp)/2.0);
+//
+// 	if (coors.x >= m_mapSize) {
+// 		coors.y -= (coors.x - m_mapSize + 1);
+// 	}
+//
+// 	STD_LOG(coors.x << ", " << coors.y);
+// 	return coors;
+// }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 void Map::setupMap() {
 	STD_LOG("Populating Map");
-	for (int i = 0; i < m_rows; i++) {
-		getTile(i,0)->setType(Tile::Border);
-		getTile(i,getMapColLength(i)-1)->setType(Tile::Border);
+	for (int i = 0; i < m_grid->getRows(); i++) {
+		m_grid->getTile(i,0)->setType(Tile::Border);
+		m_grid->getTile(i,m_grid->getCols(i)-1)->setType(Tile::Border);
 	}
 	// for (int j = 1; j < m_cols-1; j++) {
 	// 	getTile(0,j)->setType(Tile::Border);
@@ -297,21 +300,21 @@ void Map::setupMap() {
 	// }
 
 	// Randomly define Forest and Mountain
-	int randRow = (rand()%(m_rows-4))+2;
-	int randCol = (rand()%(getMapColLength(randRow)-4))+2;
-	ASSERT(randRow > -1);
-	ASSERT(randCol > -1);
-	ASSERT(randRow < m_rows);
-	ASSERT(randCol < getMapColLength(randRow));
-	getTile(randRow,randCol)->setType(Tile::Forest);
+	// int randRow = (rand()%(m_rows-4))+2;
+	// int randCol = (rand()%(getMapColLength(randRow)-4))+2;
+	// ASSERT(randRow > -1);
+	// ASSERT(randCol > -1);
+	// ASSERT(randRow < m_rows);
+	// ASSERT(randCol < getMapColLength(randRow));
+	// m_grid->getTile(randRow,randCol)->setType(Tile::Forest);
 
-	randRow = (rand()%(m_rows-4))+2;
-	randCol = (rand()%(getMapColLength(randRow)-4))+2;
-	ASSERT(randRow > -1);
-	ASSERT(randCol > -1);
-	ASSERT(randRow < m_rows);
-	ASSERT(randCol < getMapColLength(randRow));
-	getTile(randRow,randCol)->setType(Tile::Mountain);
+	// randRow = (rand()%(m_rows-4))+2;
+	// randCol = (rand()%(getMapColLength(randRow)-4))+2;
+	// ASSERT(randRow > -1);
+	// ASSERT(randCol > -1);
+	// ASSERT(randRow < m_rows);
+	// ASSERT(randCol < getMapColLength(randRow));
+	// m_grid->getTile(randRow,randCol)->setType(Tile::Mountain);
 }
 // -----------------------------------------------------------------------------
 //
@@ -348,8 +351,8 @@ int Map::getDistanceHexGrid(
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-int Map::getMapColLength(
-	int row
-) {
-	return (2*m_mapSize) - 1 - abs(row - m_mapSize + 1);
-}
+// int Map::getMapColLength(
+// 	int row
+// ) {
+// 	return (2*m_mapSize) - 1 - abs(row - m_mapSize + 1);
+// }

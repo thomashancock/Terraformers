@@ -6,6 +6,7 @@
 #include "./SceneNode.hpp"
 #include "./Tile.hpp"
 #include "./Unit.hpp"
+#include "./HexGrid.hpp"
 
 #include <iostream>
 #include <vector>
@@ -41,13 +42,13 @@ public:
 		sf::Vector2i coors
 	);
 
-	void selectTile(
-		int xCoor,
-		int yCoor
-	);
-	void selectTile(
-		sf::Vector2i coors
-	);
+	// void selectTile(
+	// 	int xCoor,
+	// 	int yCoor
+	// );
+	// void selectTile(
+	// 	sf::Vector2i coors
+	// );
 	void selectTile(
 		sf::Vector2f position
 	);
@@ -58,14 +59,14 @@ public:
 	);
 
 private:
-	sf::Vector2f setTilePosition(
-		int xCoor,
-		int yCoor
-	);
+	// sf::Vector2f setTilePosition(
+	// 	int xCoor,
+	// 	int yCoor
+	// );
 
-	sf::Vector2i positionToCoordinates(
-		sf::Vector2f position
-	);
+	// sf::Vector2i positionToCoordinates(
+	// 	sf::Vector2f position
+	// );
 
 	void setupMap();
 
@@ -74,15 +75,17 @@ private:
 		sf::Vector2i endCoors
 	);
 
-	int getMapColLength(
-		int row
-	);
+	// int getMapColLength(
+	// 	int row
+	// );
 
 private:
 	// Map variables
-	const int m_mapSize;
-	int m_rows;
-	std::vector< std::vector< Tile* > > m_tileMap;
+	// const int m_mapSize;
+	// int m_rows;
+	// std::vector< std::vector< Tile* > > m_tileMap;
+
+	HexGrid* m_grid;
 
 	// Selected object pointers
 	Tile* m_selectedTile;
