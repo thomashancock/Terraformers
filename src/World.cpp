@@ -54,7 +54,7 @@ void World::buildScene() {
 	}
 
 	// Draw the Hex grid map
-	std::unique_ptr<Map> map(new Map(20,20));
+	std::unique_ptr<Map> map(new Map(9));
 	m_map = map.get();
 	m_sceneLayers[Background]->attachChild(std::move(map));
 

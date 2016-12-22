@@ -17,8 +17,7 @@ public SceneNode
 {
 public:
 	explicit Map(
-		int rows,
-		int cols
+		int mapSize
 	);
 
 	Tile* getTile(
@@ -75,10 +74,14 @@ private:
 		sf::Vector2i endCoors
 	);
 
+	int getMapColLength(
+		int row
+	);
+
 private:
 	// Map variables
+	const int m_mapSize;
 	int m_rows;
-	int m_cols;
 	std::vector< std::vector< Tile* > > m_tileMap;
 
 	// Selected object pointers
