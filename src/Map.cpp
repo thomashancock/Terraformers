@@ -240,8 +240,8 @@ sf::Vector2f Map::setTilePosition(
 
 	sf::Vector2f position;
 	const int spacing = 1; // Adds white space between the tiles
-	position.x = (72-16+spacing)*(xCoor + yCoor);
-	position.y = (30+spacing)*(xCoor - yCoor);
+	position.x = (72-16+spacing)*(xCoor - yCoor);
+	position.y = (30+spacing)*(xCoor + yCoor);
 
 	return position;
 }
@@ -262,7 +262,7 @@ sf::Vector2i Map::positionToCoordinates(
 	sf::Vector2i coors;
 
 	coors.x = std::round((xTmp + yTmp)/2.0);
-	coors.y = std::round((xTmp - yTmp)/2.0);
+	coors.y = std::round((yTmp - xTmp)/2.0);
 
 	return coors;
 }
@@ -308,7 +308,7 @@ int Map::getDistanceHexGrid(
 	distance.x = startCoors.x - endCoors.x;
 	distance.y = startCoors.y - endCoors.y;
 
-	// Account for grid deformation in (n, n) direction
+	// Account for grid deformation in (n, -n) direction
 	sf::Vector2i diagonalComp;
 	int lesserCoor = abs(distance.x) < abs(distance.y) ? abs(distance.x) : abs(distance.y);
 	diagonalComp.x = (distance.x < 0) ? -1*lesserCoor : lesserCoor;
@@ -322,9 +322,9 @@ int Map::getDistanceHexGrid(
 	int straightDistance = abs(straightComp.x) + abs(straightComp.y);
 	int diagonalDistance = abs(diagonalComp.x);
 
-	if (((diagonalComp.x > 0)&&(diagonalComp.y > 0))||
-	    ((diagonalComp.x < 0)&&(diagonalComp.y < 0))) {
-				diagonalDistance *= 2;
+	// Check if diagonal is along deformed axis
+	if (diagonalComp.x * diagonalComp.y < 0) {
+		diagonalDistance *= 2;
 	}
 
 	return straightDistance + diagonalDistance;
