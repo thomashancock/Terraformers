@@ -234,18 +234,22 @@ sf::Vector2f Map::setTilePosition(
 	ASSERT(yCoor < m_cols);
 	sf::Vector2f position;
 
-	// Calculate Hexagon position based on array position
-	position.x = 60*xCoor;
-	position.y = 31*yCoor;
+	// // Calculate Hexagon position based on array position
+	// position.x = 60*xCoor;
+	// position.y = 31*yCoor;
+	//
+	// // Offset every other row to tessellate hexagons
+	// if (0 == yCoor%2) {
+	// 	position.x += 30;
+	// }
+	//
+	// // Offset Hexagons from edge of screen
+	// position.x += 40;
+	// position.y += 40;
 
-	// Offset every other row to tessellate hexagons
-	if (0 == yCoor%2) {
-		position.x += 30;
-	}
-
-	// Offset Hexagons from edge of screen
-	position.x += 40;
-	position.y += 40;
+	const int spacing = 1;
+	position.x = (72-16+spacing)*(xCoor + yCoor);
+	position.y = (30+spacing)*(xCoor - yCoor);
 
 	return position;
 }
@@ -255,30 +259,39 @@ sf::Vector2f Map::setTilePosition(
 sf::Vector2i Map::positionToCoordinates(
 	sf::Vector2f position
 	) {
-	// Determine the coordinates by applying the opposite procedure to calculating the positions
-	double xTmp = position.x - 40.0;
-	double yTmp = position.y - 40.0;
+	// // Determine the coordinates by applying the opposite procedure to calculating the positions
+	// double xTmp = position.x - 40.0;
+	// double yTmp = position.y - 40.0;
+	//
+	// yTmp /= 31.0;
+	//
+	// double fMod2 = fmod(yTmp,2.0);
+	// if ((-0.5 < fMod2)&&(fMod2 < 0.5)) {
+	// 	xTmp -= 30;
+	// }
+	//
+	// xTmp /= 60;
+	//
+	// sf::Vector2i coors;
+	// coors.x = (int) std::round(xTmp);
+	// coors.y = (int) std::round(yTmp);
+	//
+	// // Correct for bug where tile right of correct tile is selected
+	// if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < m_cols)) {
+	// 	sf::Vector2f tilePos = getTile(coors)->getPosition();
+	// 	if ((position.x < tilePos.x - 31)&&(0 < coors.x)) {
+	// 		coors.x -= 1;
+	// 	}
+	// }
 
-	yTmp /= 31.0;
-
-	double fMod2 = fmod(yTmp,2.0);
-	if ((-0.5 < fMod2)&&(fMod2 < 0.5)) {
-		xTmp -= 30;
-	}
-
-	xTmp /= 60;
+	const int spacing = 1;
+	double xTmp = position.x / (double) (72-16+spacing);
+	double yTmp = position.y / (double) (30+spacing);
 
 	sf::Vector2i coors;
-	coors.x = (int) std::round(xTmp);
-	coors.y = (int) std::round(yTmp);
 
-	// Correct for bug where tile right of correct tile is selected
-	if ((-1 < coors.x)&&(coors.x < m_rows)&&(-1 < coors.y)&&(coors.y < m_cols)) {
-		sf::Vector2f tilePos = getTile(coors)->getPosition();
-		if ((position.x < tilePos.x - 31)&&(0 < coors.x)) {
-			coors.x -= 1;
-		}
-	}
+	coors.x = std::round((xTmp + yTmp)/2.0);
+	coors.y = std::round((xTmp - yTmp)/2.0);
 
 	return coors;
 }
