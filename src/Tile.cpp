@@ -14,13 +14,6 @@ Tile::Tile(
 	{
 	// Create Hexagon Sprites
 	m_sprite.setPointCount(6);
-	// const int hexagonWidth = 29;
-	// m_sprite.setPoint(0, sf::Vector2f(0, -20));
-	// m_sprite.setPoint(1, sf::Vector2f(hexagonWidth, -10));
-	// m_sprite.setPoint(2, sf::Vector2f(hexagonWidth, 10));
-	// m_sprite.setPoint(3, sf::Vector2f(0, 20));
-	// m_sprite.setPoint(4, sf::Vector2f(-1*hexagonWidth, 10));
-	// m_sprite.setPoint(5, sf::Vector2f(-1*hexagonWidth, -10));
 	const int hexagonHeight = 30;
 	const int hexagonWidth = 36;
 	m_sprite.setPoint(0, sf::Vector2f( hexagonWidth, 0));
