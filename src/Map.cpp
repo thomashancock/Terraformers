@@ -201,18 +201,13 @@ void Map::updateHighlighting(
 			radius = 0;
 		}
 
-
-		// for (int i = mouseCoors.x - radius; i < mouseCoors.x + radius + 1; i++) {
-		// 	getTile(i,mouseCoors.y)->highlight();
-		// }
-		//
-		// for (int j = mouseCoors.y - radius; j < mouseCoors.y + radius + 1; j++) {
-		// 	getTile(mouseCoors.x,j)->highlight();
-		// }
-		for (int i = mouseCoors.x - radius + 1; i < mouseCoors.x + radius; i++) {
+		for (int i = mouseCoors.x - radius; i < mouseCoors.x + radius + 1; i++) {
 			for (int j = mouseCoors.y - radius; j < mouseCoors.y + radius + 1; j++) {
 				if ((-1 < i)&&(i < m_rows)&&(-1 < j)&&(j < m_cols)) {
-					getTile(i,j)->highlight();
+					sf::Vector2i tileCoors(i,j);
+					if (getDistanceHexGrid(tileCoors,mouseCoors) <= radius) {
+						getTile(i,j)->highlight();
+					}
 				}
 			}
 		}
@@ -236,7 +231,7 @@ sf::Vector2f Map::setTilePosition(
 	// Calculate tile position using equations:
 	// x_p = C_x * (x_c + y_c)
 	// y_p = C_y * (x_c - y_c)
-	// C_x and C_y are deterined using the size of the tile:
+	// C_x and C_y are determined using the size of the tile:
 	// /--\
 	// \__/
 	// 72 is the width along the centre of the tile
@@ -301,4 +296,36 @@ void Map::setupMap() {
 	ASSERT(randRow < m_rows);
 	ASSERT(randCol < m_cols);
 	getTile(randRow,randCol)->setType(Tile::Mountain);
+}
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+int Map::getDistanceHexGrid(
+	sf::Vector2i startCoors,
+	sf::Vector2i endCoors
+) {
+	sf::Vector2i distance;
+	distance.x = startCoors.x - endCoors.x;
+	distance.y = startCoors.y - endCoors.y;
+
+	// Account for grid deformation in (n, n) direction
+	sf::Vector2i diagonalComp;
+	int lesserCoor = abs(distance.x) < abs(distance.y) ? abs(distance.x) : abs(distance.y);
+	diagonalComp.x = (distance.x < 0) ? -1*lesserCoor : lesserCoor;
+	diagonalComp.y = (distance.y < 0) ? -1*lesserCoor : lesserCoor;
+
+	sf::Vector2i straightComp;
+	straightComp.x = distance.x - diagonalComp.x;
+	straightComp.y = distance.y - diagonalComp.y;
+	ASSERT((0 == straightComp.x)||(0 == straightComp.y));
+
+	int straightDistance = abs(straightComp.x) + abs(straightComp.y);
+	int diagonalDistance = abs(diagonalComp.x);
+
+	if (((diagonalComp.x > 0)&&(diagonalComp.y > 0))||
+	    ((diagonalComp.x < 0)&&(diagonalComp.y < 0))) {
+				diagonalDistance *= 2;
+	}
+
+	return straightDistance + diagonalDistance;
 }

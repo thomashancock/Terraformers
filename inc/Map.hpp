@@ -70,6 +70,11 @@ private:
 
 	void setupMap();
 
+	int getDistanceHexGrid(
+		sf::Vector2i startCoors,
+		sf::Vector2i endCoors
+	);
+
 private:
 	// Map variables
 	int m_rows;
