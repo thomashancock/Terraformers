@@ -7,11 +7,11 @@
 // -----------------------------------------------------------------------------
 Map::Map(
 	int mapSize
-) {
+) :
+m_mapSize(mapSize)
+{
 	std::unique_ptr<HexGrid> hexGrid(new HexGrid(mapSize));
-	// Copy the unique pointer to a regular pointer
 	m_grid = hexGrid.get();
-	// Attach unique pointer as sceneNode child
 	this->attachChild(std::move(hexGrid));
 
 	setupMap();
@@ -33,6 +33,7 @@ bool Map::placeUnit(
 	if (true == unitPlaced) {
 		sf::Vector2f unitPos = m_grid->getTile(xCoor,yCoor)->getPosition();
 		unit->setPosition(unitPos);
+		unit->setCoors(xCoor,yCoor);
 		return true;
 	} else {
 		return false;
@@ -102,21 +103,22 @@ void Map::updateHighlighting(
 	if (hoveredTile == m_selectedTile) {
 		if (NULL != m_selectedUnit) {
 			radius = m_selectedUnit->getRemainingMoves();
+			sf::Vector2i unitCoors = m_selectedUnit->getCoors();
+			STD_LOG("updateHighlighting(): Unit Coors: " << unitCoors.x << ", " << unitCoors.y);
+			for (int i = unitCoors.x - radius; i < unitCoors.x + radius + 1; i++) {
+				for (int j = unitCoors.y - radius; j < unitCoors.y + radius + 1; j++) {
+					// if ((-1 < i)&&(i < m_rows)&&(-1 < j)&&(j < getMapColLength(i))) {
+						sf::Vector2i tileCoors(i,j);
+						if (getDistanceHexGrid(tileCoors,unitCoors) <= radius) {
+							m_grid->getTile(i,j)->highlight();
+						}
+					// }
+				}
+			}
 		}
 	} else {
 		radius = 0;
 	}
-
-	// for (int i = mouseCoors.x - radius; i < mouseCoors.x + radius + 1; i++) {
-	// 	for (int j = mouseCoors.y - radius; j < mouseCoors.y + radius + 1; j++) {
-	// 		if ((-1 < i)&&(i < m_rows)&&(-1 < j)&&(j < getMapColLength(i))) {
-	// 			sf::Vector2i tileCoors(i,j);
-	// 			if (getDistanceHexGrid(tileCoors,mouseCoors) <= radius) {
-	// 				m_grid->getTile(i,j)->highlight();
-	// 			}
-	// 		}
-	// 	}
-	// }
 }
 
 // -----------------------------------------------------------------------------
@@ -126,31 +128,39 @@ void Map::updateHighlighting(
 // -----------------------------------------------------------------------------
 void Map::setupMap() {
 	STD_LOG("Populating Map");
-	// for (int i = 0; i < m_grid->getRows(); i++) {
-		// m_grid->getTile(i,0)->setType(Tile::Border);
-		// m_grid->getTile(i,m_grid->getCols(i)-1)->setType(Tile::Border);
-	// }
-	// for (int j = 1; j < m_cols-1; j++) {
-	// 	getTile(0,j)->setType(Tile::Border);
-	// 	getTile(m_rows-1,j)->setType(Tile::Border);
-	// }
+	for (int i = 0; i < m_mapSize; i++) {
+		// Top Right Edge
+		m_grid->getTile(i,0)->setType(Tile::Border);
+		// Top Left Edge
+		m_grid->getTile(0,i)->setType(Tile::Border);
+		// Right Edge
+		m_grid->getTile(m_mapSize+i-1,i)->setType(Tile::Border);
+		// Left Edge
+		m_grid->getTile(i,m_mapSize+i-1)->setType(Tile::Border);
+		// Bottom Right Edge
+		m_grid->getTile(2*(m_mapSize-1),m_mapSize+i-1)->setType(Tile::Border);
+		// Bottom Left Edge
+		m_grid->getTile(m_mapSize+i-1,2*(m_mapSize-1))->setType(Tile::Border);
+	}
 
 	// Randomly define Forest and Mountain
-	// int randRow = (rand()%(m_rows-4))+2;
-	// int randCol = (rand()%(getMapColLength(randRow)-4))+2;
-	// ASSERT(randRow > -1);
-	// ASSERT(randCol > -1);
-	// ASSERT(randRow < m_rows);
-	// ASSERT(randCol < getMapColLength(randRow));
-	// m_grid->getTile(randRow,randCol)->setType(Tile::Forest);
+	srand(time(NULL)); // Will need to move this later
+	const sf::Vector2i mapMiddle(m_mapSize-1,m_mapSize-1);
+	sf::Vector2i greenStart(m_mapSize-1,m_mapSize-1);
+	while(getDistanceHexGrid(mapMiddle,greenStart) < 2) {
+		greenStart.x = (int) ((rand()/RAND_MAX) * (m_mapSize - 1)) + 1;
+		greenStart.y = (int) ((rand()/RAND_MAX) * (m_mapSize - 1)) + 1;
+	}
+	STD_LOG("Green Start: " << greenStart.x << ", " << greenStart.y);
+	m_grid->getTile(greenStart)->setType(Tile::Forest);
 
-	// randRow = (rand()%(m_rows-4))+2;
-	// randCol = (rand()%(getMapColLength(randRow)-4))+2;
-	// ASSERT(randRow > -1);
-	// ASSERT(randCol > -1);
-	// ASSERT(randRow < m_rows);
-	// ASSERT(randCol < getMapColLength(randRow));
-	// m_grid->getTile(randRow,randCol)->setType(Tile::Mountain);
+	sf::Vector2i redStart(m_mapSize-1,m_mapSize-1);
+	while(getDistanceHexGrid(mapMiddle,redStart) < 2) {
+		redStart.x = (2*(m_mapSize-1)) - 1 - (int) ((rand()/RAND_MAX) * (m_mapSize - 1));
+		redStart.y = (2*(m_mapSize-1)) - 1 - (int) ((rand()/RAND_MAX) * (m_mapSize - 1));
+	}
+	STD_LOG("Red Start: " << greenStart.x << ", " << greenStart.y);
+	m_grid->getTile(redStart)->setType(Tile::Mountain);
 }
 // -----------------------------------------------------------------------------
 //

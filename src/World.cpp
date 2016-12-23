@@ -60,7 +60,7 @@ void World::buildScene() {
 
 	// Draw Unit
 	std::unique_ptr<Unit> testUnit(new Unit(Unit::Basic));
-	m_map->placeUnit(testUnit.get(),7,7);
+	m_map->placeUnit(testUnit.get(),6,6);
 	m_sceneLayers[Front]->attachChild(std::move(testUnit));
 }
 // -----------------------------------------------------------------------------

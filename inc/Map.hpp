@@ -12,6 +12,8 @@
 #include <vector>
 #include <cstdlib>
 #include <cmath>
+#include <stdlib.h>
+#include <time.h> // Will need to move this later
 
 class Map :
 public SceneNode
@@ -50,6 +52,7 @@ private:
 
 private:
 	HexGrid* m_grid;
+	const int m_mapSize;
 
 	// Selected object pointers
 	Tile* m_selectedTile;
