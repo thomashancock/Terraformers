@@ -91,18 +91,24 @@ void Map::updateHighlighting(
 	sf::Vector2f worldMousePosition
 ) {
 	// Unhighlight all tiles
-	// for (int i = 0; i < m_grid->getRows(); i++) {
-	// 	for (int j = 0; j < m_grid->getCols(i); j++) {
-			// m_grid->getTile(i,j)->unhighlight();
-		// }
-	// }
+	// Need to optimise
+	for (int i = 0; i < 2*m_mapSize; i++) {
+		for (int  j = 0; j < 2*m_mapSize; j++) {
+			if (true == m_grid->isValidCoordinate(i,j)) {
+				m_grid->getTile(i,j)->unhighlight();
+			}
+		}
+	}
 
 	// Highlight tiles according to mouse positions
 	Tile* hoveredTile = m_grid->getTile(worldMousePosition);
-	int radius = 0;
+	if (NULL != hoveredTile) {
+		hoveredTile->highlight();
+	}
+
 	if (hoveredTile == m_selectedTile) {
 		if (NULL != m_selectedUnit) {
-			radius = m_selectedUnit->getRemainingMoves();
+			int radius = m_selectedUnit->getRemainingMoves();
 			sf::Vector2i unitCoors = m_selectedUnit->getCoors();
 			for (int i = unitCoors.x - radius; i < unitCoors.x + radius + 1; i++) {
 				for (int j = unitCoors.y - radius; j < unitCoors.y + radius + 1; j++) {
@@ -115,8 +121,6 @@ void Map::updateHighlighting(
 				}
 			}
 		}
-	} else {
-		radius = 0;
 	}
 }
 
