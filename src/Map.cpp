@@ -91,7 +91,7 @@ void Map::updateHighlighting(
 	sf::Vector2f worldMousePosition
 ) {
 	// Unhighlight all tiles
-	// Need to optimise
+	// *** Need to optimise
 	for (int i = 0; i < 2*m_mapSize; i++) {
 		for (int  j = 0; j < 2*m_mapSize; j++) {
 			if (true == m_grid->isValidCoordinate(i,j)) {
