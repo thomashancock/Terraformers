@@ -77,6 +77,32 @@ Tile* HexGrid::getTile(
 		return NULL;
 	}
 }
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+bool HexGrid::isValidCoordinate(
+	int xCoor,
+	int yCoor
+) {
+	int yTmp = yCoor;
+	if (xCoor >= m_mapSize) {
+		yTmp -= (xCoor - m_mapSize + 1);
+	}
+
+	if (xCoor < 0) return false;
+	if (yTmp < 0) return false;
+	if (xCoor >= m_rows) return false;
+	if (yTmp >= getGridColLength(xCoor)) return false;
+	return true;
+}
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+bool HexGrid::isValidCoordinate(
+	sf::Vector2i coors
+) {
+	return isValidCoordinate(coors.x,coors.y);
+}
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------

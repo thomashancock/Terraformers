@@ -28,6 +28,14 @@ public:
 		sf::Vector2f position
 	);
 
+	bool isValidCoordinate(
+		int xCoor,
+		int yCoor
+	);
+	bool isValidCoordinate(
+		sf::Vector2i coors
+	);
+
 private:
 	sf::Vector2f setTilePosition(
 		int xCoor,

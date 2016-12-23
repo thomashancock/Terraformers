@@ -104,15 +104,14 @@ void Map::updateHighlighting(
 		if (NULL != m_selectedUnit) {
 			radius = m_selectedUnit->getRemainingMoves();
 			sf::Vector2i unitCoors = m_selectedUnit->getCoors();
-			STD_LOG("updateHighlighting(): Unit Coors: " << unitCoors.x << ", " << unitCoors.y);
 			for (int i = unitCoors.x - radius; i < unitCoors.x + radius + 1; i++) {
 				for (int j = unitCoors.y - radius; j < unitCoors.y + radius + 1; j++) {
-					// if ((-1 < i)&&(i < m_rows)&&(-1 < j)&&(j < getMapColLength(i))) {
+					if (true == m_grid->isValidCoordinate(i,j)) {
 						sf::Vector2i tileCoors(i,j);
 						if (getDistanceHexGrid(tileCoors,unitCoors) <= radius) {
 							m_grid->getTile(i,j)->highlight();
 						}
-					// }
+					}
 				}
 			}
 		}
