@@ -1,7 +1,10 @@
-#include <SFML/Graphics.hpp>
-
+// STD
 #include <iostream>
 
+// SFML
+#include <SFML/Graphics.hpp>
+
+// LOCAL
 #include "Debug.hpp"
 #include "Game.hpp"
 

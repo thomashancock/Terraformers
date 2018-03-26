@@ -1,13 +1,16 @@
 #include "Game.hpp"
 
+// LOCAL
+#include "CommandQueue.hpp"
+
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Public:
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-Game::Game()
-: m_window(sf::VideoMode(1280, 960), "Terraformers")
-, m_world(m_window)
+Game::Game() :
+	m_window(sf::VideoMode(1280, 960), "Terraformers"),
+	m_world(m_window)
 {
 	m_window.setPosition(sf::Vector2i(50,50));
 	m_window.setFramerateLimit(60);

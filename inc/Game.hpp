@@ -1,30 +1,43 @@
 #ifndef GAME_H
 #define GAME_H
 
+// SFML
 #include <SFML/Graphics.hpp>
 
+// LOCAL
 #include "World.hpp"
-#include "CommandQueue.hpp"
 #include "Player.hpp"
 
+//! The Game class
+/*!
+	Class which manages and runs the game
+*/
 class Game {
 	public:
+		//! Constructor
 		Game();
+
+		//! Run function which runs game
 		void run();
 
 	private:
+		//! Processes player input
 		void processInputs();
+
+		//! Updated the game state
 		void update(
 			sf::Time elapsedTime
 		);
+
+		//! Renders the game
 		void render();
 
 	private:
-		sf::RenderWindow m_window;
-		World m_world;
-		Player m_player;
+		sf::RenderWindow m_window; //!< The Game Window
+		World m_world; //!< The game world class
+		Player m_player; //!< The player class
 
-		bool m_isPaused;
+		bool m_isPaused; //!< Is the game paused?
 };
 
 #endif /* GAME_H */
