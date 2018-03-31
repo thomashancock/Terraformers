@@ -11,7 +11,6 @@
 
 // LOCAL
 #include "SceneNode.hpp"
-// #include "Tile.hpp"
 #include "Map.hpp"
 #include "Unit.hpp"
 #include "CommandQueue.hpp"

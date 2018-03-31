@@ -8,19 +8,18 @@
 HexGrid::HexGrid(
 	int mapSize
 ) :
-m_mapSize(mapSize)
+	m_mapSize(mapSize),
+	m_rows(2 * m_mapSize - 1)
 {
-	m_rows = (2*m_mapSize) - 1;
-
 	STD_LOG("Creating Map");
-	m_rows = (2*m_mapSize) - 1;
+
 	for (int i = 0; i < m_rows; i++) {
 		std::vector<Tile*> mapRow;
 
-		int numCols = getGridColLength(i);
+		const int numCols = getGridColLength(i);
 		ASSERT(numCols > 0);
 		for (int j = 0; j < numCols; j++) {
-			sf::Vector2f position = setTilePosition(i,j);
+			const sf::Vector2f position = setTilePosition(i,j);
 			// Create unique pointer to the tile
 			std::unique_ptr<Tile> tile(new Tile(Tile::Basic,position.x,position.y));
 			// Copy the unique pointer to a regular pointer
@@ -41,7 +40,7 @@ m_mapSize(mapSize)
 Tile* HexGrid::getTile(
 	int xCoor,
 	int yCoor
-) {
+) const {
 	// Shift from Map Coordinate system to Vector Storage Indicies
 	int yTmp = yCoor;
 	if (xCoor >= m_mapSize) {
@@ -59,7 +58,7 @@ Tile* HexGrid::getTile(
 // -----------------------------------------------------------------------------
 Tile* HexGrid::getTile(
 	sf::Vector2i coors
-) {
+) const {
 	return getTile(coors.x,coors.y);
 }
 // -----------------------------------------------------------------------------
@@ -67,7 +66,7 @@ Tile* HexGrid::getTile(
 // -----------------------------------------------------------------------------
 Tile* HexGrid::getTile(
 	sf::Vector2f position
-) {
+) const {
 	sf::Vector2i coors = positionToVectorIndicies(position);
 
 	// Ensure Tile coordinates are valid
@@ -83,7 +82,7 @@ Tile* HexGrid::getTile(
 bool HexGrid::isValidCoordinate(
 	int xCoor,
 	int yCoor
-) {
+) const {
 	int yTmp = yCoor;
 	if (xCoor >= m_mapSize) {
 		yTmp -= (xCoor - m_mapSize + 1);
@@ -100,7 +99,7 @@ bool HexGrid::isValidCoordinate(
 // -----------------------------------------------------------------------------
 bool HexGrid::isValidCoordinate(
 	sf::Vector2i coors
-) {
+) const {
 	return isValidCoordinate(coors.x,coors.y);
 }
 
@@ -148,14 +147,14 @@ sf::Vector2f HexGrid::setTilePosition(
 // -----------------------------------------------------------------------------
 sf::Vector2i HexGrid::positionToVectorIndicies(
 	sf::Vector2f position
-	) {
+) const {
 	// Determine tile position by solving pair of equations:
 	// x_p = C_x * (x_c + y_c)
 	// y_p = C_y * (x_c - y_c)
 
 	const int spacing = 1;
-	double xTmp = position.x / (double) (72-16+spacing);
-	double yTmp = position.y / (double) (30+spacing);
+	const double xTmp = position.x / static_cast<double>(72-16+spacing);
+	const double yTmp = position.y / static_cast<double>(30+spacing);
 
 	sf::Vector2i coors;
 
@@ -173,6 +172,6 @@ sf::Vector2i HexGrid::positionToVectorIndicies(
 // -----------------------------------------------------------------------------
 int HexGrid::getGridColLength(
 	int row
-) {
+) const {
 	return (2*m_mapSize) - 1 - abs(row - m_mapSize + 1);
 }

@@ -8,7 +8,7 @@
 Map::Map(
 	int mapSize
 ) :
-m_mapSize(mapSize)
+	m_mapSize(mapSize)
 {
 	std::unique_ptr<HexGrid> hexGrid(new HexGrid(mapSize));
 	m_grid = hexGrid.get();
@@ -146,9 +146,11 @@ void Map::setupMap() {
 		m_grid->getTile(m_mapSize+i-1,2*(m_mapSize-1))->setType(Tile::Border);
 	}
 
-	// Randomly define Forest and Mountain
+	// Randomly define starting positions
 	srand(time(NULL)); // Will need to move this later
 	const sf::Vector2i mapMiddle(m_mapSize-1,m_mapSize-1);
+
+	// Determine Green starting position
 	sf::Vector2i greenStart(m_mapSize-1,m_mapSize-1);
 	while(getDistanceHexGrid(mapMiddle,greenStart) < 2) {
 		greenStart.x = (int) ((rand()/RAND_MAX) * (m_mapSize - 1)) + 1;
@@ -157,12 +159,13 @@ void Map::setupMap() {
 	STD_LOG("Green Start: " << greenStart.x << ", " << greenStart.y);
 	m_grid->getTile(greenStart)->setType(Tile::Forest);
 
+	// Determine Red starting position
 	sf::Vector2i redStart(m_mapSize-1,m_mapSize-1);
 	while(getDistanceHexGrid(mapMiddle,redStart) < 2) {
 		redStart.x = (2*(m_mapSize-1)) - 1 - (int) ((rand()/RAND_MAX) * (m_mapSize - 1));
 		redStart.y = (2*(m_mapSize-1)) - 1 - (int) ((rand()/RAND_MAX) * (m_mapSize - 1));
 	}
-	STD_LOG("Red Start: " << greenStart.x << ", " << greenStart.y);
+	STD_LOG("Red Start: " << redStart.x << ", " << redStart.y);
 	m_grid->getTile(redStart)->setType(Tile::Mountain);
 }
 // -----------------------------------------------------------------------------
@@ -177,17 +180,19 @@ int Map::getDistanceHexGrid(
 	distance.y = startCoors.y - endCoors.y;
 
 	// Account for grid deformation in (n, -n) direction
-	sf::Vector2i diagonalComp;
-	int lesserCoor = abs(distance.x) < abs(distance.y) ? abs(distance.x) : abs(distance.y);
-	diagonalComp.x = (distance.x < 0) ? -1*lesserCoor : lesserCoor;
-	diagonalComp.y = (distance.y < 0) ? -1*lesserCoor : lesserCoor;
+	const int lesserCoor = abs(distance.x) < abs(distance.y) ? abs(distance.x) : abs(distance.y);
+	const sf::Vector2i diagonalComp(
+		(distance.x < 0) ? -1*lesserCoor : lesserCoor,
+		(distance.y < 0) ? -1*lesserCoor : lesserCoor
+	);
 
-	sf::Vector2i straightComp;
-	straightComp.x = distance.x - diagonalComp.x;
-	straightComp.y = distance.y - diagonalComp.y;
+	const sf::Vector2i straightComp(
+		distance.x - diagonalComp.x,
+		distance.y - diagonalComp.y
+	);
 	ASSERT((0 == straightComp.x)||(0 == straightComp.y));
 
-	int straightDistance = abs(straightComp.x) + abs(straightComp.y);
+	const int straightDistance = abs(straightComp.x) + abs(straightComp.y);
 	int diagonalDistance = abs(diagonalComp.x);
 
 	// Check if diagonal is along deformed axis

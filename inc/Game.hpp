@@ -37,7 +37,7 @@ private:
 	World m_world; //!< The game world class
 	Player m_player; //!< The player class
 
-	bool m_isPaused; //!< Is the game paused?
+	bool m_isPaused = false; //!< Is the game paused?
 };
 
 #endif /* GAME_H */

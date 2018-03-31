@@ -1,15 +1,17 @@
 #include "SceneNode.hpp"
 
+// LOCAL
+#include "Debug.hpp"
+
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Public:
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-SceneNode::SceneNode()
-: m_children()
-, m_parent(nullptr)
-{
-}
+SceneNode::SceneNode() :
+m_children(),
+m_parent(nullptr)
+{ }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -22,7 +24,7 @@ void SceneNode::attachChild(Ptr child) {
 // -----------------------------------------------------------------------------
 SceneNode::Ptr SceneNode::detachChild(
 	const SceneNode& node
-	) {
+) {
 	auto found = std::find_if(m_children.begin(), m_children.end(),
 		[&] (Ptr& p)->bool {
 			return p.get() == &node;
@@ -41,7 +43,7 @@ SceneNode::Ptr SceneNode::detachChild(
 // -----------------------------------------------------------------------------
 void SceneNode::update(
 	sf::Time dt
-	) {
+) {
 	updateCurrent(dt);
 	updateChildren(dt);
 }
@@ -54,7 +56,7 @@ void SceneNode::update(
 void SceneNode::draw(
 	sf::RenderTarget& target,
 	sf::RenderStates states
-	) const {
+) const {
 	// Apply transform of current node
 	states.transform *= getTransform();
 
@@ -68,7 +70,7 @@ void SceneNode::draw(
 void SceneNode::drawCurrent(
 	sf::RenderTarget&,
 	sf::RenderStates
-	) const {
+) const {
 	// Do nothing by default
 }
 // -----------------------------------------------------------------------------
@@ -77,7 +79,7 @@ void SceneNode::drawCurrent(
 void SceneNode::drawChildren(
 	sf::RenderTarget& target,
 	sf::RenderStates states
-	) const {
+) const {
 	for (auto itr = m_children.begin(); itr != m_children.end(); ++itr) {
 		(*itr)->draw(target, states);
 	}
@@ -87,14 +89,15 @@ void SceneNode::drawChildren(
 // -----------------------------------------------------------------------------
 void SceneNode::updateCurrent(
 	sf::Time
-	) {
+) {
+	// Do nothing by default
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 void SceneNode::updateChildren(
 	sf::Time dt
-	) {
+) {
 	for (const Ptr& child : m_children) {
 		child->update(dt);
 	}

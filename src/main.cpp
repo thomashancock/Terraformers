@@ -15,7 +15,7 @@ int main() {
 		Game game;
 		game.run();
 	} catch (std::exception& e) {
-		std::cout << "\nEXCEPTION: " << e.what() << std::endl;
+		std::cout << "Exception: " << e.what() << std::endl;
 	}
 
 	return 0;

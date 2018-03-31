@@ -1,62 +1,60 @@
 #ifndef SCENENODE_H
 #define SCENENODE_H
 
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
-
+// STD
 #include <vector>
 #include <memory>
 #include <algorithm>
 
-#include "Debug.hpp"
-#include "Command.hpp"
-// #include "Category.hpp"
+// SFML
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
 
 class SceneNode :
 	public sf::Transformable,
 	public sf::Drawable,
 	private sf::NonCopyable
 {
-	public:
-		typedef std::unique_ptr<SceneNode> Ptr;
+public:
+	using Ptr = std::unique_ptr<SceneNode>;
 
-	public:
-		SceneNode();
+public:
+	SceneNode();
 
-		void attachChild(
-			Ptr child
-		);
+	void attachChild(
+		Ptr child
+	);
 
-		Ptr detachChild(
-			const SceneNode& node
-		);
+	Ptr detachChild(
+		const SceneNode& node
+	);
 
-		void update(
-			sf::Time dt
-		);
+	void update(
+		sf::Time dt
+	);
 
-	private:
-		virtual void draw(
-			sf::RenderTarget& target,
-			sf::RenderStates states
-		) const;
+private:
+	virtual void draw(
+		sf::RenderTarget& target,
+		sf::RenderStates states
+	) const;
 
-		virtual void drawCurrent(
-			sf::RenderTarget& target,
-			sf::RenderStates states
-		) const;
+	virtual void drawCurrent(
+		sf::RenderTarget& target,
+		sf::RenderStates states
+	) const;
 
-		virtual void drawChildren(
-			sf::RenderTarget& target,
-			sf::RenderStates states
-		) const;
+	virtual void drawChildren(
+		sf::RenderTarget& target,
+		sf::RenderStates states
+	) const;
 
-		virtual void updateCurrent(sf::Time dt);
-		void updateChildren(sf::Time dt);
+	virtual void updateCurrent(sf::Time dt);
+	void updateChildren(sf::Time dt);
 
-	private:
-		std::vector<Ptr> m_children;
-		SceneNode*	m_parent;
+private:
+	std::vector<Ptr> m_children;
+	SceneNode* m_parent;
 };
 
 #endif /* SCENENODE_H */

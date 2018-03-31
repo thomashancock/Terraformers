@@ -9,9 +9,9 @@ Tile::Tile(
 	Type type,
 	int xPos,
 	int yPos
-	) :
+) :
 	m_type(type)
-	{
+{
 	// Create Hexagon Sprites
 	m_sprite.setPointCount(6);
 	const int hexagonHeight = 30;
@@ -31,11 +31,6 @@ Tile::Tile(
 
 	// Set Tile position to the passed coordinates
 	this->setPosition(xPos,yPos);
-
-	m_isHighlighted = false;
-	m_isSelected = false;
-
-	m_placedUnit = NULL;
 }
 // -----------------------------------------------------------------------------
 //
@@ -43,7 +38,7 @@ Tile::Tile(
 void Tile::drawCurrent(
 	sf::RenderTarget& target,
 	sf::RenderStates states
-	) const {
+) const {
 	target.draw(m_sprite, states);
 }
 // -----------------------------------------------------------------------------
@@ -51,7 +46,7 @@ void Tile::drawCurrent(
 // -----------------------------------------------------------------------------
 void Tile::setType(
 	Type type
-	) {
+) {
 	m_type = type;
 	resetColor();
 }

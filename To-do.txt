@@ -1,5 +1,24 @@
 To-do:
 
-+ Fix tile highlighting
-	+ Blue overlay needs to appear over yellow overlay
-+ Allow unit movement
+General:
+- Change build system to CMake
+	-> Split code based on utility
+
+- Refactor tile grid
+	-> Change HexGrid to just be a square -> hex mapping
+	-> Have tiles stored by separate class and positioned by HexGrid
+
+- Allow unit movement
+	-> Implement Lua scripts to set tile properties (weights)
+	-> Implement algorithm to calculate smallest distance (by weight) to given tile
+
+- Implement Property based entity system
+	-> Begin with tiles as test, before moving on to units
+
+- Implement proper input controls
+	-> Allow custom Key Bindings
+	-> Message bus based system?
+
+Bug Fixes:
+	- Fix tile highlighting
+	- Blue overlay needs to appear over yellow overlay

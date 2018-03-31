@@ -1,19 +1,23 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include "Debug.hpp"
-#include <SFML/Graphics.hpp>
-#include "./SceneNode.hpp"
-#include "./Tile.hpp"
-#include "./Unit.hpp"
-#include "./HexGrid.hpp"
-
+// STD
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <cmath>
 #include <stdlib.h>
 #include <time.h> // Will need to move this later
+
+// SFML
+#include <SFML/Graphics.hpp>
+
+// LOCAL
+#include "Debug.hpp"
+#include "SceneNode.hpp"
+#include "Tile.hpp"
+#include "Unit.hpp"
+#include "HexGrid.hpp"
 
 class Map :
 public SceneNode

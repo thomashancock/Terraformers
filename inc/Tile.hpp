@@ -50,10 +50,10 @@ private:
 private:
 	Type m_type;
 	sf::ConvexShape m_sprite;
-	bool m_isHighlighted;
-	bool m_isSelected;
+	bool m_isHighlighted = false;
+	bool m_isSelected = false;
 
-	Unit* m_placedUnit;
+	Unit* m_placedUnit = nullptr;
 };
 
 #endif /* TILE_H */

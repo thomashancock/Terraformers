@@ -20,21 +20,21 @@ public:
 	Tile* getTile(
 		int xCoor,
 		int yCoor
-	);
+	) const;
 	Tile* getTile(
 		sf::Vector2i coors
-	);
+	) const;
 	Tile* getTile(
 		sf::Vector2f position
-	);
+	) const;
 
 	bool isValidCoordinate(
 		int xCoor,
 		int yCoor
-	);
+	) const;
 	bool isValidCoordinate(
 		sf::Vector2i coors
-	);
+	) const;
 
 private:
 	sf::Vector2f setTilePosition(
@@ -44,16 +44,15 @@ private:
 
 	sf::Vector2i positionToVectorIndicies(
 		sf::Vector2f position
-	);
+	) const;
 
 	int getGridColLength(
 		int row
-	);
+	) const;
 
 private:
-	// Map variables
 	const int m_mapSize;
-	int m_rows;
+	const int m_rows;
 	std::vector< std::vector< Tile* > > m_tileMap;
 };
 

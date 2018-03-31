@@ -5,7 +5,9 @@
 // Public:
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-World::World(sf::RenderWindow& window) :
+World::World(
+	sf::RenderWindow& window
+) :
 	m_window(window)
 {
 	buildScene();
