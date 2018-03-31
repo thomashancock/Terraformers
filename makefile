@@ -13,12 +13,12 @@ ODIR = obj
 SDIR = src
 INC = -Iinc
 
-_OBJS = main.o Debug.o Game.o ResourceHolder.o SceneNode.o Entity.o Tile.o Map.o Unit.o World.o Command.o CommandQueue.o Player.o HexGrid.o
+_OBJS = main.o Game.o ResourceHolder.o SceneNode.o Entity.o Tile.o Map.o Unit.o World.o Command.o CommandQueue.o Player.o HexGrid.o
 
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 # patsubst take _OBJS and appends the ODIR directory to the front of each object file
 
-OUT = Terraformers.exe
+OUT = Terraformers
 
 all: $(OUT)
 

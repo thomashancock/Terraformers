@@ -13,31 +13,31 @@
 	Class which manages and runs the game
 */
 class Game {
-	public:
-		//! Constructor
-		Game();
+public:
+	//! Constructor
+	Game();
 
-		//! Run function which runs game
-		void run();
+	//! Run function which runs game
+	void run();
 
-	private:
-		//! Processes player input
-		void processInputs();
+private:
+	//! Processes player input
+	void processInputs();
 
-		//! Updated the game state
-		void update(
-			sf::Time elapsedTime
-		);
+	//! Updated the game state
+	void update(
+		sf::Time elapsedTime //!< Elpased time since previous update
+	);
 
-		//! Renders the game
-		void render();
+	//! Renders the game
+	void render();
 
-	private:
-		sf::RenderWindow m_window; //!< The Game Window
-		World m_world; //!< The game world class
-		Player m_player; //!< The player class
+private:
+	sf::RenderWindow m_window; //!< The Game Window
+	World m_world; //!< The game world class
+	Player m_player; //!< The player class
 
-		bool m_isPaused; //!< Is the game paused?
+	bool m_isPaused; //!< Is the game paused?
 };
 
 #endif /* GAME_H */

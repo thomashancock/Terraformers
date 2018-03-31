@@ -1,14 +1,17 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
-
+// STD
 #include <array>
 #include <iostream>
 
+// SFML
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+
+// LOCAL
 #include "SceneNode.hpp"
-#include "Tile.hpp"
+// #include "Tile.hpp"
 #include "Map.hpp"
 #include "Unit.hpp"
 #include "CommandQueue.hpp"
@@ -19,16 +22,20 @@ class World :
 private sf::NonCopyable
 {
 public:
+	//! Constructor
 	explicit World(
-		sf::RenderWindow& window
+		sf::RenderWindow& window //!< Reference to the game window
 	);
 
+	//! Updates the world
 	void update(
-		sf::Time elapsedTime
+		sf::Time elapsedTime //!< Elapsed time since previous update
 	);
 
+	//! Draws the game world
 	void draw();
 
+	//! Command Queue getter
 	CommandQueue& getCommandQueue();
 
 private:

@@ -5,20 +5,17 @@
 // Public:
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-World::World(sf::RenderWindow& window)
-: m_window(window)
-, m_sceneGraph()
-, m_sceneLayers()
+World::World(sf::RenderWindow& window) :
+	m_window(window)
 {
 	buildScene();
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-
 void World::update(
 	sf::Time elapsedTime
-	) {
+) {
 	processMousePosition(elapsedTime);
 	processMouseClicks(elapsedTime);
 
@@ -28,14 +25,12 @@ void World::update(
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-
 void World::draw() {
 	m_window.draw(m_sceneGraph);
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-
 CommandQueue& World::getCommandQueue() {
 	return m_commandQueue;
 }
@@ -68,7 +63,7 @@ void World::buildScene() {
 // -----------------------------------------------------------------------------
 void World::processMousePosition(
 	sf::Time elapsedTime
-	) {
+) {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(m_window);
 
 	// Ensure mouse is inside window
@@ -115,7 +110,7 @@ void World::processMouseClicks(
 void World::updateViewPosition(
 	sf::Vector2i mousePos,
 	sf::Time elapsedTime
-	) {
+) {
 	sf::Vector2u windowSize = m_window.getSize();
 
 	sf::Vector2i scrollSpeed(0,0);
