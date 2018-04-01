@@ -1,5 +1,8 @@
 #include "Tile.hpp"
 
+// STD
+#include <cmath>
+
 // LOCAL
 #include "Debug.hpp"
 
@@ -10,21 +13,23 @@
 // -----------------------------------------------------------------------------
 Tile::Tile(
 	Type type,
-	double xPos,
-	double yPos
+	float xPos,
+	float yPos
 ) :
 	m_type(type)
 {
 	// Create Hexagon Sprites
 	m_sprite.setPointCount(6);
-	const int hexagonHeight = 30;
-	const int hexagonWidth = 36;
-	m_sprite.setPoint(0, sf::Vector2f( hexagonWidth, 0));
-	m_sprite.setPoint(1, sf::Vector2f( 20, hexagonHeight));
-	m_sprite.setPoint(2, sf::Vector2f(-20, hexagonHeight));
-	m_sprite.setPoint(3, sf::Vector2f(-1*hexagonWidth, 0));
-	m_sprite.setPoint(4, sf::Vector2f(-20, -1*hexagonHeight));
-	m_sprite.setPoint(5, sf::Vector2f( 20, -1*hexagonHeight));
+	// const int hexagonHeight = 30;
+	// const int hexagonWidth = 36;
+	const float sideLength = 36.0;
+	const static float sqrt3 = std::sqrt(3.0);
+	m_sprite.setPoint(0, sf::Vector2f(  sideLength    ,  0) );
+	m_sprite.setPoint(1, sf::Vector2f(  sideLength/2.0,  sqrt3*sideLength/2.0) );
+	m_sprite.setPoint(2, sf::Vector2f( -sideLength/2.0,  sqrt3*sideLength/2.0) );
+	m_sprite.setPoint(3, sf::Vector2f( -sideLength    ,  0) );
+	m_sprite.setPoint(4, sf::Vector2f( -sideLength/2.0, -sqrt3*sideLength/2.0) );
+	m_sprite.setPoint(5, sf::Vector2f(  sideLength/2.0, -sqrt3*sideLength/2.0) );
 
 	// Set Colour based on the passed tile type
 	resetColor();

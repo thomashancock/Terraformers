@@ -22,8 +22,8 @@ public:
 public:
 	explicit Tile(
 		Type type,
-		double xPos,
-		double yPos
+		float xPos,
+		float yPos
 	);
 
 	virtual void drawCurrent(
