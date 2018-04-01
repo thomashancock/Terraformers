@@ -24,12 +24,13 @@ Tile::Tile(
 	// const int hexagonWidth = 36;
 	const float sideLength = 36.0;
 	const static float sqrt3 = std::sqrt(3.0);
-	m_sprite.setPoint(0, sf::Vector2f(  sideLength    ,  0) );
-	m_sprite.setPoint(1, sf::Vector2f(  sideLength/2.0,  sqrt3*sideLength/2.0) );
-	m_sprite.setPoint(2, sf::Vector2f( -sideLength/2.0,  sqrt3*sideLength/2.0) );
-	m_sprite.setPoint(3, sf::Vector2f( -sideLength    ,  0) );
-	m_sprite.setPoint(4, sf::Vector2f( -sideLength/2.0, -sqrt3*sideLength/2.0) );
-	m_sprite.setPoint(5, sf::Vector2f(  sideLength/2.0, -sqrt3*sideLength/2.0) );
+	m_sprite.setPoint(0, sf::Vector2f( 0, sideLength ) );
+	m_sprite.setPoint(1, sf::Vector2f( sqrt3*sideLength/2.0,  sideLength/2.0) );
+	m_sprite.setPoint(2, sf::Vector2f( sqrt3*sideLength/2.0, -sideLength/2.0) );
+	m_sprite.setPoint(3, sf::Vector2f( 0, -sideLength ) );
+	m_sprite.setPoint(4, sf::Vector2f( -sqrt3*sideLength/2.0, -sideLength/2.0) );
+	m_sprite.setPoint(5, sf::Vector2f( -sqrt3*sideLength/2.0,  sideLength/2.0) );
+
 
 	// Set Colour based on the passed tile type
 	resetColor();
