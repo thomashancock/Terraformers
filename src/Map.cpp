@@ -48,7 +48,7 @@ bool Map::placeUnit(
 ) {
 	ASSERT(nullptr != unit);
 
-	return placeUnit(unit,coors.x,coors.y);
+	// return placeUnit(unit,coors.x,coors.y);
 }
 // -----------------------------------------------------------------------------
 //
@@ -67,9 +67,9 @@ void Map::selectTile(
 	m_selectedTile->select();
 
 	// Select associated unit if exists
-	if (nullptr != m_selectedTile->getUnit()) {
-		m_selectedUnit = m_selectedTile->getUnit();
-	}
+	// if (nullptr != m_selectedTile->getUnit()) {
+	// 	m_selectedUnit = m_selectedTile->getUnit();
+	// }
 }
 // -----------------------------------------------------------------------------
 //

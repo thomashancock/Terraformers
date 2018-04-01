@@ -40,13 +40,6 @@ public:
 	void select();
 	void deselect();
 
-	bool attachUnit(
-		Unit* unit
-	);
-	void detatchUnit();
-	Unit* getUnit();
-	bool hasPlacedUnit();
-
 private:
 	void resetColor();
 
@@ -60,8 +53,6 @@ private:
 
 	bool m_isHighlighted = false;
 	bool m_isSelected = false;
-
-	Unit* m_placedUnit = nullptr;
 
 	sf::Font m_debugFont;
 };
