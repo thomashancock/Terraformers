@@ -105,10 +105,10 @@ void Map::updateHighlighting(
 			sf::Vector2i unitCoors = m_selectedUnit->getCoors();
 			for (int i = unitCoors.x - radius; i < unitCoors.x + radius + 1; i++) {
 				for (int j = unitCoors.y - radius; j < unitCoors.y + radius + 1; j++) {
-					if (true == m_grid->isValidCoordinate(i,j)) {
-						sf::Vector2i tileCoors(i,j);
+					sf::Vector2i tileCoors(i,j);
+					if (true == m_grid->isValidCoordinate(tileCoors)) {
 						if (getDistanceHexGrid(tileCoors,unitCoors) <= radius) {
-							m_grid->getTile(i,j)->highlight();
+							m_grid->getTile(tileCoors)->highlight();
 						}
 					}
 				}

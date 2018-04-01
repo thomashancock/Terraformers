@@ -22,20 +22,13 @@ public:
 	);
 
 	Tile* getTile(
-		int xCoor,
-		int yCoor
-	) const;
-	Tile* getTile(
-		sf::Vector2i coors
-	) const;
-	Tile* getTile(
-		sf::Vector2f position
+		const sf::Vector2i coors
 	) const;
 
-	bool isValidCoordinate(
-		int xCoor,
-		int yCoor
+	Tile* getTile(
+		const sf::Vector2f position
 	) const;
+
 	bool isValidCoordinate(
 		sf::Vector2i coors
 	) const;
@@ -48,18 +41,16 @@ public:
 	void unhighlightAll();
 
 private:
-	sf::Vector2f calcTilePosition(
-		int xCoor,
-		int yCoor
-	) const;
-
-	sf::Vector2i positionToVectorIndicies(
-		sf::Vector2f position
-	) const;
-
 	int calcZCoor(
-		const int xCoor,
-		const int yCoor
+		const sf::Vector2i coors
+	) const;
+
+	sf::Vector2f coordinatesToPosition(
+		const sf::Vector2i coors
+	) const;
+
+	sf::Vector2i positionToCoordinates(
+		sf::Vector2f position
 	) const;
 
 private:

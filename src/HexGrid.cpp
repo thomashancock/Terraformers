@@ -18,9 +18,10 @@ HexGrid::HexGrid(
 
 	for (int iX = -m_mapSize; iX <= m_mapSize; ++iX) {
 		for (int iY = -m_mapSize; iY <= m_mapSize; ++iY) {
-			if (getAtomicDistance(sf::Vector2i(0,0),sf::Vector2i(iX,iY)) <= m_mapSize) {
+			sf::Vector2i coordinates(iX,iY);
+			if (getAtomicDistance(sf::Vector2i(0,0),coordinates) <= m_mapSize) {
 
-				const sf::Vector2f position = calcTilePosition(iX,iY);
+				const sf::Vector2f position = coordinatesToPosition(coordinates);
 				// Create unique pointer to the tile
 				std::unique_ptr<Tile> tile(new Tile(Tile::Basic,sf::Vector2i(iX,iY),position));
 				// Copy the unique pointer to a regular pointer
@@ -39,15 +40,9 @@ HexGrid::HexGrid(
 //
 // -----------------------------------------------------------------------------
 Tile* HexGrid::getTile(
-	int xCoor,
-	int yCoor
+	sf::Vector2i coors
 ) const {
-	// ASSERT(xCoor >= -m_mapSize);
-	// ASSERT(xCoor <= m_mapSize);
-	// ASSERT(yCoor >= -m_mapSize);
-	// ASSERT(yCoor <= m_mapSize);
-
-	auto search = m_tiles.find(sf::Vector2i(xCoor,yCoor));
+	auto search = m_tiles.find(coors);
 	if (search != m_tiles.end()) {
 		return search->second;
 	}	else {
@@ -58,32 +53,23 @@ Tile* HexGrid::getTile(
 //
 // -----------------------------------------------------------------------------
 Tile* HexGrid::getTile(
-	sf::Vector2i coors
-) const {
-	return getTile(coors.x,coors.y);
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-Tile* HexGrid::getTile(
 	sf::Vector2f position
 ) const {
-	auto coors = positionToVectorIndicies(position);
+	auto coors = positionToCoordinates(position);
 	return getTile(coors);
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 bool HexGrid::isValidCoordinate(
-	int xCoor,
-	int yCoor
+	sf::Vector2i coors
 ) const {
-	if (xCoor > m_mapSize) return false;
-	if (xCoor < -m_mapSize) return false;
-	if (yCoor > m_mapSize) return false;
-	if (yCoor < -m_mapSize) return false;
+	if (coors.x > m_mapSize) return false;
+	if (coors.x < -m_mapSize) return false;
+	if (coors.y > m_mapSize) return false;
+	if (coors.y < -m_mapSize) return false;
 
-	auto zCoor = calcZCoor(xCoor,yCoor);
+	auto zCoor = calcZCoor(coors);
 	if (zCoor > m_mapSize) return false;
 	if (zCoor < -m_mapSize) return false;
 
@@ -92,20 +78,12 @@ bool HexGrid::isValidCoordinate(
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool HexGrid::isValidCoordinate(
-	sf::Vector2i coors
-) const {
-	return isValidCoordinate(coors.x,coors.y);
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
 int HexGrid::getAtomicDistance(
 	const sf::Vector2i coor1,
 	const sf::Vector2i coor2
 ) const {
-	auto zCoor1 = calcZCoor(coor1.x,coor1.y);
-	auto zCoor2 = calcZCoor(coor2.x,coor2.y);
+	auto zCoor1 = calcZCoor(coor1);
+	auto zCoor2 = calcZCoor(coor2);
 
 	return std::max({
 		std::abs(coor2.x - coor1.x),
@@ -127,31 +105,38 @@ void HexGrid::unhighlightAll() {
 // Private:
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-sf::Vector2f HexGrid::calcTilePosition(
-	int xCoor,
-	int yCoor
+int HexGrid::calcZCoor(
+	const sf::Vector2i coors
+) const {
+	return -coors.x - coors.y;
+}
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+sf::Vector2f HexGrid::coordinatesToPosition(
+	const sf::Vector2i coors
 ) const {
 	// Calculate tile position using 3D coordinate system:
 	const static float sqrt3 = std::sqrt(3.0);
 
-	const int zCoor = calcZCoor(xCoor,yCoor);
+	const int zCoor = calcZCoor(coors);
 	const float sideLength = 36.0; // *** Need to unify with tiles
 
 	const float xPos =
-		xCoor * sqrt3*sideLength/2.0 +
-		zCoor * -sqrt3*sideLength/2.0;
+		coors.x * sqrt3*sideLength/2.0 +
+		zCoor   * -sqrt3*sideLength/2.0;
 
 	const float yPos =
-		xCoor * -sideLength/2.0 +
-		yCoor * sideLength +
-		zCoor * -sideLength/2.0;
+		coors.x * -sideLength/2.0 +
+		coors.y * sideLength +
+		zCoor   * -sideLength/2.0;
 
 	return sf::Vector2f(xPos,yPos);
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-sf::Vector2i HexGrid::positionToVectorIndicies(
+sf::Vector2i HexGrid::positionToCoordinates(
 	sf::Vector2f position
 ) const {
 
@@ -178,23 +163,15 @@ sf::Vector2i HexGrid::positionToVectorIndicies(
 	double minDist = 20.0*sideLength;
 	for (int iX = xCoor-1; iX <= xCoor+1; iX += 1) {
 		for (int iY = yCoor-1; iY <= yCoor+1; iY += 1) {
-			const auto dist = getAbsDist(calcTilePosition(iX,iY),position);
+			sf::Vector2i tmpCoors(iX,iY);
+			const auto dist = getAbsDist(coordinatesToPosition(tmpCoors),position);
 			if (dist < minDist) {
 				minDist = dist;
-				tileCoors = sf::Vector2i(iX,iY);
+				tileCoors = tmpCoors;
 			}
 		}
 	}
 
 	// Return closest tile to mouse
 	return tileCoors;
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-int HexGrid::calcZCoor(
-	const int xCoor,
-	const int yCoor
-) const {
-	return 0 - xCoor - yCoor;
 }
