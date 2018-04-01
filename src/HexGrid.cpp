@@ -2,6 +2,7 @@
 
 // STD
 #include <cmath>
+#include <algorithm>
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -18,8 +19,9 @@ HexGrid::HexGrid(
 
 	for (int iX = -m_mapSize; iX <= m_mapSize; ++iX) {
 		for (int iY = -m_mapSize; iY <= m_mapSize; ++iY) {
-			// for (int iZ = -m_mapSize; iZ <= m_mapSize; ++iZ) {
-				const sf::Vector2f position = setTilePosition(iX,iY);
+			if (getAtomicDistance(sf::Vector2i(0,0),sf::Vector2i(iX,iY)) <= m_mapSize) {
+
+				const sf::Vector2f position = calcTilePosition(iX,iY);
 				// Create unique pointer to the tile
 				std::unique_ptr<Tile> tile(new Tile(Tile::Basic,sf::Vector2i(iX,iY),position));
 				// Copy the unique pointer to a regular pointer
@@ -28,7 +30,7 @@ HexGrid::HexGrid(
 				this->attachChild(std::move(tile));
 				// Store regular pointer in tile map
 				m_tiles.insert(std::make_pair(sf::Vector2i(iX,iY),tilePtr));
-			// }
+			}
 		}
 	}
 
@@ -119,16 +121,32 @@ bool HexGrid::isValidCoordinate(
 ) const {
 	return isValidCoordinate(coors.x,coors.y);
 }
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+int HexGrid::getAtomicDistance(
+	const sf::Vector2i coor1,
+	const sf::Vector2i coor2
+) const {
+	auto zCoor1 = calcZCoor(coor1.x,coor1.y);
+	auto zCoor2 = calcZCoor(coor2.x,coor2.y);
+
+	return std::max({
+		std::abs(coor2.x - coor1.x),
+		std::abs(coor2.y - coor1.y),
+		std::abs(zCoor2 - zCoor1)
+	});
+}
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Private:
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
-sf::Vector2f HexGrid::setTilePosition(
+sf::Vector2f HexGrid::calcTilePosition(
 	int xCoor,
 	int yCoor
-	) {
+) const {
 	ASSERT(xCoor >= -m_mapSize);
 	ASSERT(xCoor <= m_mapSize);
 	ASSERT(yCoor >= -m_mapSize);
@@ -202,6 +220,6 @@ int HexGrid::getGridColLength(
 int HexGrid::calcZCoor(
 	const int xCoor,
 	const int yCoor
-) {
+) const {
 	return 0 - xCoor - yCoor;
 }

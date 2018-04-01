@@ -57,7 +57,7 @@ void Tile::drawCurrent(
 ) const {
 	target.draw(m_sprite, states);
 
-
+	// For Debugging
 	std::stringstream printCoor;
 	printCoor << m_coors.x << " " << m_coors.y << " " << 0 - m_coors.x - m_coors.y;
 	sf::Text location(printCoor.str(),m_debugFont,10);

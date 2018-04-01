@@ -40,11 +40,16 @@ public:
 		sf::Vector2i coors
 	) const;
 
+	int getAtomicDistance(
+		const sf::Vector2i coor1,
+		const sf::Vector2i coor2
+	) const;
+
 private:
-	sf::Vector2f setTilePosition(
+	sf::Vector2f calcTilePosition(
 		int xCoor,
 		int yCoor
-	);
+	) const;
 
 	sf::Vector2i positionToVectorIndicies(
 		sf::Vector2f position
@@ -57,7 +62,7 @@ private:
 	int calcZCoor(
 		const int xCoor,
 		const int yCoor
-	);
+	) const;
 
 private:
 	const int m_mapSize;
