@@ -163,13 +163,38 @@ sf::Vector2i HexGrid::positionToVectorIndicies(
 
 	const float sideLength = 36.0; // *** Need to unify with tiles
 
-	float xCoor = (sqrt3*position.x - position.y) / (3.0*sideLength);
+	position.x -= sideLength/2.0; // Adjust for rounding
 
-	// xCoor += sideLength/2.0;
+	const int xCoor = static_cast<int>(
+		(sqrt3*position.x - position.y) / (3.0*sideLength)
+	);
+	const int yCoor = static_cast<int>(2.0 * position.y / (3.0*sideLength));
 
-	float yCoor = 2.0 * position.y / (3.0*sideLength);
+	sf::Vector2i tileCoors(xCoor,yCoor);
+	double minDist = 20.0*sideLength;
 
-	return sf::Vector2i(static_cast<int>(xCoor),static_cast<int>(yCoor));
+	static auto getAbsDist = [] (
+		const sf::Vector2f& vector1,
+		const sf::Vector2f& vector2
+	) -> double {
+		const auto disp = vector1 - vector2;
+		return std::sqrt(disp.x*disp.x + disp.y*disp.y);
+	};
+
+	for (int iX = -1; iX <= 1; iX += 1) {
+		for (int iY = -1; iY <= 1; iY += 1) {
+			const auto tile = getTile(xCoor + iX, yCoor + iY);
+			if (tile != nullptr) {
+				const auto dist = getAbsDist(tile->getPosition(),position);
+				if (dist < minDist) {
+					minDist = dist;
+					tileCoors = sf::Vector2i(xCoor + iX,yCoor + iY);
+				}
+			}
+		}
+	}
+
+	return tileCoors;
 }
 // -----------------------------------------------------------------------------
 //
