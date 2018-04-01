@@ -57,10 +57,6 @@ private:
 		sf::Vector2f position
 	) const;
 
-	int getGridColLength(
-		int row
-	) const;
-
 	int calcZCoor(
 		const int xCoor,
 		const int yCoor

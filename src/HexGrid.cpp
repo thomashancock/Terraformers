@@ -131,11 +131,6 @@ sf::Vector2f HexGrid::calcTilePosition(
 	int xCoor,
 	int yCoor
 ) const {
-	ASSERT(xCoor >= -m_mapSize);
-	ASSERT(xCoor <= m_mapSize);
-	ASSERT(yCoor >= -m_mapSize);
-	ASSERT(yCoor <= m_mapSize);
-
 	// Calculate tile position using 3D coordinate system:
 	const static float sqrt3 = std::sqrt(3.0);
 
@@ -183,27 +178,16 @@ sf::Vector2i HexGrid::positionToVectorIndicies(
 	double minDist = 20.0*sideLength;
 	for (int iX = xCoor-1; iX <= xCoor+1; iX += 1) {
 		for (int iY = yCoor-1; iY <= yCoor+1; iY += 1) {
-			const auto tile = getTile(iX, iY);
-			if (tile != nullptr) {
-				const auto dist = getAbsDist(tile->getPosition(),position);
-				if (dist < minDist) {
-					minDist = dist;
-					tileCoors = sf::Vector2i(iX,iY);
-				}
+			const auto dist = getAbsDist(calcTilePosition(iX,iY),position);
+			if (dist < minDist) {
+				minDist = dist;
+				tileCoors = sf::Vector2i(iX,iY);
 			}
 		}
 	}
 
 	// Return closest tile to mouse
 	return tileCoors;
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-int HexGrid::getGridColLength(
-	int row
-) const {
-	return (2*m_mapSize) - 1 - abs(row - m_mapSize + 1);
 }
 // -----------------------------------------------------------------------------
 //
