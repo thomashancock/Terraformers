@@ -22,7 +22,7 @@ OUT = Terraformers
 
 all: $(OUT)
 
-debug: CFLAGS += -DDEBUG
+debug: CFLAGS += -DLOCAL_DEBUG
 debug: $(OUT)
 
 $(OUT): $(OBJS)

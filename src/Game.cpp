@@ -14,6 +14,11 @@ Game::Game() :
 {
 	m_window.setPosition(sf::Vector2i(50,50));
 	m_window.setFramerateLimit(60);
+
+	// Centre map
+	auto view = m_window.getView();
+	view.move(-640,-480);
+	m_window.setView(view);
 }
 // -----------------------------------------------------------------------------
 //

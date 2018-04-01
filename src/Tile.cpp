@@ -2,6 +2,7 @@
 
 // STD
 #include <cmath>
+#include <sstream>
 
 // LOCAL
 #include "Debug.hpp"
@@ -13,11 +14,17 @@
 // -----------------------------------------------------------------------------
 Tile::Tile(
 	Type type,
-	float xPos,
-	float yPos
+	sf::Vector2i coors,
+	sf::Vector2f pos
 ) :
-	m_type(type)
+	m_type(type),
+	m_coors(coors)
 {
+	if (!m_debugFont.loadFromFile("Fonts/Arial.ttf")) {
+		STD_ERR("Unable to load font");
+		ASSERT(false);
+	}
+
 	// Create Hexagon Sprites
 	m_sprite.setPointCount(6);
 	// const int hexagonHeight = 30;
@@ -39,7 +46,7 @@ Tile::Tile(
 	m_sprite.setOrigin(0, 0);
 
 	// Set Tile position to the passed coordinates
-	this->setPosition(xPos,yPos);
+	this->setPosition(pos.x,pos.y);
 }
 // -----------------------------------------------------------------------------
 //
@@ -49,6 +56,16 @@ void Tile::drawCurrent(
 	sf::RenderStates states
 ) const {
 	target.draw(m_sprite, states);
+
+
+	std::stringstream printCoor;
+	printCoor << m_coors.x << " " << m_coors.y << " " << 0 - m_coors.x - m_coors.y;
+	sf::Text location(printCoor.str(),m_debugFont,10);
+	auto position = this->getPosition();
+	position.x -= 20;
+	position.y -= 10;
+	location.setPosition(position);
+	target.draw(location);
 }
 // -----------------------------------------------------------------------------
 //

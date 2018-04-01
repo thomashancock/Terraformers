@@ -22,8 +22,8 @@ public:
 public:
 	explicit Tile(
 		Type type,
-		float xPos,
-		float yPos
+		sf::Vector2i coors,
+		sf::Vector2f pos
 	);
 
 	virtual void drawCurrent(
@@ -52,11 +52,16 @@ private:
 
 private:
 	Type m_type;
+
+	const sf::Vector2i m_coors;
+
 	sf::ConvexShape m_sprite;
 	bool m_isHighlighted = false;
 	bool m_isSelected = false;
 
 	Unit* m_placedUnit = nullptr;
+
+	sf::Font m_debugFont;
 };
 
 #endif /* TILE_H */

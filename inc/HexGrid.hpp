@@ -1,13 +1,17 @@
 #ifndef HEXGRID_H
 #define HEXGRID_H
 
-#include "Debug.hpp"
-#include <SFML/Graphics.hpp>
-#include "./SceneNode.hpp"
-#include "./Tile.hpp"
+// STD
+#include <utility>
+#include <map>
 
-#include <vector>
-#include <cmath>
+// SFML
+#include <SFML/System.hpp>
+
+// LOCAL
+#include "Debug.hpp"
+#include "Tile.hpp"
+#include "SceneNode.hpp"
 
 class HexGrid :
 public SceneNode
@@ -50,10 +54,32 @@ private:
 		int row
 	) const;
 
+	int calcZCoor(
+		const int xCoor,
+		const int yCoor
+	);
+
 private:
 	const int m_mapSize;
 	const int m_rows;
-	std::vector< std::vector< Tile* > > m_tileMap;
+
+	// std::vector< std::vector< Tile* > > m_tileMap;
+
+	// Comparitor for Vector2i to facilitate map storage
+	struct compareVector2i {
+		bool operator() (
+			const sf::Vector2i& a,
+			const sf::Vector2i& b
+		) const {
+			if (a.x != b.x) {
+				return a.x < b.x;
+			} else {
+				return a.y < b.y;
+			}
+		}
+	};
+
+	std::map< sf::Vector2i, Tile*, compareVector2i > m_tiles;
 };
 
 #endif /* HEXGRID_H */
