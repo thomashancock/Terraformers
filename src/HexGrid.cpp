@@ -4,6 +4,9 @@
 #include <cmath>
 #include <algorithm>
 
+// LOCAL
+#include "Debug.hpp"
+
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 // Public:
@@ -13,51 +16,7 @@ HexGrid::HexGrid(
 	int mapSize
 ) :
 	m_mapSize(mapSize)
-{
-	STD_LOG("Creating Map");
-
-	for (int iX = -m_mapSize; iX <= m_mapSize; ++iX) {
-		for (int iY = -m_mapSize; iY <= m_mapSize; ++iY) {
-			sf::Vector2i coordinates(iX,iY);
-			if (getAtomicDistance(sf::Vector2i(0,0),coordinates) <= m_mapSize) {
-
-				const sf::Vector2f position = coordinatesToPosition(coordinates);
-				// Create unique pointer to the tile
-				std::unique_ptr<Tile> tile(new Tile(Tile::Basic,sf::Vector2i(iX,iY),position));
-				// Copy the unique pointer to a regular pointer
-				Tile* tilePtr = tile.get();
-				// Attach unique pointer as sceneNode child
-				this->attachChild(std::move(tile));
-				// Store regular pointer in tile map
-				m_tiles.insert(std::make_pair(sf::Vector2i(iX,iY),tilePtr));
-			}
-		}
-	}
-
-	STD_LOG("Finished Creating Map");
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-Tile* HexGrid::getTile(
-	sf::Vector2i coors
-) const {
-	auto search = m_tiles.find(coors);
-	if (search != m_tiles.end()) {
-		return search->second;
-	}	else {
-		return nullptr;
-	}
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-Tile* HexGrid::getTile(
-	sf::Vector2f position
-) const {
-	auto coors = positionToCoordinates(position);
-	return getTile(coors);
-}
+{ }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -90,25 +49,6 @@ int HexGrid::getAtomicDistance(
 		std::abs(coor2.y - coor1.y),
 		std::abs(zCoor2 - zCoor1)
 	});
-}
-// -----------------------------------------------------------------------------
-//
-// -----------------------------------------------------------------------------
-void HexGrid::unhighlightAll() {
-	for (auto& entry : m_tiles) {
-		entry.second->unhighlight();
-	}
-}
-
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-// Private:
-// -----------------------------------------------------------------------------
-// -----------------------------------------------------------------------------
-int HexGrid::calcZCoor(
-	const sf::Vector2i coors
-) const {
-	return -coors.x - coors.y;
 }
 // -----------------------------------------------------------------------------
 //
@@ -174,4 +114,15 @@ sf::Vector2i HexGrid::positionToCoordinates(
 
 	// Return closest tile to mouse
 	return tileCoors;
+}
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// Private:
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+int HexGrid::calcZCoor(
+	const sf::Vector2i coors
+) const {
+	return -coors.x - coors.y;
 }

@@ -15,8 +15,8 @@
 // LOCAL
 #include "Debug.hpp"
 #include "SceneNode.hpp"
-#include "Tile.hpp"
 #include "Unit.hpp"
+#include "TileBank.hpp"
 #include "HexGrid.hpp"
 
 class Map :
@@ -49,14 +49,9 @@ public:
 private:
 	void setupMap();
 
-	int getDistanceHexGrid(
-		sf::Vector2i startCoors,
-		sf::Vector2i endCoors
-	);
-
 private:
-	HexGrid* m_grid;
-	const int m_mapSize;
+	HexGrid m_grid;
+	TileBank* m_tileBank;
 
 	// Selected object pointers
 	Tile* m_selectedTile;
