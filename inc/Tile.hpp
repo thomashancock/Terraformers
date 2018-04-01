@@ -1,9 +1,12 @@
 #ifndef TILE_H
 #define TILE_H
 
+// SFML
 #include <SFML/Graphics.hpp>
-#include "./SceneNode.hpp"
-#include "./Unit.hpp"
+
+// LOCAL
+#include "SceneNode.hpp"
+#include "Unit.hpp"
 
 class Tile :
 public SceneNode
@@ -19,8 +22,8 @@ public:
 public:
 	explicit Tile(
 		Type type,
-		int xPos,
-		int yPos
+		double xPos,
+		double yPos
 	);
 
 	virtual void drawCurrent(
