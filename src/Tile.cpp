@@ -25,25 +25,36 @@ Tile::Tile(
 		ASSERT(false);
 	}
 
-	// Create Hexagon Sprites
-	m_sprite.setPointCount(6);
-	// const int hexagonHeight = 30;
-	// const int hexagonWidth = 36;
 	const float sideLength = 36.0;
-	const static float sqrt3 = std::sqrt(3.0);
-	m_sprite.setPoint(0, sf::Vector2f( 0, sideLength ) );
-	m_sprite.setPoint(1, sf::Vector2f( sqrt3*sideLength/2.0,  sideLength/2.0) );
-	m_sprite.setPoint(2, sf::Vector2f( sqrt3*sideLength/2.0, -sideLength/2.0) );
-	m_sprite.setPoint(3, sf::Vector2f( 0, -sideLength ) );
-	m_sprite.setPoint(4, sf::Vector2f( -sqrt3*sideLength/2.0, -sideLength/2.0) );
-	m_sprite.setPoint(5, sf::Vector2f( -sqrt3*sideLength/2.0,  sideLength/2.0) );
 
+	// Create Hexagon Sprites
+	auto setSpriteShape = [&sideLength] (
+		sf::ConvexShape& sprite
+	) {
+		const static float sqrt3 = std::sqrt(3.0);
+		sprite.setPointCount(6);
+		sprite.setPoint(0, sf::Vector2f( 0, sideLength ) );
+		sprite.setPoint(1, sf::Vector2f( sqrt3*sideLength/2.0,  sideLength/2.0) );
+		sprite.setPoint(2, sf::Vector2f( sqrt3*sideLength/2.0, -sideLength/2.0) );
+		sprite.setPoint(3, sf::Vector2f( 0, -sideLength ) );
+		sprite.setPoint(4, sf::Vector2f( -sqrt3*sideLength/2.0, -sideLength/2.0) );
+		sprite.setPoint(5, sf::Vector2f( -sqrt3*sideLength/2.0,  sideLength/2.0) );
+
+		sprite.setOrigin(0, 0);
+	};
+
+	// Setup tile sprite
+	setSpriteShape(m_sprite);
+	m_sprite.setOutlineThickness(2);
+	m_sprite.setOutlineColor(sf::Color::White);
+
+	// Setup Border overlay
+	setSpriteShape(m_borderSprite);
+	m_borderSprite.setOutlineThickness(2);
+	m_borderSprite.setFillColor(sf::Color(0,0,0,0));
 
 	// Set Colour based on the passed tile type
 	resetColor();
-
-	// Set Tile Origin
-	m_sprite.setOrigin(0, 0);
 
 	// Set Tile position to the passed coordinates
 	this->setPosition(pos.x,pos.y);
@@ -56,14 +67,15 @@ void Tile::drawCurrent(
 	sf::RenderStates states
 ) const {
 	target.draw(m_sprite, states);
+	target.draw(m_borderSprite, states);
 
 	// For Debugging
 	std::stringstream printCoor;
-	printCoor << m_coors.x << " " << m_coors.y << " " << 0 - m_coors.x - m_coors.y;
+	printCoor << "|" << m_coors.x << " " << m_coors.y << " " << 0 - m_coors.x - m_coors.y;
 	sf::Text location(printCoor.str(),m_debugFont,10);
 	auto position = this->getPosition();
-	position.x -= 20;
-	position.y -= 10;
+	// position.x -= 20;
+	// position.y -= 10;
 	location.setPosition(position);
 	target.draw(location);
 }
@@ -165,13 +177,10 @@ void Tile::resetColor() {
 	}
 
 	if (true == m_isSelected) {
-		m_sprite.setOutlineThickness(2);
-		m_sprite.setOutlineColor(sf::Color::Blue);
+		m_borderSprite.setOutlineColor(sf::Color::Blue);
 	} else if (true == m_isHighlighted) {
-		m_sprite.setOutlineThickness(2);
-		m_sprite.setOutlineColor(sf::Color::Yellow);
+		m_borderSprite.setOutlineColor(sf::Color::Yellow);
 	} else {
-		m_sprite.setOutlineThickness(0);
-		m_sprite.setOutlineColor(sf::Color::Blue);
+		m_borderSprite.setOutlineColor(sf::Color::White);
 	}
 }

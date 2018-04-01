@@ -159,20 +159,19 @@ sf::Vector2f HexGrid::calcTilePosition(
 sf::Vector2i HexGrid::positionToVectorIndicies(
 	sf::Vector2f position
 ) const {
-	const static float sqrt3 = std::sqrt(3.0);
 
 	const float sideLength = 36.0; // *** Need to unify with tiles
 
-	position.x -= sideLength/2.0; // Adjust for rounding
-
+	// Make educated guess at which tile is under the mouse
+	const static float sqrt3 = std::sqrt(3.0);
 	const int xCoor = static_cast<int>(
 		(sqrt3*position.x - position.y) / (3.0*sideLength)
 	);
 	const int yCoor = static_cast<int>(2.0 * position.y / (3.0*sideLength));
 
 	sf::Vector2i tileCoors(xCoor,yCoor);
-	double minDist = 20.0*sideLength;
 
+	// Search Neighbouring tiles to find closest
 	static auto getAbsDist = [] (
 		const sf::Vector2f& vector1,
 		const sf::Vector2f& vector2
@@ -181,19 +180,21 @@ sf::Vector2i HexGrid::positionToVectorIndicies(
 		return std::sqrt(disp.x*disp.x + disp.y*disp.y);
 	};
 
-	for (int iX = -1; iX <= 1; iX += 1) {
-		for (int iY = -1; iY <= 1; iY += 1) {
-			const auto tile = getTile(xCoor + iX, yCoor + iY);
+	double minDist = 20.0*sideLength;
+	for (int iX = xCoor-1; iX <= xCoor+1; iX += 1) {
+		for (int iY = yCoor-1; iY <= yCoor+1; iY += 1) {
+			const auto tile = getTile(iX, iY);
 			if (tile != nullptr) {
 				const auto dist = getAbsDist(tile->getPosition(),position);
 				if (dist < minDist) {
 					minDist = dist;
-					tileCoors = sf::Vector2i(xCoor + iX,yCoor + iY);
+					tileCoors = sf::Vector2i(iX,iY);
 				}
 			}
 		}
 	}
 
+	// Return closest tile to mouse
 	return tileCoors;
 }
 // -----------------------------------------------------------------------------

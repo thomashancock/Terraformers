@@ -56,6 +56,8 @@ private:
 	const sf::Vector2i m_coors;
 
 	sf::ConvexShape m_sprite;
+	sf::ConvexShape m_borderSprite;
+
 	bool m_isHighlighted = false;
 	bool m_isSelected = false;
 
