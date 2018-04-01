@@ -71,11 +71,11 @@ void Tile::drawCurrent(
 
 	// For Debugging
 	std::stringstream printCoor;
-	printCoor << "|" << m_coors.x << " " << m_coors.y << " " << 0 - m_coors.x - m_coors.y;
+	printCoor << m_coors.x << " " << m_coors.y << " " << 0 - m_coors.x - m_coors.y;
 	sf::Text location(printCoor.str(),m_debugFont,10);
 	auto position = this->getPosition();
-	// position.x -= 20;
-	// position.y -= 10;
+	position.x -= 20;
+	position.y -= 10;
 	location.setPosition(position);
 	target.draw(location);
 }
