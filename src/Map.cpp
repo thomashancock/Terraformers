@@ -16,8 +16,8 @@ Map::Map(
 
 	setupMap();
 
-	m_selectedTile = NULL;
-	m_selectedUnit = NULL;
+	m_selectedTile = nullptr;
+	m_selectedUnit = nullptr;
 }
 // -----------------------------------------------------------------------------
 //
@@ -27,7 +27,7 @@ bool Map::placeUnit(
 	int xCoor,
 	int yCoor
 ) {
-	ASSERT(NULL != unit);
+	ASSERT(nullptr != unit);
 
 	// bool unitPlaced = m_grid->getTile(xCoor,yCoor)->attachUnit(unit);
 	// if (true == unitPlaced) {
@@ -46,42 +46,42 @@ bool Map::placeUnit(
 	Unit* unit,
 	sf::Vector2i coors
 ) {
-	ASSERT(NULL != unit);
+	ASSERT(nullptr != unit);
 
 	return placeUnit(unit,coors.x,coors.y);
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-void Map::selectTile (
+void Map::selectTile(
 	sf::Vector2f position
 ) {
-	// if (NULL != m_selectedTile) {
-	// 	m_selectedTile->deselect();
-	// }
-	// if (NULL != m_selectedUnit) {
-	// 	m_selectedUnit = NULL;
-	// }
-	// m_selectedTile = m_grid->getTile(position);
-	// ASSERT(NULL != m_selectedTile);
-	// m_selectedTile->select();
-  //
-	// // Select associated unit if exists
-	// if (NULL != m_selectedTile->getUnit()) {
-	// 	m_selectedUnit = m_selectedTile->getUnit();
-	// }
+	if (nullptr != m_selectedTile) {
+		m_selectedTile->deselect();
+	}
+	if (nullptr != m_selectedUnit) {
+		m_selectedUnit = nullptr;
+	}
+	m_selectedTile = m_grid->getTile(position);
+	ASSERT(nullptr != m_selectedTile);
+	m_selectedTile->select();
+
+	// Select associated unit if exists
+	if (nullptr != m_selectedTile->getUnit()) {
+		m_selectedUnit = m_selectedTile->getUnit();
+	}
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
 void Map::deselectTile() {
-	if (NULL != m_selectedUnit) {
-		m_selectedUnit = NULL;
+	if (nullptr != m_selectedUnit) {
+		m_selectedUnit = nullptr;
 	}
 
-	if (NULL != m_selectedTile) {
+	if (nullptr != m_selectedTile) {
 		m_selectedTile->deselect();
-		m_selectedTile = NULL;
+		m_selectedTile = nullptr;
 	}
 }
 // -----------------------------------------------------------------------------
@@ -91,37 +91,30 @@ void Map::updateHighlighting(
 	sf::Vector2f worldMousePosition
 ) {
 	// Unhighlight all tiles
-	// *** Need to optimise
-	// for (int i = 0; i < 2*m_mapSize; i++) {
-	// 	for (int  j = 0; j < 2*m_mapSize; j++) {
-	// 		if (true == m_grid->isValidCoordinate(i,j)) {
-	// 			m_grid->getTile(i,j)->unhighlight();
-	// 		}
-	// 	}
-	// }
+	m_grid->unhighlightAll();
 
 	// Highlight tiles according to mouse positions
-	// Tile* hoveredTile = m_grid->getTile(worldMousePosition);
-	// if (NULL != hoveredTile) {
-	// 	hoveredTile->highlight();
-	// }
-  //
-	// if (hoveredTile == m_selectedTile) {
-	// 	if (NULL != m_selectedUnit) {
-	// 		int radius = m_selectedUnit->getRemainingMoves();
-	// 		sf::Vector2i unitCoors = m_selectedUnit->getCoors();
-	// 		for (int i = unitCoors.x - radius; i < unitCoors.x + radius + 1; i++) {
-	// 			for (int j = unitCoors.y - radius; j < unitCoors.y + radius + 1; j++) {
-	// 				if (true == m_grid->isValidCoordinate(i,j)) {
-	// 					sf::Vector2i tileCoors(i,j);
-	// 					if (getDistanceHexGrid(tileCoors,unitCoors) <= radius) {
-	// 						m_grid->getTile(i,j)->highlight();
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
+	Tile* hoveredTile = m_grid->getTile(worldMousePosition);
+	if (nullptr != hoveredTile) {
+		hoveredTile->highlight();
+	}
+
+	if (hoveredTile == m_selectedTile) {
+		if (nullptr != m_selectedUnit) {
+			int radius = m_selectedUnit->getRemainingMoves();
+			sf::Vector2i unitCoors = m_selectedUnit->getCoors();
+			for (int i = unitCoors.x - radius; i < unitCoors.x + radius + 1; i++) {
+				for (int j = unitCoors.y - radius; j < unitCoors.y + radius + 1; j++) {
+					if (true == m_grid->isValidCoordinate(i,j)) {
+						sf::Vector2i tileCoors(i,j);
+						if (getDistanceHexGrid(tileCoors,unitCoors) <= radius) {
+							m_grid->getTile(i,j)->highlight();
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 // -----------------------------------------------------------------------------
@@ -133,9 +126,9 @@ void Map::setupMap() {
 	STD_LOG("Populating Map");
 	for (int i = 0; i < m_mapSize; i++) {
 		// Top Right Edge
-		m_grid->getTile(i,0)->setType(Tile::Border);
+		// m_grid->getTile(i,0)->setType(Tile::Border);
 		// Top Left Edge
-		m_grid->getTile(0,i)->setType(Tile::Border);
+		// m_grid->getTile(0,i)->setType(Tile::Border);
 		// Right Edge
 		// m_grid->getTile(m_mapSize+i-1,i)->setType(Tile::Border);
 		// // Left Edge
@@ -147,7 +140,7 @@ void Map::setupMap() {
 	}
 
 	// Randomly define starting positions
-	// srand(time(NULL)); // Will need to move this later
+	// srand(time(nullptr)); // Will need to move this later
 	// const sf::Vector2i mapMiddle(m_mapSize-1,m_mapSize-1);
 
 	// Determine Green starting position

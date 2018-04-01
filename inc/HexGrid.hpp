@@ -45,6 +45,8 @@ public:
 		const sf::Vector2i coor2
 	) const;
 
+	void unhighlightAll();
+
 private:
 	sf::Vector2f calcTilePosition(
 		int xCoor,
@@ -66,9 +68,6 @@ private:
 
 private:
 	const int m_mapSize;
-	const int m_rows;
-
-	// std::vector< std::vector< Tile* > > m_tileMap;
 
 	// Comparitor for Vector2i to facilitate map storage
 	struct compareVector2i {
