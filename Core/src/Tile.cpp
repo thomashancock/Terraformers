@@ -20,7 +20,7 @@ Tile::Tile(
 	m_type(type),
 	m_coors(coors)
 {
-	if (!m_debugFont.loadFromFile("Fonts/Arial.ttf")) {
+	if (!m_debugFont.loadFromFile("../Fonts/Arial.ttf")) {
 		STD_ERR("Unable to load font");
 		ASSERT(false);
 	}
