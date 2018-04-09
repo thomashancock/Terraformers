@@ -6,7 +6,7 @@
 
 // LOCAL
 #include "World.hpp"
-#include "Player.hpp"
+// #include "Player.hpp"
 
 //! The Game class
 /*!
@@ -35,7 +35,7 @@ private:
 private:
 	sf::RenderWindow m_window; //!< The Game Window
 	World m_world; //!< The game world class
-	Player m_player; //!< The player class
+	// Player m_player; //!< The player class
 
 	bool m_isPaused = false; //!< Is the game paused?
 };

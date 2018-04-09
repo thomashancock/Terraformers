@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 // LOCAL
-#include "CommandQueue.hpp"
+// #include "CommandQueue.hpp"
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -41,7 +41,7 @@ void Game::run() {
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 void Game::processInputs() {
-	CommandQueue& commands = m_world.getCommandQueue();
+	// CommandQueue& commands = m_world.getCommandQueue();
 
 	sf::Event event;
 	while(m_window.pollEvent(event)) {
@@ -72,24 +72,24 @@ void Game::processInputs() {
 		}
 
 		// *** Consider moving these to Player class
-		if (sf::Event::MouseButtonPressed == event.type) {
-			if (sf::Mouse::Left == event.mouseButton.button) {
-				Command keyPress(Input::Type::LeftMouse);
-				commands.push(keyPress);
-			}
-
-			if (sf::Mouse::Right == event.mouseButton.button) {
-				Command keyPress(Input::Type::RightMouse);
-				commands.push(keyPress);
-			}
-		}
-
-		if (sf::Event::KeyPressed == event.type) {
-			if (sf::Keyboard::Space == event.key.code) {
-				Command keyPress(Input::Type::Spacebar);
-				commands.push(keyPress);
-			}
-		}
+		// if (sf::Event::MouseButtonPressed == event.type) {
+		// 	if (sf::Mouse::Left == event.mouseButton.button) {
+		// 		Command keyPress(Input::Type::LeftMouse);
+		// 		commands.push(keyPress);
+		// 	}
+    //
+		// 	if (sf::Mouse::Right == event.mouseButton.button) {
+		// 		Command keyPress(Input::Type::RightMouse);
+		// 		commands.push(keyPress);
+		// 	}
+		// }
+    //
+		// if (sf::Event::KeyPressed == event.type) {
+		// 	if (sf::Keyboard::Space == event.key.code) {
+		// 		Command keyPress(Input::Type::Spacebar);
+		// 		commands.push(keyPress);
+		// 	}
+		// }
 	}
 
 	// All other inputs handled by the player class

@@ -33,9 +33,9 @@ void World::draw() {
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-CommandQueue& World::getCommandQueue() {
-	return m_commandQueue;
-}
+// CommandQueue& World::getCommandQueue() {
+// 	return m_commandQueue;
+// }
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -89,22 +89,22 @@ void World::processMousePosition(
 void World::processMouseClicks(
 	sf::Time elapsedTime
 ) {
-	while (!m_commandQueue.isEmpty()) {
-		Command command = m_commandQueue.pop();
-
-		if (Input::Type::LeftMouse == command.getType()) {
-			STD_LOG("Player Input: Left Mouse Button Pressed");
-			m_map->selectTile(m_worldMousePos);
-		}
-
-		if (Input::Type::RightMouse == command.getType()) {
-			STD_LOG("Player Input: Right Mouse Button Pressed");
-		}
-
-		if (Input::Type::Spacebar == command.getType()) {
-			STD_LOG("Player Input: Spacebar Pressed");
-		}
-	}
+	// while (!m_commandQueue.isEmpty()) {
+	// 	Command command = m_commandQueue.pop();
+  //
+	// 	if (Input::Type::LeftMouse == command.getType()) {
+	// 		STD_LOG("Player Input: Left Mouse Button Pressed");
+	// 		m_map->selectTile(m_worldMousePos);
+	// 	}
+  //
+	// 	if (Input::Type::RightMouse == command.getType()) {
+	// 		STD_LOG("Player Input: Right Mouse Button Pressed");
+	// 	}
+  //
+	// 	if (Input::Type::Spacebar == command.getType()) {
+	// 		STD_LOG("Player Input: Spacebar Pressed");
+	// 	}
+	// }
 }
 // -----------------------------------------------------------------------------
 //

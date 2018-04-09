@@ -15,7 +15,6 @@
 // LOCAL
 #include "Debug.hpp"
 #include "SceneNode.hpp"
-#include "Unit.hpp"
 #include "TileBank.hpp"
 #include "HexGrid.hpp"
 
@@ -27,15 +26,15 @@ public:
 		int mapSize
 	);
 
-	bool placeUnit(
-		Unit* unit,
-		int xCoor,
-		int yCoor
-	);
-	bool placeUnit(
-		Unit* unit,
-		sf::Vector2i coors
-	);
+	// bool placeUnit(
+	// 	Unit* unit,
+	// 	int xCoor,
+	// 	int yCoor
+	// );
+	// bool placeUnit(
+	// 	Unit* unit,
+	// 	sf::Vector2i coors
+	// );
 
 	void selectTile(
 		sf::Vector2f position
@@ -55,7 +54,7 @@ private:
 
 	// Selected object pointers
 	Tile* m_selectedTile;
-	Unit* m_selectedUnit;
+	// Unit* m_selectedUnit;
 };
 
 #endif /* MAP_H */

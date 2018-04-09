@@ -12,10 +12,10 @@
 // LOCAL
 #include "SceneNode.hpp"
 #include "Map.hpp"
-#include "Unit.hpp"
-#include "CommandQueue.hpp"
-#include "Command.hpp"
-#include "Input.hpp"
+// #include "Unit.hpp"
+// #include "CommandQueue.hpp"
+// #include "Command.hpp"
+// #include "Input.hpp"
 
 class World :
 private sf::NonCopyable
@@ -35,7 +35,7 @@ public:
 	void draw();
 
 	//! Command Queue getter
-	CommandQueue& getCommandQueue();
+	// CommandQueue& getCommandQueue();
 
 private:
 	void buildScene();
@@ -63,7 +63,7 @@ private:
 	sf::RenderWindow& m_window;
 	SceneNode m_sceneGraph;
 	std::array<SceneNode*, LayerCount> m_sceneLayers;
-	CommandQueue m_commandQueue;
+	// CommandQueue m_commandQueue;
 	sf::Vector2f m_worldMousePos;
 
 	Map* m_map;

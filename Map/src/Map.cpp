@@ -17,17 +17,17 @@ Map::Map(
 	setupMap();
 
 	m_selectedTile = nullptr;
-	m_selectedUnit = nullptr;
+	// m_selectedUnit = nullptr;
 }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool Map::placeUnit(
-	Unit* unit,
-	int xCoor,
-	int yCoor
-) {
-	ASSERT(nullptr != unit);
+// bool Map::placeUnit(
+// 	Unit* unit,
+// 	int xCoor,
+// 	int yCoor
+// ) {
+// 	ASSERT(nullptr != unit);
 
 	// bool unitPlaced = m_grid.getTile(xCoor,yCoor)->attachUnit(unit);
 	// if (true == unitPlaced) {
@@ -38,18 +38,18 @@ bool Map::placeUnit(
 	// } else {
 	// 	return false;
 	// }
-}
+// }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
-bool Map::placeUnit(
-	Unit* unit,
-	sf::Vector2i coors
-) {
-	ASSERT(nullptr != unit);
-
-	// return placeUnit(unit,coors.x,coors.y);
-}
+// bool Map::placeUnit(
+// 	Unit* unit,
+// 	sf::Vector2i coors
+// ) {
+// 	ASSERT(nullptr != unit);
+//
+// 	 return placeUnit(unit,coors.x,coors.y);
+// }
 // -----------------------------------------------------------------------------
 //
 // -----------------------------------------------------------------------------
@@ -59,9 +59,9 @@ void Map::selectTile(
 	if (nullptr != m_selectedTile) {
 		m_selectedTile->deselect();
 	}
-	if (nullptr != m_selectedUnit) {
-		m_selectedUnit = nullptr;
-	}
+	// if (nullptr != m_selectedUnit) {
+	// 	m_selectedUnit = nullptr;
+	// }
 	m_selectedTile = m_tileBank->getTile(
 		m_grid.positionToCoordinates(position)
 	);
@@ -77,9 +77,9 @@ void Map::selectTile(
 //
 // -----------------------------------------------------------------------------
 void Map::deselectTile() {
-	if (nullptr != m_selectedUnit) {
-		m_selectedUnit = nullptr;
-	}
+	// if (nullptr != m_selectedUnit) {
+	// 	m_selectedUnit = nullptr;
+	// }
 
 	if (nullptr != m_selectedTile) {
 		m_selectedTile->deselect();

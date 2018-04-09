@@ -29,6 +29,7 @@ include( ${PROJECT_SOURCE_DIR}/Core/cmakelist.cmake)
 include( ${PROJECT_SOURCE_DIR}/Components/cmakelist.cmake)
 include( ${PROJECT_SOURCE_DIR}/Systems/cmakelist.cmake)
 include( ${PROJECT_SOURCE_DIR}/AnimatedSprite/cmakelist.cmake)
+include( ${PROJECT_SOURCE_DIR}/Map/cmakelist.cmake)
 
 # Add Executable
 add_executable(Terraformers ${SOURCE_FILES})
