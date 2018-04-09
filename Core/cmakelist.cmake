@@ -15,6 +15,8 @@ set(SOURCE_FILES ${SOURCE_FILES}
 	Core/src/CommandQueue.cpp
 	Core/src/Player.cpp
 	Core/src/HexGrid.cpp
+	Core/src/Component.cpp
+	Core/src/System.cpp
 )
 
 include_directories( Core/inc )

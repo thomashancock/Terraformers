@@ -26,6 +26,8 @@ set(PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Add sources
 include( ${PROJECT_SOURCE_DIR}/Core/cmakelist.cmake)
+include( ${PROJECT_SOURCE_DIR}/Components/cmakelist.cmake)
+include( ${PROJECT_SOURCE_DIR}/Systems/cmakelist.cmake)
 include( ${PROJECT_SOURCE_DIR}/AnimatedSprite/cmakelist.cmake)
 
 # Add Executable
