@@ -56,9 +56,9 @@ void World::buildScene() {
 	m_sceneLayers[Background]->attachChild(std::move(map));
 
 	// Draw Unit
-	std::unique_ptr<Unit> testUnit(new Unit(Unit::Basic));
-	m_map->placeUnit(testUnit.get(),6,6);
-	m_sceneLayers[Front]->attachChild(std::move(testUnit));
+	// std::unique_ptr<Unit> testUnit(new Unit(Unit::Basic));
+	// m_map->placeUnit(testUnit.get(),6,6);
+	// m_sceneLayers[Front]->attachChild(std::move(testUnit));
 }
 // -----------------------------------------------------------------------------
 //

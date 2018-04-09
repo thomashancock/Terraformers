@@ -103,22 +103,22 @@ void Map::updateHighlighting(
 		hoveredTile->highlight();
 	}
 
-	if (hoveredTile == m_selectedTile) {
-		if (nullptr != m_selectedUnit) {
-			int radius = m_selectedUnit->getRemainingMoves();
-			sf::Vector2i unitCoors = m_selectedUnit->getCoors();
-			for (int i = unitCoors.x - radius; i < unitCoors.x + radius + 1; i++) {
-				for (int j = unitCoors.y - radius; j < unitCoors.y + radius + 1; j++) {
-					sf::Vector2i tileCoors(i,j);
-					if (true == m_grid.isValidCoordinate(tileCoors)) {
-						if (m_grid.getAtomicDistance(tileCoors,unitCoors) <= radius) {
-							m_tileBank->getTile(tileCoors)->highlight();
-						}
-					}
-				}
-			}
-		}
-	}
+	// if (hoveredTile == m_selectedTile) {
+	// 	if (nullptr != m_selectedUnit) {
+	// 		int radius = m_selectedUnit->getRemainingMoves();
+	// 		sf::Vector2i unitCoors = m_selectedUnit->getCoors();
+	// 		for (int i = unitCoors.x - radius; i < unitCoors.x + radius + 1; i++) {
+	// 			for (int j = unitCoors.y - radius; j < unitCoors.y + radius + 1; j++) {
+	// 				sf::Vector2i tileCoors(i,j);
+	// 				if (true == m_grid.isValidCoordinate(tileCoors)) {
+	// 					if (m_grid.getAtomicDistance(tileCoors,unitCoors) <= radius) {
+	// 						m_tileBank->getTile(tileCoors)->highlight();
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
 
 // -----------------------------------------------------------------------------

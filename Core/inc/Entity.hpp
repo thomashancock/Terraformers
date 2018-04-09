@@ -1,31 +1,16 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <SFML/System.hpp>
-#include "./SceneNode.hpp"
+class Entity {
+public:
+	Entity();
 
-class Entity :
-public SceneNode 
-{
-	public:
-		void setCoors(
-			sf::Vector2i coors
-		);
-		
-		void setCoors(
-			int xCoor, 
-			int yCoor
-		);
-		
-		sf::Vector2i getCoors() const;
+	int getID() const { return m_id; }
 
-		virtual void updateCurrent(
-			sf::Time dt
-		);
+private:
+	static int s_idGenerator;
 
-	private:
-		sf::Vector2i m_mapCoors;
+	const int m_id;
 };
-
 
 #endif /* ENTITY_H */

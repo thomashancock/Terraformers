@@ -1,12 +1,12 @@
 To-do:
 
 General:
-- Change build system to CMake
++ Change build system to CMake
 	-> Split code based on utility
 
-- Refactor tile grid
-	-> Change HexGrid to just be a square -> hex mapping
-	-> Have tiles stored by separate class and positioned by HexGrid
++ Refactor tile grid
+	+> Change HexGrid to just be a square -> hex mapping
+	+> Have tiles stored by separate class and positioned by HexGrid
 
 - Allow unit movement
 	-> Implement Lua scripts to set tile properties (weights)
