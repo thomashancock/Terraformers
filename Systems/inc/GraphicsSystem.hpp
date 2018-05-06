@@ -1,6 +1,9 @@
 #ifndef GRAPHICSSYSTEM_H
 #define GRAPHICSSYSTEM_H
 
+// STD
+#include <memory>
+
 // SFML
 #include <SFML/Graphics.hpp>
 
@@ -8,7 +11,9 @@
 #include "System.hpp"
 #include "GraphicsComponent.hpp"
 
-class GraphicsSystem : System {
+class GraphicsSystem :
+	public System
+{
 public:
 	GraphicsSystem(
 		sf::RenderWindow& window
